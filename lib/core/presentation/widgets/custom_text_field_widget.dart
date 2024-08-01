@@ -47,7 +47,11 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _focusNode.requestFocus(); // Request focus when tapped
+        if (widget.type != TextFieldType.dateTime) {
+          _focusNode.requestFocus(); // Request focus when tapped
+        } else {
+          _selectDate(context);
+        }
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,26 +184,27 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
           ),
         );
       case TextFieldType.dateTime:
-        return TextField(
-          enabled: true, // Ensure this is enabled for interaction
-          controller: widget.controller,
-          focusNode: _focusNode,
-          onTap: () {
-            _selectDate(context);
-          },
-          cursorColor: Colors.black,
-          style: AppTextStyle.mediumBody(context),
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              color: Colors.grey.shade600,
+        return AbsorbPointer(
+          child: TextField(
+            controller: widget.controller,
+            focusNode: _focusNode,
+            onTap: () {
+              _selectDate(context);
+            },
+            cursorColor: Colors.black,
+            style: AppTextStyle.mediumBody(context),
+            decoration: InputDecoration(
+              hintStyle: TextStyle(
+                color: Colors.grey.shade600,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.only(right: context.wp(3)),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.only(right: context.wp(3)),
           ),
         );
       default:

@@ -50,225 +50,115 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
           ),
         ),
         height: context.hp(88),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.wp(5)),
-          child: Column(
-            children: [
-              SizedBox(height: context.hp(4)),
-              Text(
-                'Thông tin cá nhân',
-                style: AppTextStyle.mediumTitle(context),
-              ),
-              SizedBox(height: context.hp(1)),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: context.hp(3)),
-                      CustomTextFieldWidget(
-                        labelText: 'Họ tên',
-                        controller: authController.fullNameController,
-                        showClearText: true,
-                        errorText: authController.state.errorPasswordRegister,
-                      ),
-                      CustomTextFieldWidget(
-                        labelText: 'Email',
-                        controller: authController.emailController,
-                        type: TextFieldType.gmail,
-                        errorText: authController.state.errorPasswordRegister,
-                      ),
-                      CustomTextFieldWidget(
-                        labelText: 'Ngày sinh',
-                        controller: authController.birthdateController,
-                        type: TextFieldType.dateTime,
-                        errorText: authController.state.errorPasswordRegister,
-                      ),
-                      CustomDropDownBoxWidget<String>(
-                        labelText: 'Giới tính',
-                        borderRadius: 8.0,
-                        items: authController.state.listGender,
-                        displayItem: (city) => city,
-                        selectedItem: null,
-                        onChanged: (String? gender) {
-                          Log.info(gender ?? '');
-                          authController.genderController.text = gender ?? '';
-                          authController.state.genderId.value =
-                              gender == 'Nam' ? 1 : 0;
-                        },
-                        errorText: authController.state.errorGender,
-                      ),
-                      CustomDropDownBoxWidget<CityEntity>(
-                        labelText: 'Tỉnh/thành phố',
-                        borderRadius: 8.0,
-                        items: authController.state.listAllCity,
-                        displayItem: (city) => city.name,
-                        selectedItem:
-                            null, // Default to null for 'Choose an option'
-                        onChanged: (CityEntity? city) {
-                          authController.getDistrictByCity(city!.id);
-                          authController.cityController.text = city.name;
-                        },
-                        errorText: authController.state.errorCity,
-                      ),
-                      CustomDropDownBoxWidget<DistrictEntity>(
-                        labelText: 'Quận/huyện',
-                        borderRadius: 8.0,
-                        items: authController.state.listAllDistrict,
-                        displayItem: (city) => city.districtName,
-                        selectedItem:
-                            null, // Default to null for 'Choose an option'
-                        onChanged: (DistrictEntity? district) {
-                          Log.info(district?.districtName ?? '');
-                          // Handle the selected city entity
-                          print('Selected city: ${district?.districtName}');
-                          authController.getWardByDistrict(district!.id);
-                          authController.districtController.text =
-                              district.districtName;
-                        },
-                        errorText: authController.state.errorDistrict,
-                      ),
-                      CustomDropDownBoxWidget<WardEntity>(
-                        labelText: 'Phường/xã',
-                        borderRadius: 8.0,
-                        items: authController.state.listAllWard,
-                        displayItem: (city) => city.wardName,
-                        selectedItem:
-                            null, // Default to null for 'Choose an option'
-                        onChanged: (WardEntity? city) {
-                          Log.info(city?.wardName ?? '');
-                          // Handle the selected city entity
-                          print('Selected city: ${city?.wardName}');
-                          authController.wardController.text = city!.wardName;
-                          authController.state.wardId.value = city.id;
-                        },
-                        errorText: authController.state.errorWard,
-                      ),
-                      CustomTextFieldWidget(
-                        labelText: 'Địa chỉ cụ thể',
-                        controller: authController.addressController,
-                        errorText: authController.state.errorPasswordRegister,
-                      ),
-                      CustomTextFieldWidget(
-                        labelText: 'Sổ BHYT',
-                        controller: authController.bhytController,
-                      ),
-                      CustomButtonWidget(
-                        height: context.hp(6),
-                        width: context.wp(100),
-                        title: "Xác nhận",
-                        onPressed: () async {
-                          // var validateSuccess = true;
-                          // if (authController.fullNameController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorFullName.value =
-                          //       'Họ tên không được để trống';
-                          // } else {
-                          //   authController.state.errorFullName.value = '';
-                          // }
-
-                          // if (authController.emailController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorEmail.value =
-                          //       'Email không được để trống';
-                          // } else if (!EmailValidator.validate(
-                          //     authController.emailController.text.trim())) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorEmail.value =
-                          //       'Email không không hợp lệ';
-                          // } else {
-                          //   authController.state.errorEmail.value = '';
-                          // }
-
-                          // if (authController.birthdateController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorBirthdate.value =
-                          //       'Ngày sinh không được để trống';
-                          // } else {
-                          //   authController.state.errorBirthdate.value = '';
-                          // }
-
-                          // if (authController.genderController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorGender.value =
-                          //       'Giới tính không được để trống';
-                          // } else {
-                          //   authController.state.errorGender.value = '';
-                          // }
-
-                          // if (authController.cityController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorCity.value =
-                          //       'Tỉnh/Thành phố không được để trống';
-                          // } else {
-                          //   authController.state.errorCity.value = '';
-                          // }
-
-                          // if (authController.districtController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorDistrict.value =
-                          //       'Quận/Huyện không được để trống';
-                          // } else {
-                          //   authController.state.errorDistrict.value = '';
-                          // }
-
-                          // if (authController.wardController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorWard.value =
-                          //       'Phường/Xã không được để trống';
-                          // } else {
-                          //   authController.state.errorWard.value = '';
-                          // }
-
-                          // if (authController.addressController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorAddress.value =
-                          //       'Địa chỉ không được để trống';
-                          // } else {
-                          //   authController.state.errorAddress.value = '';
-                          // }
-
-                          // if (authController.bhytController.text
-                          //     .trim()
-                          //     .isEmpty) {
-                          //   validateSuccess = false;
-                          //   authController.state.errorBhyt.value =
-                          //       'Số bảo hiểm y tế không được để trống';
-                          // } else {
-                          //   authController.state.errorBhyt.value = '';
-                          // }
-
-                          // if (validateSuccess) {
-                          //   context
-                          //       .navigateTo(AppRoutes.enterAnamnesisRegister);
-                          // }
-                        },
-                        color: const Color(0xffCF4375),
-                        titleSize: context.sp(14),
-                        radius: context.rp(10),
-                        fontWeight: FontWeight.w600,
-                      ),
-                      SizedBox(height: context.hp(40)),
-                    ],
-                  ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.wp(5)),
+            child: Column(
+              children: [
+                SizedBox(height: context.hp(4)),
+                Text(
+                  'Thông tin cá nhân',
+                  style: AppTextStyle.mediumTitle(context),
                 ),
-              ),
-            ],
+                SizedBox(height: context.hp(3)),
+                CustomTextFieldWidget(
+                  labelText: 'Họ tên',
+                  controller: authController.fullNameController,
+                  showClearText: false,
+                  errorText: authController.state.errorFullName,
+                ),
+                CustomTextFieldWidget(
+                  labelText: 'Email',
+                  controller: authController.emailController,
+                  type: TextFieldType.gmail,
+                  errorText: authController.state.errorEmail,
+                ),
+                CustomTextFieldWidget(
+                  labelText: 'Ngày sinh',
+                  controller: authController.birthdateController,
+                  type: TextFieldType.dateTime,
+                  errorText: authController.state.errorBirthdate,
+                ),
+                CustomDropDownBoxWidget<String>(
+                  labelText: 'Giới tính',
+                  borderRadius: 8.0,
+                  items: authController.state.listGender,
+                  displayItem: (gender) => gender,
+                  selectedItem: null,
+                  onChanged: (String? gender) {
+                    Log.info(gender ?? '');
+                    authController.genderController.text = gender ?? '';
+                    authController.state.genderId.value =
+                        gender == 'Nam' ? 1 : 0;
+                  },
+                  errorText: authController.state.errorGender,
+                ),
+                CustomDropDownBoxWidget<CityEntity>(
+                  labelText: 'Tỉnh/thành phố',
+                  borderRadius: 8.0,
+                  items: authController.state.listAllCity,
+                  displayItem: (city) => city.name,
+                  selectedItem: null,
+                  onChanged: (CityEntity? city) {
+                    authController.getDistrictByCity(city!.id);
+                    authController.cityController.text = city.name;
+                  },
+                  errorText: authController.state.errorCity,
+                ),
+                CustomDropDownBoxWidget<DistrictEntity>(
+                  labelText: 'Quận/huyện',
+                  borderRadius: 8.0,
+                  items: authController.state.listAllDistrict,
+                  displayItem: (district) => district.districtName,
+                  selectedItem: null,
+                  onChanged: (DistrictEntity? district) {
+                    Log.info(district?.districtName ?? '');
+                    authController.getWardByDistrict(district!.id);
+                    authController.districtController.text =
+                        district.districtName;
+                  },
+                  errorText: authController.state.errorDistrict,
+                ),
+                CustomDropDownBoxWidget<WardEntity>(
+                  labelText: 'Phường/xã',
+                  borderRadius: 8.0,
+                  items: authController.state.listAllWard,
+                  displayItem: (ward) => ward.wardName,
+                  selectedItem: null,
+                  onChanged: (WardEntity? ward) {
+                    Log.info(ward?.wardName ?? '');
+                    authController.wardController.text = ward!.wardName;
+                    authController.state.wardId.value = ward.id;
+                  },
+                  errorText: authController.state.errorWard,
+                ),
+                CustomTextFieldWidget(
+                  labelText: 'Địa chỉ cụ thể',
+                  controller: authController.addressController,
+                  errorText: authController.state.errorAddress,
+                ),
+                CustomTextFieldWidget(
+                  labelText: 'Sổ BHYT',
+                  controller: authController.bhytController,
+                  errorText: authController.state.errorBhyt,
+                ),
+                CustomButtonWidget(
+                  height: context.hp(6),
+                  width: context.wp(100),
+                  title: "Xác nhận",
+                  onPressed: () async {
+                    // Handle button press
+                    FocusScope.of(context).unfocus();
+                    authController.enterInformation(context);
+                  },
+                  color: const Color(0xffCF4375),
+                  titleSize: context.sp(14),
+                  radius: context.rp(10),
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(height: context.hp(50)),
+              ],
+            ),
           ),
         ),
       ),

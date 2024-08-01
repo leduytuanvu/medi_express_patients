@@ -4,6 +4,7 @@ import 'package:medi_express_patients/features/auth/presentation/pages/forgot_pa
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_verify_code_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/login/login_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_anamnesis_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_information_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_password_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_phone_number_register_page.dart';
@@ -97,13 +98,12 @@ class AppPages {
       binding: AuthBinding(),
       // middlewares: [RouteGuard()],
     ),
-    // GetPage(
-    //   name: AppRoutes.enterAnamnesisRegister,
-    //   page: () =>
-    //       const GlobalOverlayWidget(child: EnterAnamnesisRegisterPage()),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
+    GetPage(
+      name: AppRoutes.enterAnamnesisRegister,
+      page: () => EnterAnamnesisRegisterPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
     // GetPage(
     //   name: AppRoutes.bottomBarNavigation,
     //   page: () => const BottomBarNavigationPage(),

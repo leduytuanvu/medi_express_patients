@@ -84,13 +84,13 @@ class _CustomDropdownWidgetState<T> extends State<CustomDropDownBoxWidget<T>> {
                               key: _dropdownKey,
                               value: _selectedItem,
                               items: [
-                                DropdownMenuItem<T>(
-                                  value: null,
-                                  child: Text(
-                                    '',
-                                    style: AppTextStyle.mediumBody(context),
-                                  ),
-                                ),
+                                // DropdownMenuItem<T>(
+                                //   value: null,
+                                //   child: Text(
+                                //     '',
+                                //     style: AppTextStyle.mediumBody(context),
+                                //   ),
+                                // ),
                                 ...widget.items
                                     .map<DropdownMenuItem<T>>((T value) {
                                   return DropdownMenuItem<T>(
@@ -126,9 +126,12 @@ class _CustomDropdownWidgetState<T> extends State<CustomDropDownBoxWidget<T>> {
               if (widget.errorText != null && widget.errorText!.isNotEmpty)
                 Padding(
                   padding: EdgeInsets.only(top: context.hp(0.6)),
-                  child: Text(
-                    widget.errorText!.value,
-                    style: AppTextStyle.mediumError(context),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.errorText!.value,
+                      style: AppTextStyle.mediumError(context),
+                    ),
                   ),
                 ),
               context.hp(1.4).sbh,

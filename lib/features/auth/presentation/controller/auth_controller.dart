@@ -6,12 +6,16 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
+import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
+import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/password_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/phone_validator.dart';
 import 'package:medi_express_patients/features/auth/domain/params/change_password_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/create_medical_history_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/forgot_password_params.dart';
+import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
+import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/login_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/register_params.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
@@ -59,9 +63,6 @@ class AuthController extends BaseController {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController bhytController = TextEditingController();
   final TextEditingController anotherController = TextEditingController();
-
-  // final pageController = PageController(viewportFraction: 1, keepPage: true);
-  // final PageController pageController = PageController(initialPage: 0);
 
   Timer? _timer;
 
@@ -188,6 +189,7 @@ class AuthController extends BaseController {
 
   @override
   void onInit() {
+    super.onInit();
     initial();
   }
 
@@ -353,18 +355,20 @@ class AuthController extends BaseController {
   }
 
   Future<void> getAllCity() async {
-    // final result = await getAllCityUsecase(NoParams());
-    // result.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     state.listAllCity.value = success;
-    //     Log.severe("$success");
-    //     clearError();
-    //   },
-    // );
+    setLoading(true);
+    final result = await getAllCityUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        setError(failure.message);
+      },
+      (success) {
+        state.listAllCity.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    setLoading(false);
   }
 
   Future<void> getAllDistrict() async {
@@ -398,44 +402,42 @@ class AuthController extends BaseController {
   }
 
   Future<void> getDistrictByCity(int cityId) async {
-    // final globalController = Get.find<GlobalController>();
-    // globalController.showLoading();
-    // final result =
-    //     await getDistrictByCityUsecase(GetDistrictByCityParams(cityId: cityId));
-    // result.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     state.listAllDistrict.value = success;
-    //     Log.severe("$success");
-    //     clearError();
-    //   },
-    // );
-    // globalController.hideLoading();
+    setLoading(true);
+    final result =
+        await getDistrictByCityUsecase(GetDistrictByCityParams(cityId: cityId));
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        setError(failure.message);
+      },
+      (success) {
+        state.listAllDistrict.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    setLoading(false);
   }
 
   Future<void> getWardByDistrict(int districtId) async {
-    // final globalController = Get.find<GlobalController>();
-    // globalController.showLoading();
-    // final result = await getWardByDistrictUsecase(
-    //     GetWardByDistrictParams(districtId: districtId));
-    // result.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     state.listAllWard.value = success;
-    //     Log.severe("$success");
-    //     clearError();
-    //   },
-    // );
-    // globalController.hideLoading();
+    setLoading(true);
+    final result = await getWardByDistrictUsecase(
+        GetWardByDistrictParams(districtId: districtId));
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        setError(failure.message);
+      },
+      (success) {
+        state.listAllWard.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    setLoading(false);
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     bool isError = false;
     if (phoneController.text.trim().isEmpty) {
       isError = true;
@@ -471,12 +473,95 @@ class AuthController extends BaseController {
           setError(failure.message);
         },
         (success) {
+          // context.off
           Get.offAllNamed(AppRoutes.bottomBarNavigation);
           Log.severe("$success");
           clearError();
         },
       );
       setLoading(false);
+    }
+  }
+
+  Future<void> enterInformation(BuildContext context) async {
+    Log.info("click");
+    bool isError = false;
+    if (fullNameController.text.trim().isEmpty) {
+      isError = true;
+      Log.info("iff");
+      state.errorFullName.value = 'Họ tên không được để trống';
+    } else {
+      state.errorFullName.value = '';
+      Log.info("else");
+    }
+
+    if (!EmailValidator.validate(emailController.text.trim())) {
+      isError = true;
+      state.errorEmail.value = 'Định dạng email không hợp lệ';
+    } else {
+      state.errorEmail.value = '';
+    }
+
+    if (birthdateController.text.trim().isEmpty) {
+      isError = true;
+      state.errorBirthdate.value = 'Ngày sinh không được để trống';
+    } else {
+      state.errorBirthdate.value = '';
+    }
+
+    if (genderController.text.trim().isEmpty) {
+      isError = true;
+      state.errorGender.value = 'Giới tính không được để trống';
+    } else {
+      state.errorGender.value = '';
+    }
+
+    if (cityController.text.trim().isEmpty) {
+      isError = true;
+      state.errorCity.value = 'Tỉnh/Thành phố không được để trống';
+    } else {
+      state.errorCity.value = '';
+    }
+
+    if (districtController.text.trim().isEmpty) {
+      isError = true;
+      state.errorDistrict.value = 'Quận/Huyện không được để trống';
+    } else {
+      state.errorDistrict.value = '';
+    }
+
+    if (wardController.text.trim().isEmpty) {
+      isError = true;
+      state.errorWard.value = 'Phường/Xã không được để trống';
+    } else {
+      state.errorWard.value = '';
+    }
+
+    if (addressController.text.trim().isEmpty) {
+      isError = true;
+      state.errorAddress.value = 'Đại chỉ cụ thể không được để trống';
+    } else {
+      state.errorAddress.value = '';
+    }
+
+    if (bhytController.text.trim().isEmpty) {
+      isError = true;
+      state.errorBhyt.value = 'Sổ bảo hiểm y tế không được để trống';
+    } else {
+      state.errorBhyt.value = '';
+    }
+
+    if (!isError) {
+      state.hypertension.value = false;
+      state.diabetes.value = false;
+      state.heartDisease.value = false;
+      state.stroke.value = false;
+      state.asthma.value = false;
+      state.epilepsy.value = false;
+      state.copd.value = false;
+      state.palpitations.value = false;
+      state.otherMedicalHistory.value = '';
+      context.toNamedScreen(AppRoutes.enterAnamnesisRegister);
     }
   }
 
@@ -662,15 +747,17 @@ class AuthController extends BaseController {
     }
   }
 
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     setLoading(true);
+    Log.info(state.wardId.value.toString());
+    Log.info(state.genderId.value.toString());
     final result = await registerUsecase(
       RegisterParams(
         phoneNumber: phoneController.text,
         name: fullNameController.text,
         address: addressController.text,
-        wardId: 1,
-        gender: 1,
+        wardId: state.wardId.value,
+        gender: state.genderId.value,
         birthdate: birthdateController.text,
         password: passwordRegisterController.text,
         role: 'Patient',
@@ -707,6 +794,15 @@ class AuthController extends BaseController {
             //   'Đăng kí thành công',
             //   'Đăng nhập ngay',
             // );
+            showWarning(
+              () {
+                Log.info("go to login");
+                context.offAllNamedScreen(AppRoutes.login);
+                hideWarning();
+              },
+              'Tạo tài khoản thành công',
+              'Đăng nhập ngay',
+            );
             clearError();
           },
         );

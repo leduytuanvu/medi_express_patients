@@ -112,7 +112,7 @@ class LoginPage extends BaseStatelessWidget {
                 title: "Đăng nhập",
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  authController.login();
+                  authController.login(context);
                 },
                 color: const Color(0xffCF4375),
                 titleSize: context.sp(14),
