@@ -1,0 +1,5 @@
+{
+  "appName": "Medi Express Patient (Development)",
+  "apiBaseUrl": "http://api-stg.combros.tech:10110/",
+  "logLevel": "debug"
+}

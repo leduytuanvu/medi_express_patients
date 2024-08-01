@@ -1,0 +1,5 @@
+{
+  "appName": "Medi Express Patient",
+  "apiBaseUrl": "https://api.example.com",
+  "logLevel": "error"
+}

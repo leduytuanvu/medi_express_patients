@@ -1,0 +1,261 @@
+import 'package:get/get.dart';
+import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_verify_code_forgot_password_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/login/login_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_information_register_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_password_register_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_phone_number_register_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_verify_code_register_page.dart';
+import 'app_routes.dart';
+
+class AppPages {
+  static final routes = [
+    GetPage(
+      name: AppRoutes.login,
+      page: () => LoginPage(),
+      binding: AuthBinding(),
+      transition: Transition.noTransition,
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterPhoneNumberForgotPassword,
+      page: () => EnterPhoneNumberForgotPasswordPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    // GetPage(
+    //   name: AppRoutes.intro,
+    //   page: () => const IntroPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.home,
+    //   page: () => const GlobalOverlayWidget(child: HomePage()),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.doctor,
+    //   page: () => const GlobalOverlayWidget(child: DoctorPage()),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.schedule,
+    //   page: () => const GlobalOverlayWidget(child: SchedulePage()),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.chat,
+    //   page: () => const ChatPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.account,
+    //   page: () => const AccountPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    GetPage(
+      name: AppRoutes.enterVerifyCodeForgotPassword,
+      page: () => EnterVerifyCodeForgotPasswordPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterPasswordForgotPassword,
+      page: () => EnterPasswordForgotPasswordPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterPhoneNumberRegister,
+      page: () => EnterPhoneNumberRegisterPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterVerifyCodeRegister,
+      page: () => EnterVerifyCodeRegisterPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterPasswordRegister,
+      page: () => EnterPasswordRegisterPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.enterInformationRegister,
+      page: () => EnterInformationRegisterPage(),
+      binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    // GetPage(
+    //   name: AppRoutes.enterAnamnesisRegister,
+    //   page: () =>
+    //       const GlobalOverlayWidget(child: EnterAnamnesisRegisterPage()),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.bottomBarNavigation,
+    //   page: () => const BottomBarNavigationPage(),
+    //   binding: BottomBarNavigationBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.doctorDetail,
+    //   page: () => const DoctorDetailPage(),
+    //   binding: BottomBarNavigationBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.persionalInformation,
+    //   page: () => const PersionalInformationPage(),
+    //   binding: BottomBarNavigationBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.ACCOUNT,
+    //   page: () => const AccountPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.ADD_SCHEDULE,
+    //   page: () => const AddSchedulePage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.CHANGE_PASSWORD,
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.CHAT,
+    //   page: () => const ChatPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.CHAT_DETAIL,
+    //   page: () => const ChatDetailPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.DOCTOR,
+    //   page: () => const DoctorPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.DOCTOR_DETAIL,
+    //   page: () => const DoctorDetailPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.FORGOT,
+    //   page: () => const ForgotPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.FORGOT_PASSWORD,
+    //   page: () => const EnterPhoneNumberPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.NEW_PASSWORD,
+    //   page: () => const NewPasswordPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.VERIFY_CODE,
+    //   page: () => const VerifyCodePage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.HOME,
+    //   page: () => const HomePage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.ONBOARDING,
+    //   page: () => const OnboardingPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.CREATE_PASSWORD,
+    //   page: () => const CreatePasswordPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.HISTORY_OF_INFECTIOUS_DISEASES,
+    //   page: () => const HistoryOfInfectiousDiseasesPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.INFORMATION,
+    //   page: () => const InformationPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.REGISTER,
+    //   page: () => const RegisterPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.SCHEDULE,
+    //   page: () => const SchedulePage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.SCHEDULE_DETAIL,
+    //   page: () => ScheduleDetailPage(
+    //     itemSchedule: Get.arguments as ItemScheduleEntity,
+    //   ),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.USER_INFORMATION,
+    //   page: () => const UserInformationPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.USER_PARAMETER,
+    //   page: () => const UserParameterPage(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+    // GetPage(
+    //   name: AppRoutes.USER_PARAMETER_DETAIL,
+    //   page: () => UserParameterDetailPage(
+    //     itemUserParameter: Get.arguments as ItemUserParameterEntity,
+    //   ),
+    //   binding: AuthBinding(),
+    //   // middlewares: [RouteGuard()],
+    // ),
+  ];
+}
