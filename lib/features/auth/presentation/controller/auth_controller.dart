@@ -25,14 +25,14 @@ import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
+import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 import '../../domain/usecases/login_usecase.dart';
-import '../state/auth_state.dart';
 
 class AuthController extends BaseController {
   @override
-  final AuthState state = AuthState();
+  final AuthState authState = AuthState();
   final LoginUsecase loginUsecase;
   final RegisterUsecase registerUsecase;
   final ChangePasswordUsecase changePasswordUsecase;
@@ -69,10 +69,10 @@ class AuthController extends BaseController {
   void startTimeout() {
     // Reset the timer if it already exists
     _timer?.cancel();
-    state.timeoutConfirmVerifyCode.value = 30; // Reset the countdown value
+    authState.timeoutConfirmVerifyCode.value = 30; // Reset the countdown value
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (state.timeoutConfirmVerifyCode.value > 0) {
-        state.timeoutConfirmVerifyCode.value--;
+      if (authState.timeoutConfirmVerifyCode.value > 0) {
+        authState.timeoutConfirmVerifyCode.value--;
       } else {
         timer.cancel();
         // Handle timeout logic here
@@ -107,34 +107,34 @@ class AuthController extends BaseController {
     //     await getIsTheFirstTimeOpenAppUsecase(NoParams());
     // isTheFirstTimeOpenApp.fold(
     //   (failure) {
-    //     globalController.state.isTheFirstTimeOpenApp.value = '';
+    //     globalController.authState.isTheFirstTimeOpenApp.value = '';
     //     Log.severe("$failure");
     //     handleFailure(failure);
     //   },
     //   (success) async {
     //     if (success.isEmpty) {
-    //       globalController.state.isTheFirstTimeOpenApp.value = '';
+    //       globalController.authState.isTheFirstTimeOpenApp.value = '';
     //       Log.severe("is the first time empty");
     //       // context.navigateTo(AppRoutes.login);
     //     } else {
-    //       globalController.state.isTheFirstTimeOpenApp.value = success;
+    //       globalController.authState.isTheFirstTimeOpenApp.value = success;
     //       Log.severe("is the first time not empty: $success");
     //       // Get.offAllNamed('/bottom_bar_navigation');
     //       // context.navigateTo(AppRoutes.bottomBarNavigation);
     //       final accessToken = await getAccessTokenUsecase(NoParams());
     //       accessToken.fold(
     //         (failure) {
-    //           globalController.state.accessToken.value = '';
+    //           globalController.authState.accessToken.value = '';
     //           Log.severe("$failure");
     //           handleFailure(failure);
     //         },
     //         (success) {
     //           if (success.isEmpty) {
-    //             globalController.state.accessToken.value = '';
+    //             globalController.authState.accessToken.value = '';
     //             Log.severe("access token empty");
     //             // context.navigateTo(AppRoutes.login);
     //           } else {
-    //             globalController.state.accessToken.value = success;
+    //             globalController.authState.accessToken.value = success;
     //             Log.severe("access token ne: $success");
     //             // Get.offAllNamed('/bottom_bar_navigation');
     //             // context.navigateTo(AppRoutes.bottomBarNavigation);
@@ -209,166 +209,215 @@ class AuthController extends BaseController {
 
   Future<void> sendOtpForgotPassword(BuildContext context) async {
     try {
-      setLoading(true);
+      showLoading();
       if (phoneController.text.trim().isEmpty) {
-        state.errorPhoneForgotPassword.value =
+        authState.errorPhoneForgotPassword.value =
             'Số điện thoại không được để trống';
       } else if (!PhoneValidator.validate(phoneController.text.trim())) {
-        state.errorPhoneForgotPassword.value =
+        authState.errorPhoneForgotPassword.value =
             'Định dạng số điện thoại không hợp lệ';
       } else {
-        state.errorPhoneForgotPassword.value = '';
+        authState.errorPhoneForgotPassword.value = '';
         verifyCodeController.text = '';
-        state.errorVerifyCodeForgotPassword.value = '';
+        authState.errorVerifyCodeForgotPassword.value = '';
         context.toNamedScreen(
           AppRoutes.enterVerifyCodeForgotPassword,
         );
         final random = Random();
         final verifyCode = 100000 + random.nextInt(900000);
-        state.verifyCode.value = verifyCode;
+        authState.verifyCode.value = verifyCode;
         NotificationService().showNotification(
             title: 'Medi Express Verify Code', body: '$verifyCode');
-        state.verifyCode.value = verifyCode;
+        authState.verifyCode.value = verifyCode;
         startTimeout();
       }
     } catch (e) {
-      setError(e.toString());
+      showError(
+        () {
+          context.backScreen();
+          clearError();
+        },
+        e.toString(),
+        'Quay lại',
+      );
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> sendOtpRegister(BuildContext context) async {
     try {
-      setLoading(true);
+      showLoading();
       if (phoneController.text.trim().isEmpty) {
-        state.errorPhoneRegister.value = 'Số điện thoại không được để trống';
+        authState.errorPhoneRegister.value =
+            'Số điện thoại không được để trống';
       } else if (!PhoneValidator.validate(phoneController.text.trim())) {
-        state.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
+        authState.errorPhoneRegister.value =
+            'Định dạng số điện thoại không hợp lệ';
       } else {
-        state.errorPhoneRegister.value = '';
+        authState.errorPhoneRegister.value = '';
         verifyCodeController.text = '';
-        state.errorVerifyCodeRegister.value = '';
+        authState.errorVerifyCodeRegister.value = '';
         context.toNamedScreen(
           AppRoutes.enterVerifyCodeRegister,
         );
         final random = Random();
         final verifyCode = 100000 + random.nextInt(900000);
-        state.verifyCode.value = verifyCode;
+        authState.verifyCode.value = verifyCode;
         NotificationService().showNotification(
             title: 'Medi Express Verify Code', body: '$verifyCode');
-        state.verifyCode.value = verifyCode;
+        authState.verifyCode.value = verifyCode;
         startTimeout();
       }
     } catch (e) {
-      setError(e.toString());
+      showError(
+        () {
+          context.backScreen();
+          clearError();
+        },
+        e.toString(),
+        'Quay lại',
+      );
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> verifyOtpForgotPassword(BuildContext context) async {
     try {
-      setLoading(true);
+      showLoading();
       if (verifyCodeController.text.trim().isEmpty) {
-        state.errorVerifyCodeForgotPassword.value = 'Vui lòng nhập mã xác thực';
+        authState.errorVerifyCodeForgotPassword.value =
+            'Vui lòng nhập mã xác thực';
       } else if (verifyCodeController.text.trim().length != 6) {
-        state.errorVerifyCodeForgotPassword.value = 'Mã xác thực không hợp lệ';
+        authState.errorVerifyCodeForgotPassword.value =
+            'Mã xác thực không hợp lệ';
       } else {
-        state.errorVerifyCodeForgotPassword.value = '';
-        state.errorPasswordForgotPassword.value = '';
-        state.errorRePasswordForgotPassword.value = '';
+        authState.errorVerifyCodeForgotPassword.value = '';
+        authState.errorPasswordForgotPassword.value = '';
+        authState.errorRePasswordForgotPassword.value = '';
         passwordForgotPasswordController.text = '';
         rePasswordForgotPasswordController.text = '';
-        if (state.timeoutConfirmVerifyCode.value > 0) {
-          if (verifyCodeController.text == state.verifyCode.value.toString()) {
+        if (authState.timeoutConfirmVerifyCode.value > 0) {
+          if (verifyCodeController.text ==
+              authState.verifyCode.value.toString()) {
             context.toNamedScreen(
               AppRoutes.enterPasswordForgotPassword,
             );
           } else {
-            state.errorVerifyCodeForgotPassword.value =
+            authState.errorVerifyCodeForgotPassword.value =
                 'Mã xác thực không chính xác';
           }
         } else {
-          state.errorVerifyCodeForgotPassword.value =
+          authState.errorVerifyCodeForgotPassword.value =
               'Hết thời gian xác thực vui lòng gửi lại mã';
         }
       }
     } catch (e) {
-      setError(e.toString());
+      showError(
+        () {
+          context.backScreen();
+          clearError();
+        },
+        e.toString(),
+        'Quay lại',
+      );
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> verifyOtpRegister(BuildContext context) async {
     try {
-      setLoading(true);
+      showLoading();
       if (verifyCodeController.text.trim().isEmpty) {
-        state.errorVerifyCodeRegister.value = 'Vui lòng nhập mã xác thực';
+        authState.errorVerifyCodeRegister.value = 'Vui lòng nhập mã xác thực';
       } else if (verifyCodeController.text.trim().length != 6) {
-        state.errorVerifyCodeRegister.value = 'Mã xác thực không hợp lệ';
+        authState.errorVerifyCodeRegister.value = 'Mã xác thực không hợp lệ';
       } else {
-        state.errorVerifyCodeRegister.value = '';
-        state.errorPasswordRegister.value = '';
-        state.errorRePasswordRegister.value = '';
+        authState.errorVerifyCodeRegister.value = '';
+        authState.errorPasswordRegister.value = '';
+        authState.errorRePasswordRegister.value = '';
         passwordRegisterController.text = '';
         rePasswordRegisterController.text = '';
-        if (state.timeoutConfirmVerifyCode.value > 0) {
-          if (verifyCodeController.text == state.verifyCode.value.toString()) {
+        if (authState.timeoutConfirmVerifyCode.value > 0) {
+          if (verifyCodeController.text ==
+              authState.verifyCode.value.toString()) {
             context.toNamedScreen(
               AppRoutes.enterPasswordRegister,
             );
           } else {
-            state.errorVerifyCodeRegister.value = 'Mã xác thực không chính xác';
+            authState.errorVerifyCodeRegister.value =
+                'Mã xác thực không chính xác';
           }
         } else {
-          state.errorVerifyCodeRegister.value =
+          authState.errorVerifyCodeRegister.value =
               'Hết thời gian xác thực vui lòng gửi lại mã';
         }
       }
     } catch (e) {
-      setError(e.toString());
+      showError(
+        () {
+          context.backScreen();
+          clearError();
+        },
+        e.toString(),
+        'Quay lại',
+      );
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> resendOtp(BuildContext context) async {
     try {
-      setLoading(true);
+      showLoading();
       verifyCodeController.text = '';
       final random = Random();
       final verifyCode = 100000 + random.nextInt(900000);
-      state.verifyCode.value = verifyCode;
-      state.errorVerifyCodeForgotPassword.value = '';
-      state.errorVerifyCodeRegister.value = '';
+      authState.verifyCode.value = verifyCode;
+      authState.errorVerifyCodeForgotPassword.value = '';
+      authState.errorVerifyCodeRegister.value = '';
       NotificationService().showNotification(
           title: 'Medi Express Verify Code', body: '$verifyCode');
-      state.verifyCode.value = verifyCode;
+      authState.verifyCode.value = verifyCode;
       startTimeout();
     } catch (e) {
-      setError(e.toString());
+      showError(
+        () {
+          context.backScreen();
+          clearError();
+        },
+        e.toString(),
+        'Quay lại',
+      );
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> getAllCity() async {
-    setLoading(true);
+    showLoading();
     final result = await getAllCityUsecase(NoParams());
     result.fold(
       (failure) {
         Log.severe("$failure");
-        setError(failure.message);
+        showError(
+          () {
+            // context.backScreen();
+            clearError();
+          },
+          failure.message,
+          'Quay lại',
+        );
       },
       (success) {
-        state.listAllCity.value = success;
+        authState.listAllCity.value = success;
         Log.severe("$success");
         clearError();
       },
     );
-    setLoading(false);
+    hideLoading();
   }
 
   Future<void> getAllDistrict() async {
@@ -379,7 +428,7 @@ class AuthController extends BaseController {
     //     handleFailure(failure);
     //   },
     //   (success) {
-    //     state.listAllDistrict.value = success;
+    //     authState.listAllDistrict.value = success;
     //     Log.severe("$success");
     //     clearError();
     //   },
@@ -394,7 +443,7 @@ class AuthController extends BaseController {
     //     handleFailure(failure);
     //   },
     //   (success) {
-    //     state.listAllWard.value = success;
+    //     authState.listAllWard.value = success;
     //     Log.severe("$success");
     //     clearError();
     //   },
@@ -402,65 +451,79 @@ class AuthController extends BaseController {
   }
 
   Future<void> getDistrictByCity(int cityId) async {
-    setLoading(true);
+    showLoading();
     final result =
         await getDistrictByCityUsecase(GetDistrictByCityParams(cityId: cityId));
     result.fold(
       (failure) {
         Log.severe("$failure");
-        setError(failure.message);
+        showError(
+          () {
+            // context.backScreen();
+            clearError();
+          },
+          failure.message,
+          'Quay lại',
+        );
       },
       (success) {
-        state.listAllDistrict.value = success;
+        authState.listAllDistrict.value = success;
         Log.severe("$success");
         clearError();
       },
     );
-    setLoading(false);
+    hideLoading();
   }
 
   Future<void> getWardByDistrict(int districtId) async {
-    setLoading(true);
+    showLoading();
     final result = await getWardByDistrictUsecase(
         GetWardByDistrictParams(districtId: districtId));
     result.fold(
       (failure) {
         Log.severe("$failure");
-        setError(failure.message);
+        showError(
+          () {
+            // context.backScreen();
+            clearError();
+          },
+          failure.message,
+          'Quay lại',
+        );
       },
       (success) {
-        state.listAllWard.value = success;
+        authState.listAllWard.value = success;
         Log.severe("$success");
         clearError();
       },
     );
-    setLoading(false);
+    hideLoading();
   }
 
   Future<void> login(BuildContext context) async {
     bool isError = false;
     if (phoneController.text.trim().isEmpty) {
       isError = true;
-      state.errorPhoneLogin.value = 'Số điện thoại không được để trống';
+      authState.errorPhoneLogin.value = 'Số điện thoại không được để trống';
     } else if (!PhoneValidator.validate(phoneController.text.trim())) {
       isError = true;
-      state.errorPhoneLogin.value = 'Định dạng số điện thoại không hợp lệ';
+      authState.errorPhoneLogin.value = 'Định dạng số điện thoại không hợp lệ';
     } else {
-      state.errorPhoneLogin.value = '';
+      authState.errorPhoneLogin.value = '';
     }
     if (passwordLoginController.text.trim().isEmpty) {
       isError = true;
-      state.errorPasswordLogin.value = 'Mật khẩu không được để trống';
+      authState.errorPasswordLogin.value = 'Mật khẩu không được để trống';
     } else if (passwordLoginController.text.trim().length < 8) {
       isError = true;
-      state.errorPasswordLogin.value =
+      authState.errorPasswordLogin.value =
           'Mật khẩu phải có độ dài lớn hơn 8 kí tự';
     } else {
-      state.errorPasswordLogin.value = '';
+      authState.errorPasswordLogin.value = '';
     }
 
     if (!isError) {
-      setLoading(true);
+      showLoading();
       final result = await loginUsecase(
         LoginParams(
           phoneNumber: phoneController.text,
@@ -470,16 +533,23 @@ class AuthController extends BaseController {
       result.fold(
         (failure) {
           Log.severe("$failure");
-          setError(failure.message);
+          showError(
+            () {
+              // context.backScreen();
+              clearError();
+            },
+            failure.message,
+            'Quay lại',
+          );
         },
         (success) {
           // context.off
-          Get.offAllNamed(AppRoutes.bottomBarNavigation);
+          Get.offAllNamed(AppRoutes.main);
           Log.severe("$success");
           clearError();
         },
       );
-      setLoading(false);
+      hideLoading();
     }
   }
 
@@ -489,78 +559,78 @@ class AuthController extends BaseController {
     if (fullNameController.text.trim().isEmpty) {
       isError = true;
       Log.info("iff");
-      state.errorFullName.value = 'Họ tên không được để trống';
+      authState.errorFullName.value = 'Họ tên không được để trống';
     } else {
-      state.errorFullName.value = '';
+      authState.errorFullName.value = '';
       Log.info("else");
     }
 
     if (!EmailValidator.validate(emailController.text.trim())) {
       isError = true;
-      state.errorEmail.value = 'Định dạng email không hợp lệ';
+      authState.errorEmail.value = 'Định dạng email không hợp lệ';
     } else {
-      state.errorEmail.value = '';
+      authState.errorEmail.value = '';
     }
 
     if (birthdateController.text.trim().isEmpty) {
       isError = true;
-      state.errorBirthdate.value = 'Ngày sinh không được để trống';
+      authState.errorBirthdate.value = 'Ngày sinh không được để trống';
     } else {
-      state.errorBirthdate.value = '';
+      authState.errorBirthdate.value = '';
     }
 
     if (genderController.text.trim().isEmpty) {
       isError = true;
-      state.errorGender.value = 'Giới tính không được để trống';
+      authState.errorGender.value = 'Giới tính không được để trống';
     } else {
-      state.errorGender.value = '';
+      authState.errorGender.value = '';
     }
 
     if (cityController.text.trim().isEmpty) {
       isError = true;
-      state.errorCity.value = 'Tỉnh/Thành phố không được để trống';
+      authState.errorCity.value = 'Tỉnh/Thành phố không được để trống';
     } else {
-      state.errorCity.value = '';
+      authState.errorCity.value = '';
     }
 
     if (districtController.text.trim().isEmpty) {
       isError = true;
-      state.errorDistrict.value = 'Quận/Huyện không được để trống';
+      authState.errorDistrict.value = 'Quận/Huyện không được để trống';
     } else {
-      state.errorDistrict.value = '';
+      authState.errorDistrict.value = '';
     }
 
     if (wardController.text.trim().isEmpty) {
       isError = true;
-      state.errorWard.value = 'Phường/Xã không được để trống';
+      authState.errorWard.value = 'Phường/Xã không được để trống';
     } else {
-      state.errorWard.value = '';
+      authState.errorWard.value = '';
     }
 
     if (addressController.text.trim().isEmpty) {
       isError = true;
-      state.errorAddress.value = 'Đại chỉ cụ thể không được để trống';
+      authState.errorAddress.value = 'Đại chỉ cụ thể không được để trống';
     } else {
-      state.errorAddress.value = '';
+      authState.errorAddress.value = '';
     }
 
     if (bhytController.text.trim().isEmpty) {
       isError = true;
-      state.errorBhyt.value = 'Sổ bảo hiểm y tế không được để trống';
+      authState.errorBhyt.value = 'Sổ bảo hiểm y tế không được để trống';
     } else {
-      state.errorBhyt.value = '';
+      authState.errorBhyt.value = '';
     }
 
     if (!isError) {
-      state.hypertension.value = false;
-      state.diabetes.value = false;
-      state.heartDisease.value = false;
-      state.stroke.value = false;
-      state.asthma.value = false;
-      state.epilepsy.value = false;
-      state.copd.value = false;
-      state.palpitations.value = false;
-      state.otherMedicalHistory.value = '';
+      authState.hypertension.value = false;
+      authState.diabetes.value = false;
+      authState.heartDisease.value = false;
+      authState.stroke.value = false;
+      authState.asthma.value = false;
+      authState.epilepsy.value = false;
+      authState.copd.value = false;
+      authState.palpitations.value = false;
+      authState.otherMedicalHistory.value = '';
       context.toNamedScreen(AppRoutes.enterAnamnesisRegister);
     }
   }
@@ -569,17 +639,17 @@ class AuthController extends BaseController {
   //   // bool isError = false;
   //   // if (phoneController.text.trim().isEmpty) {
   //   //   isError = true;
-  //   //   state.errorPhoneForgotPassword.value =
+  //   //   authState.errorPhoneForgotPassword.value =
   //   //       'Số điện thoại không được để trống';
-  //   //   state.errorPhoneRegister.value = 'Số điện thoại không được để trống';
+  //   //   authState.errorPhoneRegister.value = 'Số điện thoại không được để trống';
   //   // } else if (!PhoneValidator.validate(phoneController.text.trim())) {
   //   //   isError = true;
-  //   //   state.errorPhoneForgotPassword.value =
+  //   //   authState.errorPhoneForgotPassword.value =
   //   //       'Định dạng số điện thoại không hợp lệ';
-  //   //   state.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
+  //   //   authState.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
   //   // } else {
-  //   //   state.errorPhoneForgotPassword.value = '';
-  //   //   state.errorPhoneRegister.value = '';
+  //   //   authState.errorPhoneForgotPassword.value = '';
+  //   //   authState.errorPhoneRegister.value = '';
   //   // }
 
   //   // if (!isError) {
@@ -618,7 +688,7 @@ class AuthController extends BaseController {
   //   //       },
   //   //       codeSent: (verificationId, forceResendingToken) async {
   //   //         Log.info("code sent verificationId: $verificationId");
-  //   //         state.verificationId.value = verificationId;
+  //   //         authState.verificationId.value = verificationId;
   //   //         // context.navigateTo(AppRoutes.enterVerifyCodeForgotPassword);
   //   //         await processWhenSuccess();
   //   //         // await Get.context!.navigateWithTransition(
@@ -643,33 +713,35 @@ class AuthController extends BaseController {
     bool isError = false;
     if (verifyCodeController.text.trim().isEmpty) {
       isError = true;
-      state.errorVerifyCodeForgotPassword.value = 'Vui lòng điền mã xác thực';
-      state.errorVerifyCodeRegister.value = 'Vui lòng điền mã xác thực';
+      authState.errorVerifyCodeForgotPassword.value =
+          'Vui lòng điền mã xác thực';
+      authState.errorVerifyCodeRegister.value = 'Vui lòng điền mã xác thực';
     } else if (verifyCodeController.text.trim().length < 6) {
       isError = true;
-      state.errorVerifyCodeForgotPassword.value =
+      authState.errorVerifyCodeForgotPassword.value =
           'Mã xác thực phải có 6 chữ số';
-      state.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
+      authState.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
     } else if (verifyCodeController.text.trim() != "123456") {
       isError = true;
-      state.errorVerifyCodeForgotPassword.value = 'Mã xác thực không chính xác';
-      state.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
+      authState.errorVerifyCodeForgotPassword.value =
+          'Mã xác thực không chính xác';
+      authState.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
     } else {
-      state.errorVerifyCodeForgotPassword.value = '';
-      state.errorVerifyCodeRegister.value = '';
+      authState.errorVerifyCodeForgotPassword.value = '';
+      authState.errorVerifyCodeRegister.value = '';
     }
 
     if (!isError) {
       // try {
-      //   if (state.timeoutConfirmVerifyCode.value == 0) {
+      //   if (authState.timeoutConfirmVerifyCode.value == 0) {
       //     globalController
       //         .setWarning('Hết thời gian xác thực, vui lòng gửi lại mã');
       //   } else {
       //     globalController.showLoading();
-      //     Log.info("verificationId end: ${state.verificationId.value}");
+      //     Log.info("verificationId end: ${authState.verificationId.value}");
       //     Log.info("verifyCodeController.text: ${verifyCodeController.text}");
       //     final credential = PhoneAuthProvider.credential(
-      //       verificationId: state.verificationId.value,
+      //       verificationId: authState.verificationId.value,
       //       smsCode: verifyCodeController.text,
       //     );
       //     await FirebaseAuth.instance.signInWithCredential(credential);
@@ -698,10 +770,10 @@ class AuthController extends BaseController {
     if (!PasswordValidator.validate(
         passwordForgotPasswordController.text.trim())) {
       check = false;
-      state.errorPasswordForgotPassword.value =
+      authState.errorPasswordForgotPassword.value =
           'Mật khẩu phải có it nhất 1 chữ cái viết hoa, phải có ít nhất 1 chữ cái viết thường, phải có ít nhất một kí tự đặc biệt, phải có ít nhất 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
     } else {
-      state.errorPasswordForgotPassword.value = '';
+      authState.errorPasswordForgotPassword.value = '';
     }
 
     if (PasswordValidator.validate(
@@ -709,14 +781,15 @@ class AuthController extends BaseController {
       if (rePasswordForgotPasswordController.text.trim() !=
           passwordForgotPasswordController.text.trim()) {
         check = false;
-        state.errorRePasswordForgotPassword.value = 'Mật khẩu không trùng khớp';
+        authState.errorRePasswordForgotPassword.value =
+            'Mật khẩu không trùng khớp';
       } else {
-        state.errorRePasswordForgotPassword.value = '';
+        authState.errorRePasswordForgotPassword.value = '';
       }
     }
 
     if (check) {
-      setLoading(true);
+      showLoading();
       final result = await forgotPasswordUsecase(
         ForgotPasswordParams(
           phoneNumber: phoneController.text,
@@ -725,8 +798,14 @@ class AuthController extends BaseController {
       );
       result.fold(
         (failure) {
-          Log.severe("$failure");
-          setError(failure.message);
+          showError(
+            () {
+              // context.backScreen();
+              clearError();
+            },
+            failure.message,
+            'Quay lại',
+          );
         },
         (success) {
           Log.info("success");
@@ -734,7 +813,7 @@ class AuthController extends BaseController {
             () {
               Log.info("go to login");
               context.offAllNamedScreen(AppRoutes.login);
-              hideWarning();
+              clearWarning();
             },
             'Thay đổi mật khẩu thành công',
             'Đăng nhập ngay',
@@ -743,21 +822,21 @@ class AuthController extends BaseController {
           clearError();
         },
       );
-      setLoading(false);
+      hideLoading();
     }
   }
 
   Future<void> register(BuildContext context) async {
-    setLoading(true);
-    Log.info(state.wardId.value.toString());
-    Log.info(state.genderId.value.toString());
+    showLoading();
+    Log.info(authState.wardId.value.toString());
+    Log.info(authState.genderId.value.toString());
     final result = await registerUsecase(
       RegisterParams(
         phoneNumber: phoneController.text,
         name: fullNameController.text,
         address: addressController.text,
-        wardId: state.wardId.value,
-        gender: state.genderId.value,
+        wardId: authState.wardId.value,
+        gender: authState.genderId.value,
         birthdate: birthdateController.text,
         password: passwordRegisterController.text,
         role: 'Patient',
@@ -766,20 +845,27 @@ class AuthController extends BaseController {
     result.fold(
       (failure) {
         Log.severe("$failure");
-        setError(failure.message);
+        showError(
+          () {
+            context.backScreen();
+            clearError();
+          },
+          failure.message,
+          'Quay lại',
+        );
       },
       (success) async {
         final result = await createMedicalHistoryUsecase(
           CreateMedicalHistoryParams(
             patientId: success.patientId,
-            hypertension: state.hypertension.value,
-            diabetes: state.diabetes.value,
-            heartDisease: state.heartDisease.value,
-            stroke: state.stroke.value,
-            asthma: state.asthma.value,
-            epilepsy: state.epilepsy.value,
-            copd: state.copd.value,
-            palpitations: state.palpitations.value,
+            hypertension: authState.hypertension.value,
+            diabetes: authState.diabetes.value,
+            heartDisease: authState.heartDisease.value,
+            stroke: authState.stroke.value,
+            asthma: authState.asthma.value,
+            epilepsy: authState.epilepsy.value,
+            copd: authState.copd.value,
+            palpitations: authState.palpitations.value,
             otherMedicalHistory: anotherController.text,
           ),
         );
@@ -787,18 +873,21 @@ class AuthController extends BaseController {
         result.fold(
           (failure) {
             Log.severe("$failure");
-            setError(failure.message);
+            showError(
+              () {
+                // context.backScreen();
+                clearError();
+              },
+              failure.message,
+              'Quay lại',
+            );
           },
           (success) {
-            // showWarningDialog(
-            //   'Đăng kí thành công',
-            //   'Đăng nhập ngay',
-            // );
             showWarning(
               () {
                 Log.info("go to login");
                 context.offAllNamedScreen(AppRoutes.login);
-                hideWarning();
+                clearWarning();
               },
               'Tạo tài khoản thành công',
               'Đăng nhập ngay',
@@ -810,11 +899,11 @@ class AuthController extends BaseController {
         clearError();
       },
     );
-    setLoading(false);
+    hideLoading();
   }
 
-  Future<void> changePassword() async {
-    setLoading(true);
+  Future<void> changePassword(BuildContext context) async {
+    showLoading();
     final result = await changePasswordUsecase(
       ChangePasswordParams(
         oldPassword: passwordLoginController.text,
@@ -823,15 +912,21 @@ class AuthController extends BaseController {
     );
     result.fold(
       (failure) {
-        Log.severe("$failure");
-        setError(failure.message);
+        showError(
+          () {
+            // context.backScreen();
+            clearError();
+          },
+          failure.message,
+          'Quay lại',
+        );
       },
       (success) {
-        Get.offAllNamed(AppRoutes.home);
+        context.offAllNamedScreen(AppRoutes.home);
         Log.severe("$success");
         clearError();
       },
     );
-    setLoading(false);
+    hideLoading();
   }
 }

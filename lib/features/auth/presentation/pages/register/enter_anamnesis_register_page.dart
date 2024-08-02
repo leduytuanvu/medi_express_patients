@@ -67,12 +67,12 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.hypertension.value =
+                                    authController.authState.hypertension.value =
                                         !authController
-                                            .state.hypertension.value;
+                                            .authState.hypertension.value;
                                   },
                                   child: Icon(
-                                    authController.state.hypertension.value
+                                    authController.authState.hypertension.value
                                         ? Icons.check_box_outlined
                                         : Icons.check_box_outline_blank,
                                   ),
@@ -89,11 +89,11 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.diabetes.value =
-                                        !authController.state.diabetes.value;
+                                    authController.authState.diabetes.value =
+                                        !authController.authState.diabetes.value;
                                   },
                                   child: Icon(
-                                      authController.state.diabetes.value
+                                      authController.authState.diabetes.value
                                           ? Icons.check_box_outlined
                                           : Icons.check_box_outline_blank),
                                 )),
@@ -109,12 +109,12 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.heartDisease.value =
+                                    authController.authState.heartDisease.value =
                                         !authController
-                                            .state.heartDisease.value;
+                                            .authState.heartDisease.value;
                                   },
                                   child: Icon(
-                                      authController.state.heartDisease.value
+                                      authController.authState.heartDisease.value
                                           ? Icons.check_box_outlined
                                           : Icons.check_box_outline_blank),
                                 )),
@@ -130,10 +130,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.stroke.value =
-                                        !authController.state.stroke.value;
+                                    authController.authState.stroke.value =
+                                        !authController.authState.stroke.value;
                                   },
-                                  child: Icon(authController.state.stroke.value
+                                  child: Icon(authController.authState.stroke.value
                                       ? Icons.check_box_outlined
                                       : Icons.check_box_outline_blank),
                                 )),
@@ -157,10 +157,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.asthma.value =
-                                        !authController.state.asthma.value;
+                                    authController.authState.asthma.value =
+                                        !authController.authState.asthma.value;
                                   },
-                                  child: Icon(authController.state.asthma.value
+                                  child: Icon(authController.authState.asthma.value
                                       ? Icons.check_box_outlined
                                       : Icons.check_box_outline_blank),
                                 )),
@@ -176,11 +176,11 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.epilepsy.value =
-                                        !authController.state.epilepsy.value;
+                                    authController.authState.epilepsy.value =
+                                        !authController.authState.epilepsy.value;
                                   },
                                   child: Icon(
-                                      authController.state.epilepsy.value
+                                      authController.authState.epilepsy.value
                                           ? Icons.check_box_outlined
                                           : Icons.check_box_outline_blank),
                                 )),
@@ -196,10 +196,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.copd.value =
-                                        !authController.state.copd.value;
+                                    authController.authState.copd.value =
+                                        !authController.authState.copd.value;
                                   },
-                                  child: Icon(authController.state.copd.value
+                                  child: Icon(authController.authState.copd.value
                                       ? Icons.check_box_outlined
                                       : Icons.check_box_outline_blank),
                                 )),
@@ -224,12 +224,12 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.state.palpitations.value =
+                                    authController.authState.palpitations.value =
                                         !authController
-                                            .state.palpitations.value;
+                                            .authState.palpitations.value;
                                   },
                                   child: Icon(
-                                      authController.state.palpitations.value
+                                      authController.authState.palpitations.value
                                           ? Icons.check_box_outlined
                                           : Icons.check_box_outline_blank),
                                 )),

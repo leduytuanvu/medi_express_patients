@@ -5,7 +5,6 @@ import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.
 import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
 
 class AuthState extends BaseState {
-  var accessToken = 0.obs;
   var verificationId = ''.obs;
   var errorPhoneLogin = ''.obs;
   var errorPhoneForgotPassword = ''.obs;

@@ -64,7 +64,7 @@ class EnterPhoneNumberForgotPasswordPage extends BaseStatelessWidget {
                 labelText: 'Số điện thoại',
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
-                errorText: authController.state.errorPhoneForgotPassword,
+                errorText: authController.authState.errorPhoneForgotPassword,
               ),
               CustomButtonWidget(
                 height: context.hp(6),

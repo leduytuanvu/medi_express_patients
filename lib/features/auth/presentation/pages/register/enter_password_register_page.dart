@@ -61,13 +61,13 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                 labelText: 'Mật khẩu mới',
                 controller: authController.passwordRegisterController,
                 type: TextFieldType.password,
-                errorText: authController.state.errorPasswordRegister,
+                errorText: authController.authState.errorPasswordRegister,
               ),
               CustomTextFieldWidget(
                 labelText: 'Xác nhận mật khẩu mới',
                 controller: authController.rePasswordRegisterController,
                 type: TextFieldType.password,
-                errorText: authController.state.errorRePasswordRegister,
+                errorText: authController.authState.errorRePasswordRegister,
               ),
               CustomButtonWidget(
                 height: context.hp(6),
@@ -85,24 +85,24 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                   authController.addressController.text = '';
                   authController.bhytController.text = '';
 
-                  authController.state.errorFullName.value = '';
-                  authController.state.errorEmail.value = '';
-                  authController.state.errorBirthdate.value = '';
-                  authController.state.errorGender.value = '';
-                  authController.state.errorCity.value = '';
-                  authController.state.errorDistrict.value = '';
-                  authController.state.errorWard.value = '';
-                  authController.state.errorAddress.value = '';
-                  authController.state.errorBhyt.value = '';
+                  authController.authState.errorFullName.value = '';
+                  authController.authState.errorEmail.value = '';
+                  authController.authState.errorBirthdate.value = '';
+                  authController.authState.errorGender.value = '';
+                  authController.authState.errorCity.value = '';
+                  authController.authState.errorDistrict.value = '';
+                  authController.authState.errorWard.value = '';
+                  authController.authState.errorAddress.value = '';
+                  authController.authState.errorBhyt.value = '';
 
                   var validateSuccess = true;
                   if (!PasswordValidator.validate(
                       authController.passwordRegisterController.text.trim())) {
                     validateSuccess = false;
-                    authController.state.errorPasswordRegister.value =
+                    authController.authState.errorPasswordRegister.value =
                         'Mật khẩu phải có it nhất 1 chữ cái viết hoa, phải có ít nhất 1 chữ cái viết thường, phải có ít nhất một kí tự đặc biệt, phải có ít nhất 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
                   } else {
-                    authController.state.errorPasswordRegister.value = '';
+                    authController.authState.errorPasswordRegister.value = '';
                   }
 
                   if (PasswordValidator.validate(
@@ -111,10 +111,10 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                             .trim() !=
                         authController.passwordRegisterController.text.trim()) {
                       validateSuccess = false;
-                      authController.state.errorRePasswordRegister.value =
+                      authController.authState.errorRePasswordRegister.value =
                           'Mật khẩu không trùng khớp';
                     } else {
-                      authController.state.errorRePasswordRegister.value = '';
+                      authController.authState.errorRePasswordRegister.value = '';
                     }
                   }
 

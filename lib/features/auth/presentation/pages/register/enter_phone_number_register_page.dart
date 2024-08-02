@@ -60,7 +60,7 @@ class EnterPhoneNumberRegisterPage extends BaseStatelessWidget {
                 labelText: 'Số điện thoại',
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
-                errorText: authController.state.errorPhoneRegister,
+                errorText: authController.authState.errorPhoneRegister,
               ),
               CustomButtonWidget(
                 height: context.hp(6),

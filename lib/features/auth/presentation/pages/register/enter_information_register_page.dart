@@ -65,50 +65,50 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                   labelText: 'Họ tên',
                   controller: authController.fullNameController,
                   showClearText: false,
-                  errorText: authController.state.errorFullName,
+                  errorText: authController.authState.errorFullName,
                 ),
                 CustomTextFieldWidget(
                   labelText: 'Email',
                   controller: authController.emailController,
                   type: TextFieldType.gmail,
-                  errorText: authController.state.errorEmail,
+                  errorText: authController.authState.errorEmail,
                 ),
                 CustomTextFieldWidget(
                   labelText: 'Ngày sinh',
                   controller: authController.birthdateController,
                   type: TextFieldType.dateTime,
-                  errorText: authController.state.errorBirthdate,
+                  errorText: authController.authState.errorBirthdate,
                 ),
                 CustomDropDownBoxWidget<String>(
                   labelText: 'Giới tính',
                   borderRadius: 8.0,
-                  items: authController.state.listGender,
+                  items: authController.authState.listGender,
                   displayItem: (gender) => gender,
                   selectedItem: null,
                   onChanged: (String? gender) {
                     Log.info(gender ?? '');
                     authController.genderController.text = gender ?? '';
-                    authController.state.genderId.value =
+                    authController.authState.genderId.value =
                         gender == 'Nam' ? 1 : 0;
                   },
-                  errorText: authController.state.errorGender,
+                  errorText: authController.authState.errorGender,
                 ),
                 CustomDropDownBoxWidget<CityEntity>(
                   labelText: 'Tỉnh/thành phố',
                   borderRadius: 8.0,
-                  items: authController.state.listAllCity,
+                  items: authController.authState.listAllCity,
                   displayItem: (city) => city.name,
                   selectedItem: null,
                   onChanged: (CityEntity? city) {
                     authController.getDistrictByCity(city!.id);
                     authController.cityController.text = city.name;
                   },
-                  errorText: authController.state.errorCity,
+                  errorText: authController.authState.errorCity,
                 ),
                 CustomDropDownBoxWidget<DistrictEntity>(
                   labelText: 'Quận/huyện',
                   borderRadius: 8.0,
-                  items: authController.state.listAllDistrict,
+                  items: authController.authState.listAllDistrict,
                   displayItem: (district) => district.districtName,
                   selectedItem: null,
                   onChanged: (DistrictEntity? district) {
@@ -117,30 +117,30 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                     authController.districtController.text =
                         district.districtName;
                   },
-                  errorText: authController.state.errorDistrict,
+                  errorText: authController.authState.errorDistrict,
                 ),
                 CustomDropDownBoxWidget<WardEntity>(
                   labelText: 'Phường/xã',
                   borderRadius: 8.0,
-                  items: authController.state.listAllWard,
+                  items: authController.authState.listAllWard,
                   displayItem: (ward) => ward.wardName,
                   selectedItem: null,
                   onChanged: (WardEntity? ward) {
                     Log.info(ward?.wardName ?? '');
                     authController.wardController.text = ward!.wardName;
-                    authController.state.wardId.value = ward.id;
+                    authController.authState.wardId.value = ward.id;
                   },
-                  errorText: authController.state.errorWard,
+                  errorText: authController.authState.errorWard,
                 ),
                 CustomTextFieldWidget(
                   labelText: 'Địa chỉ cụ thể',
                   controller: authController.addressController,
-                  errorText: authController.state.errorAddress,
+                  errorText: authController.authState.errorAddress,
                 ),
                 CustomTextFieldWidget(
                   labelText: 'Sổ BHYT',
                   controller: authController.bhytController,
-                  errorText: authController.state.errorBhyt,
+                  errorText: authController.authState.errorBhyt,
                 ),
                 CustomButtonWidget(
                   height: context.hp(6),

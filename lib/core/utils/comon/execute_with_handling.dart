@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:medi_express_patients/core/config/log.dart';
 import 'dart:io';
 
 import 'package:medi_express_patients/core/exception/exceptions.dart';
@@ -23,10 +24,20 @@ Future<T> executeWithHandling<T>(
         '$message in $context',
       );
     } else if (e.error is SocketException) {
-      throw ApiErrorException(
-        'No network connection.',
-        'e.error is SocketException in $context',
-      );
+      Log.info('===== ${e.error}');
+      Log.info('+++++ ${e.message}');
+      if (e.message.toString().contains(
+          'Connection refused This indicates an error which most likely cannot be solved by the library')) {
+        throw ApiErrorException(
+          'Máy chủ không phản hồi',
+          '${e.error} is SocketException in $context',
+        );
+      } else {
+        throw ApiErrorException(
+          'No network connection.',
+          '${e.error} is SocketException in $context',
+        );
+      }
     } else {
       throw ApiErrorException(
         'Unknown api exception.',

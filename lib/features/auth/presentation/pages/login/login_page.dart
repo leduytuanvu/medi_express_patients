@@ -61,7 +61,7 @@ class LoginPage extends BaseStatelessWidget {
             onTap: () {
               Log.info("message");
               // authController.phoneController.text = '';
-              // authController.state.errorPhoneRegister.value = '';
+              // authController.authState.errorPhoneRegister.value = '';
               context.toNamedScreen(AppRoutes.enterPhoneNumberRegister);
             },
           ),
@@ -97,13 +97,13 @@ class LoginPage extends BaseStatelessWidget {
                 labelText: 'Số điện thoại',
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
-                errorText: authController.state.errorPhoneLogin,
+                errorText: authController.authState.errorPhoneLogin,
               ),
               CustomTextFieldWidget(
                 labelText: 'Mật khẩu',
                 controller: authController.passwordLoginController,
                 type: TextFieldType.password,
-                errorText: authController.state.errorPasswordLogin,
+                errorText: authController.authState.errorPasswordLogin,
               ),
               context.hp(1).sbh,
               CustomButtonWidget(
@@ -123,9 +123,9 @@ class LoginPage extends BaseStatelessWidget {
                 onTap: () async {
                   authController.phoneController.text = '';
                   authController.passwordLoginController.text = '';
-                  authController.state.errorPhoneLogin.value = '';
-                  authController.state.errorPasswordLogin.value = '';
-                  authController.state.errorPhoneForgotPassword.value = '';
+                  authController.authState.errorPhoneLogin.value = '';
+                  authController.authState.errorPasswordLogin.value = '';
+                  authController.authState.errorPhoneForgotPassword.value = '';
                   context.toNamedScreen(
                     AppRoutes.enterPhoneNumberForgotPassword,
                   );

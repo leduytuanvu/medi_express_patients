@@ -18,7 +18,7 @@ abstract class BaseStatelessWidget extends StatelessWidget {
       children: [
         buildContent(context),
         Obx(() {
-          if (authController.state.isLoading.value) {
+          if (authController.baseState.isLoading.value) {
             return const Stack(
               children: [
                 Opacity(
@@ -38,12 +38,24 @@ abstract class BaseStatelessWidget extends StatelessWidget {
           }
         }),
         Obx(() {
-          if (authController.state.isWarning.value) {
+          if (authController.baseState.warningMessage.value.isNotEmpty) {
             return _buildDialogWarning(
               context,
-              titleButtonWarning: authController.state.titleButtonWarning.value,
-              message: authController.state.warningMessage.value,
-              onConfirm: authController.state.warningFunction.value ?? () {},
+              titleButtonWarning: authController.baseState.titleButtonWarning.value,
+              message: authController.baseState.warningMessage.value,
+              onConfirm: authController.baseState.warningFunction.value ?? () {},
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }),
+        Obx(() {
+          if (authController.baseState.errorMessage.value.isNotEmpty) {
+            return _buildDialogError(
+              context,
+              titleButtonError: authController.baseState.titleButtonError.value,
+              message: authController.baseState.errorMessage.value,
+              onConfirm: authController.baseState.errorFunction.value ?? () {},
             );
           } else {
             return const SizedBox.shrink();
@@ -86,6 +98,55 @@ abstract class BaseStatelessWidget extends StatelessWidget {
                     height: context.hp(6),
                     width: double.infinity,
                     title: titleButtonWarning,
+                    onPressed: () async {
+                      Log.info("click");
+                      onConfirm();
+                    },
+                    color: const Color(0xffCF4375),
+                    titleSize: context.sp(14),
+                    radius: context.rp(10),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDialogError(
+    BuildContext context, {
+    required String titleButtonError,
+    required String message,
+    required VoidCallback onConfirm,
+  }) {
+    return Positioned.fill(
+      child: Container(
+        color: Colors.black.withOpacity(0.5),
+        child: Center(
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            elevation: 24,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: const BorderSide(color: Colors.black, width: 0.2),
+            ),
+            content: IntrinsicHeight(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: context.hp(3)),
+                  Text(
+                    message,
+                    style: AppTextStyle.mediumBody(context),
+                  ),
+                  SizedBox(height: context.hp(3)),
+                  CustomButtonWidget(
+                    height: context.hp(6),
+                    width: double.infinity,
+                    title: titleButtonError,
                     onPressed: () async {
                       Log.info("click");
                       onConfirm();

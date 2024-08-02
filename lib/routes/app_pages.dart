@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
+import 'package:medi_express_patients/features/account/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
@@ -9,6 +11,16 @@ import 'package:medi_express_patients/features/auth/presentation/pages/register/
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_password_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_phone_number_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_verify_code_register_page.dart';
+import 'package:medi_express_patients/features/chat/presentation/binding/chat_binding.dart';
+import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
+import 'package:medi_express_patients/features/doctor/presentation/binding/doctor_binding.dart';
+import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
+import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
+import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
+import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
+import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
+import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
+import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -17,6 +29,13 @@ class AppPages {
       name: AppRoutes.login,
       page: () => LoginPage(),
       binding: AuthBinding(),
+      transition: Transition.noTransition,
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.main,
+      page: () => MainPage(),
+      binding: MainBinding(),
       transition: Transition.noTransition,
       // middlewares: [RouteGuard()],
     ),
@@ -32,36 +51,36 @@ class AppPages {
     //   binding: AuthBinding(),
     //   // middlewares: [RouteGuard()],
     // ),
-    // GetPage(
-    //   name: AppRoutes.home,
-    //   page: () => const GlobalOverlayWidget(child: HomePage()),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
-    // GetPage(
-    //   name: AppRoutes.doctor,
-    //   page: () => const GlobalOverlayWidget(child: DoctorPage()),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
-    // GetPage(
-    //   name: AppRoutes.schedule,
-    //   page: () => const GlobalOverlayWidget(child: SchedulePage()),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
-    // GetPage(
-    //   name: AppRoutes.chat,
-    //   page: () => const ChatPage(),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
-    // GetPage(
-    //   name: AppRoutes.account,
-    //   page: () => const AccountPage(),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
+    GetPage(
+      name: AppRoutes.home,
+      page: () => const HomePage(),
+      binding: HomeBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.doctor,
+      page: () => const DoctorPage(),
+      binding: DoctorBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.schedule,
+      page: () => const SchedulePage(),
+      binding: ScheduleBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.chat,
+      page: () => const ChatPage(),
+      binding: ChatBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.account,
+      page: () => const AccountPage(),
+      binding: AccountBinding(),
+      // middlewares: [RouteGuard()],
+    ),
     GetPage(
       name: AppRoutes.enterVerifyCodeForgotPassword,
       page: () => EnterVerifyCodeForgotPasswordPage(),

@@ -111,13 +111,13 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
               SizedBox(height: context.hp(0.6)),
               Obx(() {
                 if (authController
-                    .state.errorVerifyCodeForgotPassword.isEmpty) {
+                    .authState.errorVerifyCodeForgotPassword.isEmpty) {
                   return const SizedBox.shrink();
                 } else {
                   return Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      authController.state.errorVerifyCodeForgotPassword.value,
+                      authController.authState.errorVerifyCodeForgotPassword.value,
                       style: AppTextStyle.mediumError(context),
                     ),
                   );
@@ -127,19 +127,19 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
               Row(
                 children: [
                   Obx(() {
-                    if (authController.state.timeoutConfirmVerifyCode.value ==
+                    if (authController.authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return const SizedBox.shrink();
                     } else {
                       return Text(
-                        'Gửi lại mã (0:${authController.state.timeoutConfirmVerifyCode}s)',
+                        'Gửi lại mã (0:${authController.authState.timeoutConfirmVerifyCode}s)',
                         style: AppTextStyle.mediumBody(context),
                       );
                     }
                   }),
                   const Spacer(),
                   Obx(() {
-                    if (authController.state.timeoutConfirmVerifyCode.value ==
+                    if (authController.authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return GestureDetector(
                         onTap: () {
@@ -168,16 +168,16 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                   // NotificationService().showNotification(
                   //     title: 'Sample title', body: 'It works!');
                   // authController.sendOtpDemo(() {
-                  //   authController.state.errorPasswordForgotPassword.value = '';
-                  //   authController.state.errorRePasswordForgotPassword.value =
+                  //   authController.authState.errorPasswordForgotPassword.value = '';
+                  //   authController.authState.errorRePasswordForgotPassword.value =
                   //       '';
                   //   authController.passwordForgotPasswordController.text = '';
                   //   authController.rePasswordForgotPasswordController.text = '';
                   //   // context.navigateTo(AppRoutes.enterPasswordForgotPassword);
                   // });
                   // authController.verifyCode(() {
-                  //   authController.state.errorPasswordForgotPassword.value = '';
-                  //   authController.state.errorRePasswordForgotPassword.value =
+                  //   authController.authState.errorPasswordForgotPassword.value = '';
+                  //   authController.authState.errorRePasswordForgotPassword.value =
                   //       '';
                   //   authController.passwordForgotPasswordController.text = '';
                   //   authController.rePasswordForgotPasswordController.text = '';

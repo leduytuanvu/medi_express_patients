@@ -7,6 +7,13 @@ class ErrorHandlingService {
     // Check if failure.message is null
     final BaseController baseController = Get.find<BaseController>();
     final message = failure.message;
-    baseController.setError(message);
+    baseController.showError(
+      () {
+        // context.backScreen();
+        baseController.clearError();
+      },
+      failure.message,
+      'Quay lại',
+    );
   }
 }

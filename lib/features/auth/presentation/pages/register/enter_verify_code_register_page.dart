@@ -109,13 +109,13 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
               ),
               SizedBox(height: context.hp(0.6)),
               Obx(() {
-                if (authController.state.errorVerifyCodeRegister.isEmpty) {
+                if (authController.authState.errorVerifyCodeRegister.isEmpty) {
                   return const SizedBox.shrink();
                 } else {
                   return Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      authController.state.errorVerifyCodeRegister.value,
+                      authController.authState.errorVerifyCodeRegister.value,
                       style: AppTextStyle.mediumError(context),
                     ),
                   );
@@ -125,19 +125,19 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
               Row(
                 children: [
                   Obx(() {
-                    if (authController.state.timeoutConfirmVerifyCode.value ==
+                    if (authController.authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return const SizedBox.shrink();
                     } else {
                       return Text(
-                        'Gửi lại mã (0:${authController.state.timeoutConfirmVerifyCode}s)',
+                        'Gửi lại mã (0:${authController.authState.timeoutConfirmVerifyCode}s)',
                         style: AppTextStyle.mediumBody(context),
                       );
                     }
                   }),
                   const Spacer(),
                   Obx(() {
-                    if (authController.state.timeoutConfirmVerifyCode.value ==
+                    if (authController.authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return GestureDetector(
                         onTap: () {
@@ -163,8 +163,8 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
                   FocusScope.of(context).unfocus();
                   authController.verifyOtpRegister(context);
                   // authController.sendOtpDemo2(() {
-                  //   authController.state.errorPasswordRegister.value = '';
-                  //   authController.state.errorRePasswordRegister.value = '';
+                  //   authController.authState.errorPasswordRegister.value = '';
+                  //   authController.authState.errorRePasswordRegister.value = '';
                   //   authController.passwordRegisterController.text = '';
                   //   authController.rePasswordRegisterController.text = '';
                   //   context.navigateTo(AppRoutes.enterPasswordRegister);

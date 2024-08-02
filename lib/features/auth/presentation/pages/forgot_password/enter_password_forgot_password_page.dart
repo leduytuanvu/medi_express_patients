@@ -58,13 +58,14 @@ class EnterPasswordForgotPasswordPage extends BaseStatelessWidget {
                 labelText: 'Mật khẩu mới',
                 controller: authController.passwordForgotPasswordController,
                 type: TextFieldType.password,
-                errorText: authController.state.errorPasswordForgotPassword,
+                errorText: authController.authState.errorPasswordForgotPassword,
               ),
               CustomTextFieldWidget(
                 labelText: 'Xác nhận mật khẩu mới',
                 controller: authController.rePasswordForgotPasswordController,
                 type: TextFieldType.password,
-                errorText: authController.state.errorRePasswordForgotPassword,
+                errorText:
+                    authController.authState.errorRePasswordForgotPassword,
               ),
               CustomButtonWidget(
                 height: context.hp(6),

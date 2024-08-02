@@ -1,7 +1,7 @@
 class AppRoutes {
   static const intro = '/intro';
   static const login = '/login';
-  static const bottomBarNavigation = '/bottom_bar_navigation';
+  static const main = '/main';
   static const enterPasswordForgotPassword = '/enter_password_forgot_password';
   static const enterPhoneNumberForgotPassword =
       '/enter_phone_number_forgot_password';
