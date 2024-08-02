@@ -5,7 +5,6 @@ import 'package:medi_express_patients/core/presentation/widgets/custom_button_wi
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 
 abstract class BaseStatelessWidget extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
@@ -40,9 +39,11 @@ abstract class BaseStatelessWidget extends StatelessWidget {
           if (authController.baseState.warningMessage.value.isNotEmpty) {
             return _buildDialogWarning(
               context,
-              titleButtonWarning: authController.baseState.titleButtonWarning.value,
+              titleButtonWarning:
+                  authController.baseState.titleButtonWarning.value,
               message: authController.baseState.warningMessage.value,
-              onConfirm: authController.baseState.warningFunction.value ?? () {},
+              onConfirm:
+                  authController.baseState.warningFunction.value ?? () {},
             );
           } else {
             return const SizedBox.shrink();

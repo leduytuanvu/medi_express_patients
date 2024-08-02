@@ -107,4 +107,12 @@ extension ContextExtension on BuildContext {
     return Get.offNamed(routeName,
         arguments: arguments, parameters: parameters);
   }
+
+  void backToFirstScreen() {
+    Get.until((route) => route.isFirst);
+  }
+
+  void backToNamedScreen(String routeName) {
+    Get.until((route) => Get.currentRoute == routeName);
+  }
 }

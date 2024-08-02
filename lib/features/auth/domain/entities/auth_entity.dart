@@ -2,12 +2,12 @@ class AuthEntity {
   String accessToken;
   String refreshToken;
   int expiresIn;
-  String isTheFirstTime;
+  String firstTimeOpenApp;
 
   AuthEntity({
     this.accessToken = '',
     this.refreshToken = '',
     this.expiresIn = -1,
-    this.isTheFirstTime = 'combros',
+    this.firstTimeOpenApp = 'false',
   });
 }

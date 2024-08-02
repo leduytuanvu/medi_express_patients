@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
@@ -11,7 +10,6 @@ import 'package:medi_express_patients/core/utils/extensions/context_extension.da
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/password_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/phone_validator.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/params/change_password_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/create_medical_history_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/forgot_password_params.dart';
@@ -22,7 +20,6 @@ import 'package:medi_express_patients/features/auth/domain/params/register_param
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
-import 'package:medi_express_patients/features/auth/domain/usecases/get_access_token_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
@@ -44,7 +41,6 @@ class AuthController extends BaseController {
   final GetWardByDistrictUsecase getWardByDistrictUsecase;
   final CreateMedicalHistoryUsecase createMedicalHistoryUsecase;
   final GetAuthFromLocalUsecase getAuthFromLocalUsecase;
-  final GetAccessTokenFromLocalUsecase getAccessTokenFromLocalUsecase;
 
   final phoneController = TextEditingController();
   final verifyCodeController = TextEditingController();
@@ -76,7 +72,6 @@ class AuthController extends BaseController {
     required this.getWardByDistrictUsecase,
     required this.createMedicalHistoryUsecase,
     required this.getAuthFromLocalUsecase,
-    required this.getAccessTokenFromLocalUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
@@ -103,13 +98,12 @@ class AuthController extends BaseController {
     result.fold(
       (failure) {
         Log.info("fail");
-        final auth = AuthEntity();
-        setAuth(auth);
         showError(
           () => clearError(),
           e.toString(),
           'Quay lại',
         );
+        clearAuth();
       },
       (success) async {
         Log.info("success: ${success.accessToken}");
@@ -117,35 +111,9 @@ class AuthController extends BaseController {
         clearError();
       },
     );
-    FlutterNativeSplash.remove();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   FlutterNativeSplash.remove();
-    // });
-  }
-
-  Future<void> getAccessTokenFromLocal() async {
-    final result = await getAccessTokenFromLocalUsecase(NoParams());
-    result.fold(
-      (failure) {
-        Log.info("fail");
-        final auth = AuthEntity();
-        setAuth(auth);
-        showError(
-          () => clearError(),
-          e.toString(),
-          'Quay lại',
-        );
-      },
-      (success) async {
-        // Log.info("success: ${success.accessToken}");
-        // setAuth(success);
-        clearError();
-      },
-    );
-    FlutterNativeSplash.remove();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   FlutterNativeSplash.remove();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
   }
 
   @override
@@ -204,10 +172,7 @@ class AuthController extends BaseController {
       }
     } catch (e) {
       showError(
-        () {
-          context.backScreen();
-          clearError();
-        },
+        () => clearError(),
         e.toString(),
         'Quay lại',
       );
@@ -242,10 +207,7 @@ class AuthController extends BaseController {
       }
     } catch (e) {
       showError(
-        () {
-          context.backScreen();
-          clearError();
-        },
+        () => clearError(),
         e.toString(),
         'Quay lại',
       );
@@ -286,10 +248,7 @@ class AuthController extends BaseController {
       }
     } catch (e) {
       showError(
-        () {
-          context.backScreen();
-          clearError();
-        },
+        () => clearError(),
         e.toString(),
         'Quay lại',
       );
@@ -328,10 +287,7 @@ class AuthController extends BaseController {
       }
     } catch (e) {
       showError(
-        () {
-          context.backScreen();
-          clearError();
-        },
+        () => clearError(),
         e.toString(),
         'Quay lại',
       );
@@ -355,10 +311,7 @@ class AuthController extends BaseController {
       startTimeout();
     } catch (e) {
       showError(
-        () {
-          context.backScreen();
-          clearError();
-        },
+        () => clearError(),
         e.toString(),
         'Quay lại',
       );
@@ -374,10 +327,7 @@ class AuthController extends BaseController {
       (failure) {
         Log.severe("$failure");
         showError(
-          () {
-            // context.backScreen();
-            clearError();
-          },
+          () => clearError(),
           failure.message,
           'Quay lại',
         );
@@ -391,36 +341,6 @@ class AuthController extends BaseController {
     hideLoading();
   }
 
-  Future<void> getAllDistrict() async {
-    // final result = await getAllDistrictUsecase(NoParams());
-    // result.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     authState.listAllDistrict.value = success;
-    //     Log.severe("$success");
-    //     clearError();
-    //   },
-    // );
-  }
-
-  Future<void> getAllWard() async {
-    // final result = await getAllWardUsecase(NoParams());
-    // result.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     authState.listAllWard.value = success;
-    //     Log.severe("$success");
-    //     clearError();
-    //   },
-    // );
-  }
-
   Future<void> getDistrictByCity(int cityId) async {
     showLoading();
     final result =
@@ -429,10 +349,7 @@ class AuthController extends BaseController {
       (failure) {
         Log.severe("$failure");
         showError(
-          () {
-            // context.backScreen();
-            clearError();
-          },
+          () => clearError(),
           failure.message,
           'Quay lại',
         );
@@ -454,10 +371,7 @@ class AuthController extends BaseController {
       (failure) {
         Log.severe("$failure");
         showError(
-          () {
-            // context.backScreen();
-            clearError();
-          },
+          () => clearError(),
           failure.message,
           'Quay lại',
         );
@@ -505,19 +419,15 @@ class AuthController extends BaseController {
         (failure) {
           Log.severe("$failure");
           showError(
-            () {
-              // context.backScreen();
-              clearError();
-            },
+            () => clearError(),
             failure.message,
             'Quay lại',
           );
         },
         (success) {
-          // context.off
-          Get.offAllNamed(AppRoutes.main);
           Log.severe("$success");
-          clearError();
+          setAuth(success);
+          // clearError();
         },
       );
       hideLoading();
@@ -525,15 +435,12 @@ class AuthController extends BaseController {
   }
 
   Future<void> enterInformation(BuildContext context) async {
-    Log.info("click");
     bool isError = false;
     if (fullNameController.text.trim().isEmpty) {
       isError = true;
-      Log.info("iff");
       authState.errorFullName.value = 'Họ tên không được để trống';
     } else {
       authState.errorFullName.value = '';
-      Log.info("else");
     }
 
     if (!EmailValidator.validate(emailController.text.trim())) {
@@ -607,77 +514,76 @@ class AuthController extends BaseController {
   }
 
   // Future<void> sendOtp(Function() processWhenSuccess) async {
-  //   // bool isError = false;
-  //   // if (phoneController.text.trim().isEmpty) {
-  //   //   isError = true;
-  //   //   authState.errorPhoneForgotPassword.value =
-  //   //       'Số điện thoại không được để trống';
-  //   //   authState.errorPhoneRegister.value = 'Số điện thoại không được để trống';
-  //   // } else if (!PhoneValidator.validate(phoneController.text.trim())) {
-  //   //   isError = true;
-  //   //   authState.errorPhoneForgotPassword.value =
-  //   //       'Định dạng số điện thoại không hợp lệ';
-  //   //   authState.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
-  //   // } else {
-  //   //   authState.errorPhoneForgotPassword.value = '';
-  //   //   authState.errorPhoneRegister.value = '';
-  //   // }
-
-  //   // if (!isError) {
-  //   //   final globalController = Get.find<GlobalController>();
-  //   //   globalController.showLoading();
-  //   //   try {
-  //   //     globalController.showLoading();
-  //   //     String phoneTmp = phoneController.text;
-  //   //     if (phoneTmp.startsWith('0')) {
-  //   //       phoneTmp = phoneTmp.substring(1);
-  //   //     }
-  //   //     Log.info("phoneAuthCredential: +84${phoneController.text}");
-  //   //     await FirebaseAuth.instance.verifyPhoneNumber(
-  //   //       phoneNumber: '+84${phoneController.text}',
-  //   //       verificationCompleted: (phoneAuthCredential) {
-  //   //         Log.info("phoneAuthCredential: $phoneAuthCredential");
-  //   //         globalController.hideLoading();
-  //   //       },
-  //   //       verificationFailed: (error) {
-  //   //         Log.info("error: $error");
-  //   //         globalController.hideLoading();
-  //   //         if (error
-  //   //             .toString()
-  //   //             .contains('firebase_auth/missing-client-identifier')) {
-  //   //           globalController.setWarning(
-  //   //               'Số điện thoại chưa được xác minh! [firebase_auth/missing-client-identifier]');
-  //   //         } else if (error
-  //   //             .toString()
-  //   //             .contains('firebase_auth/too-many-requests')) {
-  //   //           globalController.setWarning(
-  //   //               'Hết lượt gửi mã với firebase: [firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.');
-  //   //         } else {
-  //   //           Log.info(error.toString());
-  //   //           globalController.setWarning('Số điện thoại không hợp lệ!');
-  //   //         }
-  //   //       },
-  //   //       codeSent: (verificationId, forceResendingToken) async {
-  //   //         Log.info("code sent verificationId: $verificationId");
-  //   //         authState.verificationId.value = verificationId;
-  //   //         // context.navigateTo(AppRoutes.enterVerifyCodeForgotPassword);
-  //   //         await processWhenSuccess();
-  //   //         // await Get.context!.navigateWithTransition(
-  //   //         //   AppRoutes.enterVerifyCodeForgotPassword,
-  //   //         //   transition: Transition.rightToLeft,
-  //   //         // );
-  //   //         globalController.hideLoading();
-  //   //         startTimeout();
-  //   //       },
-  //   //       codeAutoRetrievalTimeout: (verificationId) {
-  //   //         Log.info("verificationId end: $verificationId");
-  //   //         globalController.hideLoading();
-  //   //       },
-  //   //     );
-  //   //   } catch (e) {
-  //   //     Log.severe("Error: $e");
-  //   //   }
-  //   // }
+  // bool isError = false;
+  // if (phoneController.text.trim().isEmpty) {
+  //   isError = true;
+  //   authState.errorPhoneForgotPassword.value =
+  //       'Số điện thoại không được để trống';
+  //   authState.errorPhoneRegister.value = 'Số điện thoại không được để trống';
+  // } else if (!PhoneValidator.validate(phoneController.text.trim())) {
+  //   isError = true;
+  //   authState.errorPhoneForgotPassword.value =
+  //       'Định dạng số điện thoại không hợp lệ';
+  //   authState.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
+  // } else {
+  //   authState.errorPhoneForgotPassword.value = '';
+  //   authState.errorPhoneRegister.value = '';
+  // }
+  // if (!isError) {
+  //   final globalController = Get.find<GlobalController>();
+  //   globalController.showLoading();
+  //   try {
+  //     globalController.showLoading();
+  //     String phoneTmp = phoneController.text;
+  //     if (phoneTmp.startsWith('0')) {
+  //       phoneTmp = phoneTmp.substring(1);
+  //     }
+  //     Log.info("phoneAuthCredential: +84${phoneController.text}");
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       phoneNumber: '+84${phoneController.text}',
+  //       verificationCompleted: (phoneAuthCredential) {
+  //         Log.info("phoneAuthCredential: $phoneAuthCredential");
+  //         globalController.hideLoading();
+  //       },
+  //       verificationFailed: (error) {
+  //         Log.info("error: $error");
+  //         globalController.hideLoading();
+  //         if (error
+  //             .toString()
+  //             .contains('firebase_auth/missing-client-identifier')) {
+  //           globalController.setWarning(
+  //               'Số điện thoại chưa được xác minh! [firebase_auth/missing-client-identifier]');
+  //         } else if (error
+  //             .toString()
+  //             .contains('firebase_auth/too-many-requests')) {
+  //           globalController.setWarning(
+  //               'Hết lượt gửi mã với firebase: [firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.');
+  //         } else {
+  //           Log.info(error.toString());
+  //           globalController.setWarning('Số điện thoại không hợp lệ!');
+  //         }
+  //       },
+  //       codeSent: (verificationId, forceResendingToken) async {
+  //         Log.info("code sent verificationId: $verificationId");
+  //         authState.verificationId.value = verificationId;
+  //         // context.navigateTo(AppRoutes.enterVerifyCodeForgotPassword);
+  //         await processWhenSuccess();
+  //         // await Get.context!.navigateWithTransition(
+  //         //   AppRoutes.enterVerifyCodeForgotPassword,
+  //         //   transition: Transition.rightToLeft,
+  //         // );
+  //         globalController.hideLoading();
+  //         startTimeout();
+  //       },
+  //       codeAutoRetrievalTimeout: (verificationId) {
+  //         Log.info("verificationId end: $verificationId");
+  //         globalController.hideLoading();
+  //       },
+  //     );
+  //   } catch (e) {
+  //     Log.severe("Error: $e");
+  //   }
+  // }
   // }
 
   Future<void> verifyCode(Function() processWhenSuccess) async {
@@ -769,11 +675,9 @@ class AuthController extends BaseController {
       );
       result.fold(
         (failure) {
+          Log.info("fail");
           showError(
-            () {
-              // context.backScreen();
-              clearError();
-            },
+            () => clearError(),
             failure.message,
             'Quay lại',
           );
@@ -783,14 +687,15 @@ class AuthController extends BaseController {
           showWarning(
             () {
               Log.info("go to login");
-              context.offAllNamedScreen(AppRoutes.login);
+              // context.offAllNamedScreen(AppRoutes.login);
               clearWarning();
+              context.backToFirstScreen();
             },
             'Thay đổi mật khẩu thành công',
             'Đăng nhập ngay',
           );
           Log.severe("$success");
-          clearError();
+          // clearError();
         },
       );
       hideLoading();
@@ -817,10 +722,7 @@ class AuthController extends BaseController {
       (failure) {
         Log.severe("$failure");
         showError(
-          () {
-            context.backScreen();
-            clearError();
-          },
+          () => clearError(),
           failure.message,
           'Quay lại',
         );
@@ -845,10 +747,7 @@ class AuthController extends BaseController {
           (failure) {
             Log.severe("$failure");
             showError(
-              () {
-                // context.backScreen();
-                clearError();
-              },
+              () => clearError(),
               failure.message,
               'Quay lại',
             );
@@ -857,13 +756,12 @@ class AuthController extends BaseController {
             showWarning(
               () {
                 Log.info("go to login");
-                context.offAllNamedScreen(AppRoutes.login);
+                context.backToFirstScreen();
                 clearWarning();
               },
               'Tạo tài khoản thành công',
               'Đăng nhập ngay',
             );
-            clearError();
           },
         );
         Log.severe("$success");
@@ -884,17 +782,14 @@ class AuthController extends BaseController {
     result.fold(
       (failure) {
         showError(
-          () {
-            // context.backScreen();
-            clearError();
-          },
+          () => clearError(),
           failure.message,
           'Quay lại',
         );
       },
       (success) {
-        context.offAllNamedScreen(AppRoutes.home);
         Log.severe("$success");
+        context.offAllNamedScreen(AppRoutes.home);
         clearError();
       },
     );

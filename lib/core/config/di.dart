@@ -12,7 +12,6 @@ import 'package:medi_express_patients/features/auth/domain/repositories/auth_rep
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
-import 'package:medi_express_patients/features/auth/domain/usecases/get_access_token_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
@@ -66,8 +65,6 @@ Future<void> initDI(String environmentName) async {
       getWardByDistrictUsecase: Get.find<GetWardByDistrictUsecase>(),
       createMedicalHistoryUsecase: Get.find<CreateMedicalHistoryUsecase>(),
       getAuthFromLocalUsecase: Get.find<GetAuthFromLocalUsecase>(),
-      getAccessTokenFromLocalUsecase:
-          Get.find<GetAccessTokenFromLocalUsecase>(),
     ),
   );
   Get.put(

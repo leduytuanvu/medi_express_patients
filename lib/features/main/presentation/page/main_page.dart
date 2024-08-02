@@ -33,7 +33,7 @@ class MainPage extends BaseStatelessWidget {
         children: [
           GetBuilder<HomeController>(
             init: HomeController(errorHandlingService: ErrorHandlingService()),
-            builder: (controller) => const HomePage(),
+            builder: (controller) => HomePage(),
           ),
           GetBuilder<DoctorController>(
             init:

@@ -55,4 +55,8 @@ abstract class BaseController extends GetxController {
   void setAuth(AuthEntity authEntity) {
     baseState.auth.value = authEntity;
   }
+
+  void clearAuth() {
+    baseState.auth.value = AuthEntity();
+  }
 }

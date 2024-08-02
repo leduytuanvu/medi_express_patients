@@ -171,6 +171,13 @@ class AppTextStyle {
         color: Colors.white,
       );
 
+  static TextStyle bigTitle(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(19),
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      );
+
   // static TextStyle get button => bepro(
   //       fontSize: 32,
   //       fontWeight: FontWeight.w700,
