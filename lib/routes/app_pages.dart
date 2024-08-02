@@ -5,6 +5,7 @@ import 'package:medi_express_patients/features/auth/presentation/binding/auth_bi
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_verify_code_forgot_password_page.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/intro/intro_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/login/login_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_anamnesis_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_information_register_page.dart';
@@ -45,12 +46,12 @@ class AppPages {
       binding: AuthBinding(),
       // middlewares: [RouteGuard()],
     ),
-    // GetPage(
-    //   name: AppRoutes.intro,
-    //   page: () => const IntroPage(),
-    //   binding: AuthBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
+    GetPage(
+      name: AppRoutes.intro,
+      page: () => const IntroPage(),
+      // binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
     GetPage(
       name: AppRoutes.home,
       page: () => const HomePage(),

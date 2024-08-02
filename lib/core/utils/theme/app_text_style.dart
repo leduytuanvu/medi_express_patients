@@ -191,6 +191,21 @@ class AppTextStyle {
         color: const Color(0xFF777F89),
       );
 
+  static TextStyle bodyIntro(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(13),
+        fontWeight: FontWeight.w400,
+        color: const Color(0xFF777F89),
+        height: 1.7,
+      );
+
+  static TextStyle mediumTextButton(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(14),
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+      );
+
   static TextStyle button(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(14),

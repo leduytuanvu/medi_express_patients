@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 
 class BaseState {
   var isLoading = false.obs;
@@ -15,4 +16,6 @@ class BaseState {
   var accessToken = ''.obs;
   var refreshToken = ''.obs;
   var expireIn = ''.obs;
+
+  var auth = AuthEntity().obs;
 }

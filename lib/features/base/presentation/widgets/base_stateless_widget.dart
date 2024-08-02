@@ -9,7 +9,6 @@ import 'package:medi_express_patients/features/base/presentation/controller/base
 
 abstract class BaseStatelessWidget extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
-
   BaseStatelessWidget({super.key});
 
   @override

@@ -45,8 +45,8 @@ class AuthRepositoryImpl implements AuthRepository {
           apiResponse.data!.expiresIn.toString(),
         );
         await localDatasource.save(
-          Constants.keyIsFirstTimeOpenApp,
-          'true',
+          Constants.keyIsFirstTime,
+          'combros',
         );
         return apiResponse.data!.toEntity();
       } else {
@@ -197,16 +197,26 @@ class AuthRepositoryImpl implements AuthRepository {
       final accessToken = await localDatasource.get(Constants.keyAccessToken);
       final refreshToken = await localDatasource.get(Constants.keyRefreshToken);
       final expireIn = await localDatasource.get(Constants.keyExpiresIn);
-      final isFirstTimeOpenApp =
-          await localDatasource.get(Constants.keyIsFirstTimeOpenApp);
+      final isTheFirstTime =
+          await localDatasource.get(Constants.keyIsFirstTime);
       final auth = AuthEntity(
         accessToken: accessToken ?? '',
         refreshToken: refreshToken ?? '',
-        isFirstTimeOpenApp: isFirstTimeOpenApp ?? '',
-        expiresIn: int.parse(expireIn ?? '0'),
+        expiresIn: int.parse(expireIn ?? '-1'),
+        isTheFirstTime: isTheFirstTime ?? '',
       );
       return auth;
     }, 'AuthRepositoryImpl/getAuthFromLocal');
+  }
+
+  @override
+  Future<String> getAccessTokenFromLocal() async {
+    Log.info("getAccessTokenFromLocal in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      final accessToken = await localDatasource.get(Constants.keyAccessToken);
+      return accessToken ?? '';
+    }, 'AuthRepositoryImpl/getAccessTokenFromLocal');
+    
   }
 
   @override

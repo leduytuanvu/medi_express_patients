@@ -41,6 +41,7 @@ flutter:
     - assets/fonts/bepro/
     - assets/config/
     - assets/pngs/
+    - assets/svgs/
 
   fonts:
     - family: Bepro

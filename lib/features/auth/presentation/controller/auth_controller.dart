@@ -11,6 +11,7 @@ import 'package:medi_express_patients/core/utils/extensions/context_extension.da
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/password_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/phone_validator.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/params/change_password_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/create_medical_history_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/forgot_password_params.dart';
@@ -21,7 +22,9 @@ import 'package:medi_express_patients/features/auth/domain/params/register_param
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_access_token_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
@@ -31,7 +34,6 @@ import 'package:medi_express_patients/routes/app_routes.dart';
 import '../../domain/usecases/login_usecase.dart';
 
 class AuthController extends BaseController {
-  @override
   final AuthState authState = AuthState();
   final LoginUsecase loginUsecase;
   final RegisterUsecase registerUsecase;
@@ -41,51 +43,28 @@ class AuthController extends BaseController {
   final GetDistrictByCityUsecase getDistrictByCityUsecase;
   final GetWardByDistrictUsecase getWardByDistrictUsecase;
   final CreateMedicalHistoryUsecase createMedicalHistoryUsecase;
+  final GetAuthFromLocalUsecase getAuthFromLocalUsecase;
+  final GetAccessTokenFromLocalUsecase getAccessTokenFromLocalUsecase;
 
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController verifyCodeController = TextEditingController();
-  final TextEditingController passwordLoginController = TextEditingController();
-  final TextEditingController passwordRegisterController =
-      TextEditingController();
-  final TextEditingController rePasswordRegisterController =
-      TextEditingController();
-  final TextEditingController passwordForgotPasswordController =
-      TextEditingController();
-  final TextEditingController rePasswordForgotPasswordController =
-      TextEditingController();
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController birthdateController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController districtController = TextEditingController();
-  final TextEditingController wardController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController bhytController = TextEditingController();
-  final TextEditingController anotherController = TextEditingController();
+  final phoneController = TextEditingController();
+  final verifyCodeController = TextEditingController();
+  final passwordLoginController = TextEditingController();
+  final passwordRegisterController = TextEditingController();
+  final rePasswordRegisterController = TextEditingController();
+  final passwordForgotPasswordController = TextEditingController();
+  final rePasswordForgotPasswordController = TextEditingController();
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final birthdateController = TextEditingController();
+  final genderController = TextEditingController();
+  final cityController = TextEditingController();
+  final districtController = TextEditingController();
+  final wardController = TextEditingController();
+  final addressController = TextEditingController();
+  final bhytController = TextEditingController();
+  final anotherController = TextEditingController();
 
   Timer? _timer;
-
-  void startTimeout() {
-    // Reset the timer if it already exists
-    _timer?.cancel();
-    authState.timeoutConfirmVerifyCode.value = 30; // Reset the countdown value
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (authState.timeoutConfirmVerifyCode.value > 0) {
-        authState.timeoutConfirmVerifyCode.value--;
-      } else {
-        timer.cancel();
-        // Handle timeout logic here
-        onTimeout();
-      }
-    });
-  }
-
-  // Function to handle timeout
-  void onTimeout() {
-    // Add your timeout handling logic here
-    print('Verification code timeout');
-  }
 
   AuthController({
     required this.loginUsecase,
@@ -96,95 +75,77 @@ class AuthController extends BaseController {
     required this.getDistrictByCityUsecase,
     required this.getWardByDistrictUsecase,
     required this.createMedicalHistoryUsecase,
+    required this.getAuthFromLocalUsecase,
+    required this.getAccessTokenFromLocalUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
-  Future<void> initial() async {
-    // Log.info("Loading initial data...");
-    // final GlobalController globalController = Get.find<GlobalController>();
-
-    // final isTheFirstTimeOpenApp =
-    //     await getIsTheFirstTimeOpenAppUsecase(NoParams());
-    // isTheFirstTimeOpenApp.fold(
-    //   (failure) {
-    //     globalController.authState.isTheFirstTimeOpenApp.value = '';
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) async {
-    //     if (success.isEmpty) {
-    //       globalController.authState.isTheFirstTimeOpenApp.value = '';
-    //       Log.severe("is the first time empty");
-    //       // context.navigateTo(AppRoutes.login);
-    //     } else {
-    //       globalController.authState.isTheFirstTimeOpenApp.value = success;
-    //       Log.severe("is the first time not empty: $success");
-    //       // Get.offAllNamed('/bottom_bar_navigation');
-    //       // context.navigateTo(AppRoutes.bottomBarNavigation);
-    //       final accessToken = await getAccessTokenUsecase(NoParams());
-    //       accessToken.fold(
-    //         (failure) {
-    //           globalController.authState.accessToken.value = '';
-    //           Log.severe("$failure");
-    //           handleFailure(failure);
-    //         },
-    //         (success) {
-    //           if (success.isEmpty) {
-    //             globalController.authState.accessToken.value = '';
-    //             Log.severe("access token empty");
-    //             // context.navigateTo(AppRoutes.login);
-    //           } else {
-    //             globalController.authState.accessToken.value = success;
-    //             Log.severe("access token ne: $success");
-    //             // Get.offAllNamed('/bottom_bar_navigation');
-    //             // context.navigateTo(AppRoutes.bottomBarNavigation);
-    //           }
-    //           clearError();
-    //         },
-    //       );
-    //     }
-    //     clearError();
-    // //   },
-    // );
-
-    FlutterNativeSplash.remove();
-
-    // final refreshToken = await getRefreshTokenUsecase(NoParams());
-    // accessToken.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     if (success.isEmpty) {
-    //       Get.offAllNamed(AppRoutes.login);
-    //     } else {
-    //       Get.offAllNamed(AppRoutes.bottomBarNavigation);
-    //     }
-    //     Log.severe("access token ne: $success");
-    //     clearError();
-    //   },
-    // );
-
-    // final exprireIn = await getExprireInUsecase(NoParams());
-    // accessToken.fold(
-    //   (failure) {
-    //     Log.severe("$failure");
-    //     handleFailure(failure);
-    //   },
-    //   (success) {
-    //     if (success.isEmpty) {
-    //       Get.offAllNamed(AppRoutes.login);
-    //     } else {
-    //       Get.offAllNamed(AppRoutes.bottomBarNavigation);
-    //     }
-    //     Log.severe("access token ne: $success");
-    //     clearError();
-    //   },
-    // );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FlutterNativeSplash.remove();
+  void startTimeout() {
+    _timer?.cancel();
+    authState.timeoutConfirmVerifyCode.value = 30;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (authState.timeoutConfirmVerifyCode.value > 0) {
+        authState.timeoutConfirmVerifyCode.value--;
+      } else {
+        timer.cancel();
+        onTimeout();
+      }
     });
+  }
+
+  void onTimeout() {
+    Log.info('Verification code timeout');
+  }
+
+  Future<void> initial() async {
+    Log.info("Loading initial data...");
+    final result = await getAuthFromLocalUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.info("fail");
+        final auth = AuthEntity();
+        setAuth(auth);
+        showError(
+          () => clearError(),
+          e.toString(),
+          'Quay lại',
+        );
+      },
+      (success) async {
+        Log.info("success: ${success.accessToken}");
+        setAuth(success);
+        clearError();
+      },
+    );
+    FlutterNativeSplash.remove();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   FlutterNativeSplash.remove();
+    // });
+  }
+
+  Future<void> getAccessTokenFromLocal() async {
+    final result = await getAccessTokenFromLocalUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.info("fail");
+        final auth = AuthEntity();
+        setAuth(auth);
+        showError(
+          () => clearError(),
+          e.toString(),
+          'Quay lại',
+        );
+      },
+      (success) async {
+        // Log.info("success: ${success.accessToken}");
+        // setAuth(success);
+        clearError();
+      },
+    );
+    FlutterNativeSplash.remove();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   FlutterNativeSplash.remove();
+    // });
   }
 
   @override
@@ -196,14 +157,24 @@ class AuthController extends BaseController {
   @override
   void onClose() {
     Log.info("onClose");
-    // phoneController.dispose();
-    // verifyCodeController.dispose();
-    // passwordLoginController.dispose();
-    // passwordRegisterController.dispose();
-    // rePasswordRegisterController.dispose();
-    // passwordForgotPasswordController.dispose();
-    // rePasswordForgotPasswordController.dispose();
-    // _timer?.cancel();
+    phoneController.dispose();
+    verifyCodeController.dispose();
+    passwordLoginController.dispose();
+    passwordRegisterController.dispose();
+    rePasswordRegisterController.dispose();
+    passwordForgotPasswordController.dispose();
+    rePasswordForgotPasswordController.dispose();
+    fullNameController.dispose();
+    emailController.dispose();
+    birthdateController.dispose();
+    genderController.dispose();
+    cityController.dispose();
+    districtController.dispose();
+    wardController.dispose();
+    addressController.dispose();
+    bhytController.dispose();
+    anotherController.dispose();
+    _timer?.cancel();
     super.onClose();
   }
 

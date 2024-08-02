@@ -39,7 +39,6 @@ class AuthDto {
     return AuthEntity(
       accessToken: accessToken,
       refreshToken: refreshToken,
-      isFirstTimeOpenApp: '',
       expiresIn: expiresIn,
     );
   }

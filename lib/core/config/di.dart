@@ -12,12 +12,17 @@ import 'package:medi_express_patients/features/auth/domain/repositories/auth_rep
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_access_token_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/login_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
+import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
+import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 
 Future<void> initDI(String environmentName) async {
   Get.put<ErrorHandlingService>(ErrorHandlingService());
@@ -47,6 +52,7 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => GetDistrictByCityUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => GetWardByDistrictUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => CreateMedicalHistoryUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => GetAuthFromLocalUsecase(Get.find<AuthRepository>()));
 
   Get.put(
     AuthController(
@@ -59,6 +65,18 @@ Future<void> initDI(String environmentName) async {
       getDistrictByCityUsecase: Get.find<GetDistrictByCityUsecase>(),
       getWardByDistrictUsecase: Get.find<GetWardByDistrictUsecase>(),
       createMedicalHistoryUsecase: Get.find<CreateMedicalHistoryUsecase>(),
+      getAuthFromLocalUsecase: Get.find<GetAuthFromLocalUsecase>(),
+      getAccessTokenFromLocalUsecase:
+          Get.find<GetAccessTokenFromLocalUsecase>(),
     ),
   );
+  Get.put(
+    MainController(errorHandlingService: Get.find<ErrorHandlingService>()),
+  );
+
+  // Get.lazyPut(() =>
+  //     HomeController(errorHandlingService: Get.find<ErrorHandlingService>()));
+
+  // Get.lazyPut(() =>
+  //     ChatController(errorHandlingService: Get.find<ErrorHandlingService>()));
 }

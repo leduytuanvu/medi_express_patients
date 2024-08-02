@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/enviroment.dart';
+import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/utils/translations/app_translations.dart';
+import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
+import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
+import 'package:medi_express_patients/features/auth/presentation/pages/intro/intro_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/login/login_page.dart';
+import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/routes/app_pages.dart';
-import 'package:medi_express_patients/routes/app_routes.dart';
 
 class MediExpressPatientsApp extends StatelessWidget {
   final Environment environment;
@@ -30,18 +34,31 @@ class MediExpressPatientsApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      initialRoute: AppRoutes.login,
       getPages: AppPages.routes,
-
-      // builder: (context, child) {
-      //   return GlobalOverlayWidget(
-      //     child: child!,
-      //   );
-      // },
-      // home: const GlobalOverlayWidget(
-      //   child: AuthWrapper(),
-      // ),
-      home: LoginPage(),
+      initialBinding: AuthBinding(),
+      home: AuthWrapper(),
     );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  final AuthController authController = Get.find<AuthController>();
+  AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      Log.info("AuthWrapper rebuilt");
+      if (authController.baseState.auth.value.isTheFirstTime.isEmpty) {
+        Log.info("introooooo");
+        return const IntroPage();
+      } else if (authController.baseState.auth.value.accessToken.isEmpty) {
+        Log.info("loginnnnnn");
+        return LoginPage();
+      } else {
+        Log.info("mainnnnnnn");
+        return MainPage();
+      }
+    });
   }
 }

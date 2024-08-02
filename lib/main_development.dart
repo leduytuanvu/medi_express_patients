@@ -17,7 +17,7 @@ void main() {
   runZonedGuarded<Future<void>>(() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    NotificationService().initNotification();
+    await NotificationService().initNotification();
     // await Firebase.initializeApp();
 
     BindingBase.debugZoneErrorsAreFatal = true;
@@ -61,7 +61,6 @@ void main() {
         },
       ),
     );
-    FlutterNativeSplash.remove();
   }, (error, stackTrace) {
     if (Get.isRegistered<ErrorHandlingService>()) {
       Get.find<ErrorHandlingService>().handleException(

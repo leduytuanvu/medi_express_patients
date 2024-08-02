@@ -117,7 +117,8 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                   return Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      authController.authState.errorVerifyCodeForgotPassword.value,
+                      authController
+                          .authState.errorVerifyCodeForgotPassword.value,
                       style: AppTextStyle.mediumError(context),
                     ),
                   );
@@ -127,7 +128,8 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
               Row(
                 children: [
                   Obx(() {
-                    if (authController.authState.timeoutConfirmVerifyCode.value ==
+                    if (authController
+                            .authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return const SizedBox.shrink();
                     } else {
@@ -139,7 +141,8 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                   }),
                   const Spacer(),
                   Obx(() {
-                    if (authController.authState.timeoutConfirmVerifyCode.value ==
+                    if (authController
+                            .authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return GestureDetector(
                         onTap: () {

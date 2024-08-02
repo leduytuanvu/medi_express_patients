@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
+import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
+import 'package:medi_express_patients/features/doctor/presentation/controller/doctor_controller.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
+import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 
 class MainPage extends BaseStatelessWidget {
@@ -24,12 +30,30 @@ class MainPage extends BaseStatelessWidget {
         onPageChanged: (index) {
           mainController.changePage(index);
         },
-        children: const [
-          HomePage(),
-          DoctorPage(),
-          SchedulePage(),
-          ChatPage(),
-          AccountPage(),
+        children: [
+          GetBuilder<HomeController>(
+            init: HomeController(errorHandlingService: ErrorHandlingService()),
+            builder: (controller) => const HomePage(),
+          ),
+          GetBuilder<DoctorController>(
+            init:
+                DoctorController(errorHandlingService: ErrorHandlingService()),
+            builder: (controller) => const DoctorPage(),
+          ),
+          GetBuilder<ScheduleController>(
+            init: ScheduleController(
+                errorHandlingService: ErrorHandlingService()),
+            builder: (controller) => const SchedulePage(),
+          ),
+          GetBuilder<ChatController>(
+            init: ChatController(errorHandlingService: ErrorHandlingService()),
+            builder: (controller) => const ChatPage(),
+          ),
+          GetBuilder<AccountController>(
+            init:
+                AccountController(errorHandlingService: ErrorHandlingService()),
+            builder: (controller) => const AccountPage(),
+          ),
         ],
       ),
       bottomNavigationBar: Obx(() {

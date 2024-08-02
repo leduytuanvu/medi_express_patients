@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 
@@ -49,5 +50,9 @@ abstract class BaseController extends GetxController {
     baseState.titleButtonWarning.value = '';
     baseState.warningMessage.value = '';
     baseState.warningFunction.value = () {};
+  }
+
+  void setAuth(AuthEntity authEntity) {
+    baseState.auth.value = authEntity;
   }
 }

@@ -1,18 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
-import 'package:medi_express_patients/core/service/notification_service.dart';
 import 'package:medi_express_patients/core/utils/comon/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/routes/app_routes.dart';
 
 class EnterPhoneNumberForgotPasswordPage extends BaseStatelessWidget {
   EnterPhoneNumberForgotPasswordPage({super.key});

@@ -41,6 +41,8 @@ abstract class AuthRepository {
 
   Future<AuthEntity> getAuthFromLocal();
 
+  Future<String> getAccessTokenFromLocal();
+
   Future<CreateMedicalHistoryEntity> createMedicalHistory(
     int patientId,
     bool hypertension,

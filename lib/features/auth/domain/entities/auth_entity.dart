@@ -1,13 +1,13 @@
 class AuthEntity {
-  final String accessToken;
-  final String refreshToken;
-  final String isFirstTimeOpenApp;
-  final int expiresIn;
+  String accessToken;
+  String refreshToken;
+  int expiresIn;
+  String isTheFirstTime;
 
   AuthEntity({
-    required this.accessToken,
-    required this.refreshToken,
-    required this.isFirstTimeOpenApp,
-    required this.expiresIn,
+    this.accessToken = '',
+    this.refreshToken = '',
+    this.expiresIn = -1,
+    this.isTheFirstTime = 'combros',
   });
 }

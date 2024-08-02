@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
@@ -40,10 +41,8 @@ class AuthState extends BaseState {
   var copd = false.obs;
   var palpitations = false.obs;
   var otherMedicalHistory = ''.obs;
-
   var timeoutConfirmVerifyCode = 30.obs;
   var wardId = 0.obs;
   var genderId = 0.obs;
-
   var verifyCode = 0.obs;
 }
