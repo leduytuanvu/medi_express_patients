@@ -19,4 +19,5 @@ class AppRoutes {
   static const chat = '/chat';
   static const account = '/account';
   static const persionalInformation = '/persional_information';
+  static const patientPage = '/patient_page';
 }

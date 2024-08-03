@@ -14,7 +14,7 @@ import '../controller/auth_controller.dart';
 class AuthBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => AuthController(
+    Get.lazyPut(() => AuthController(
           loginUsecase: Get.find<LoginUsecase>(),
           forgotPasswordUsecase: Get.find<ForgotPasswordUsecase>(),
           registerUsecase: Get.find<RegisterUsecase>(),

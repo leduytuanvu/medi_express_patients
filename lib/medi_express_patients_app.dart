@@ -51,13 +51,16 @@ class AuthWrapper extends StatelessWidget {
       Log.info("Auth wrapper rebuilt");
       if (authController.baseState.auth.value.firstTimeOpenApp.isEmpty ||
           authController.baseState.auth.value.firstTimeOpenApp == 'true') {
-        Log.info("introooooo");
+        Log.info(
+            "introooooo ${authController.baseState.auth.value.toString()}");
         return const IntroPage();
       } else if (authController.baseState.auth.value.accessToken.isEmpty) {
-        Log.info("loginnnnnn");
+        Log.info(
+            "loginnnnnn ${authController.baseState.auth.value.toString()}");
         return LoginPage();
       } else {
-        Log.info("mainnnnnnn");
+        Log.info(
+            "mainnnnnnn ${authController.baseState.auth.value.toString()}");
         return MainPage();
       }
     });

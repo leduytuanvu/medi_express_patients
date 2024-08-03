@@ -144,10 +144,59 @@ class AppTextStyle {
         color: Colors.black,
       );
 
+  static TextStyle mediumItemTitle(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(16),
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+      );
+
+  static TextStyle bigItemPatientTitle(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(15),
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+      );
+
+  static TextStyle mediumDateTime(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(14),
+        fontWeight: FontWeight.w400,
+        color: const Color(0xFF777F89),
+      );
+
+  static TextStyle mediumItemBody(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(12),
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      );
+
+  static TextStyle bigItemBody(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(13),
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      );
+
+  static TextStyle mediumItemPrice(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(13),
+        fontWeight: FontWeight.w600,
+        color: const Color(0xFF005495),
+      );
+
   static TextStyle mediumTitle(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(18),
         fontWeight: FontWeight.w700,
+        color: Colors.black,
+      );
+
+  static TextStyle smallBody(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(12),
+        fontWeight: FontWeight.w500,
         color: Colors.black,
       );
 
@@ -196,6 +245,13 @@ class AppTextStyle {
         fontSize: context.sp(13),
         fontWeight: FontWeight.w400,
         color: const Color(0xFF777F89),
+      );
+
+  static TextStyle searchHint(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(14),
+        fontWeight: FontWeight.w500,
+        color: const Color(0xFF9CA4B0),
       );
 
   static TextStyle bodyIntro(BuildContext context) => bepro(

@@ -30,7 +30,6 @@ class AuthRepositoryImpl implements AuthRepository {
         phoneNumber,
         password,
       );
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1) {
         await localDatasource.save(
           Constants.keyAccessToken,
@@ -79,7 +78,6 @@ class AuthRepositoryImpl implements AuthRepository {
         birthdate,
         password,
       );
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1) {
         return apiResponse.data!.toEntity();
       } else {
@@ -102,7 +100,6 @@ class AuthRepositoryImpl implements AuthRepository {
         phoneNumber,
         password,
       );
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1) {
         // await localDatasource.saveUser(userEntity);
         return apiResponse.data!.toEntity();
@@ -126,7 +123,6 @@ class AuthRepositoryImpl implements AuthRepository {
         oldPassword,
         newPassword,
       );
-      Log.info('api response: $apiResponse');
       if (apiResponse.data == 1) {
         // await localDatasource.saveUser(userEntity);
         return apiResponse.data!;
@@ -144,7 +140,6 @@ class AuthRepositoryImpl implements AuthRepository {
     Log.info("getAllCity in AuthRepositoryImpl");
     return executeWithHandling(() async {
       final apiResponse = await remoteDatasource.getAllCity();
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1 && apiResponse.data != null) {
         return apiResponse.data!.map((dto) => dto.toEntity()).toList();
       } else {
@@ -161,7 +156,6 @@ class AuthRepositoryImpl implements AuthRepository {
     Log.info("getDistrictByCity in AuthRepositoryImpl");
     return executeWithHandling(() async {
       final apiResponse = await remoteDatasource.getDistrictByCity(cityId);
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1 && apiResponse.data != null) {
         return apiResponse.data!.map((dto) => dto.toEntity()).toList();
       } else {
@@ -178,7 +172,6 @@ class AuthRepositoryImpl implements AuthRepository {
     Log.info("getWardByDistrict in AuthRepositoryImpl");
     return executeWithHandling(() async {
       final apiResponse = await remoteDatasource.getWardByDistrict(districtId);
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1 && apiResponse.data != null) {
         return apiResponse.data!.map((dto) => dto.toEntity()).toList();
       } else {
@@ -236,7 +229,6 @@ class AuthRepositoryImpl implements AuthRepository {
         palpitations,
         otherMedicalHistory,
       );
-      Log.info('api response: $apiResponse');
       if (apiResponse.code == 1) {
         // await localDatasource.saveUser(userEntity);
         return apiResponse.data!.toEntity();

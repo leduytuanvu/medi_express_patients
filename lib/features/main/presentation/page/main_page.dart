@@ -38,7 +38,7 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<DoctorController>(
             init:
                 DoctorController(errorHandlingService: ErrorHandlingService()),
-            builder: (controller) => const DoctorPage(),
+            builder: (controller) => DoctorPage(),
           ),
           GetBuilder<ScheduleController>(
             init: ScheduleController(

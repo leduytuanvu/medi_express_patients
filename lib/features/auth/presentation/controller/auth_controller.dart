@@ -108,7 +108,7 @@ class AuthController extends BaseController {
       (success) async {
         Log.info("success: ${success.accessToken}");
         setAuth(success);
-        clearError();
+        // clearError();
       },
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -427,7 +427,6 @@ class AuthController extends BaseController {
         (success) {
           Log.severe("$success");
           setAuth(success);
-          // clearError();
         },
       );
       hideLoading();

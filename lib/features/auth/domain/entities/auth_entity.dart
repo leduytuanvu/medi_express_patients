@@ -10,4 +10,9 @@ class AuthEntity {
     this.expiresIn = -1,
     this.firstTimeOpenApp = 'false',
   });
+
+  @override
+  String toString() {
+    return '========= $accessToken, $refreshToken, $expiresIn, $firstTimeOpenApp';
+  }
 }

@@ -18,6 +18,7 @@ import 'package:medi_express_patients/features/doctor/presentation/binding/docto
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/patient_page.dart';
 import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
 import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
@@ -60,7 +61,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.doctor,
-      page: () => const DoctorPage(),
+      page: () => DoctorPage(),
       binding: DoctorBinding(),
       // middlewares: [RouteGuard()],
     ),
@@ -122,6 +123,12 @@ class AppPages {
       name: AppRoutes.enterAnamnesisRegister,
       page: () => EnterAnamnesisRegisterPage(),
       binding: AuthBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.patientPage,
+      page: () => PatientPage(),
+      binding: HomeBinding(),
       // middlewares: [RouteGuard()],
     ),
     // GetPage(

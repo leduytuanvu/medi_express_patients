@@ -13,6 +13,8 @@ class HomeController extends BaseController {
 
   final HomeState homeState = HomeState();
 
+  final serchController = TextEditingController();
+
   @override
   void onInit() {
     // TODO: implement onInit

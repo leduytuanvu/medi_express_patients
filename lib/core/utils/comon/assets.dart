@@ -55,9 +55,11 @@ class _Svg {
   final String logo = '${path}logo.svg';
 
   final String bell = '${path}bell.svg';
+  final String arrorRight = '${path}arror_right.svg';
 
   final String diagnostic = '${path}diagnostic.svg';
   final String examSchedule = '${path}exam_schedule.svg';
+  final String prescription = '${path}prescription.svg';
   final String healthIndex = '${path}health_index.svg';
   final String medicine = '${path}medicine.svg';
   final String patient = '${path}patient.svg';
