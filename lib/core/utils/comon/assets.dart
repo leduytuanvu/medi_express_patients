@@ -56,6 +56,15 @@ class _Svg {
 
   final String bell = '${path}bell.svg';
   final String arrorRight = '${path}arror_right.svg';
+  final String dot = '${path}dot.svg';
+  final String phone = '${path}phone.svg';
+  final String videoRecorder = '${path}video_recorder.svg';
+  final String personalInformation = '${path}personal_information.svg';
+  final String changePassword = '${path}change_password.svg';
+  final String setting = '${path}setting.svg';
+  final String helper = '${path}helper.svg';
+  final String language = '${path}language.svg';
+  final String logout = '${path}logout.svg';
 
   final String diagnostic = '${path}diagnostic.svg';
   final String examSchedule = '${path}exam_schedule.svg';

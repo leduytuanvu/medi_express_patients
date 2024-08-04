@@ -12,6 +12,8 @@ class ChatController extends BaseController {
 
   final ChatState chatState = ChatState();
 
+  final searchController = TextEditingController();
+
   @override
   void onInit() {
     // TODO: implement onInit

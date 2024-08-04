@@ -144,6 +144,27 @@ class AppTextStyle {
         color: Colors.black,
       );
 
+  static TextStyle titleButtonPatient(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(14),
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+
+  static TextStyle titleNumberPatient(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(23),
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF005495),
+  );
+
+  static TextStyle bodyNumberPatient(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(12),
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF005495),
+  );
+
   static TextStyle mediumItemTitle(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(16),
@@ -186,6 +207,13 @@ class AppTextStyle {
         color: const Color(0xFF005495),
       );
 
+  static TextStyle smallItem(BuildContext context) => bepro(
+        context: context,
+        fontSize: context.sp(11),
+        fontWeight: FontWeight.w500,
+        color: const Color(0xFF121926),
+      );
+
   static TextStyle mediumTitle(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(18),
@@ -200,12 +228,47 @@ class AppTextStyle {
         color: Colors.black,
       );
 
+  static TextStyle smallBodyW600(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(12),
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+
+  static TextStyle smallBodyW500(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(12),
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  static TextStyle smallBodyLink(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(12),
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF005495),
+  );
+
+  static TextStyle linkH5(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(14),
+    fontWeight: FontWeight.w500,
+    color: Color(0xFF005495),
+  );
+
   static TextStyle mediumBody(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(14),
         fontWeight: FontWeight.w500,
         color: Colors.black,
       );
+
+  static TextStyle bodyH1(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(20),
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
 
   // static TextStyle get smallBody => bepro(
   //       fontSize: 32,
@@ -236,7 +299,7 @@ class AppTextStyle {
   static TextStyle mediumHint(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(11),
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
         color: const Color(0xFF777F89),
       );
 
@@ -282,6 +345,13 @@ class AppTextStyle {
         fontWeight: FontWeight.w700,
         color: const Color(0xFF005495),
       );
+
+  static TextStyle linkW400(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(14),
+    fontWeight: FontWeight.w400,
+    color: const Color(0xFF005495),
+  );
 
   static TextStyle mediumError(BuildContext context) => bepro(
         context: context,

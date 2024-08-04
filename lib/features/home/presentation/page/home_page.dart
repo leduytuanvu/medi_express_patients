@@ -499,7 +499,6 @@ class HomePage extends StatelessWidget {
             bottom: context.wp(4),
           ),
           Container(
-            padding: EdgeInsets.only(left: context.wp(4), right: context.wp(2)),
             child: Column(
               children: [
                 SizedBox(
@@ -513,7 +512,15 @@ class HomePage extends StatelessWidget {
                           ItemHomeExaminationPackageModel.list(context)[index];
                       return Container(
                         width: context.wp(40),
-                        margin: EdgeInsets.only(right: context.wp(2)),
+                        margin: EdgeInsets.only(
+                          right: ItemHomeExaminationPackageModel.list(context)
+                                          .length -
+                                      1 ==
+                                  index
+                              ? context.wp(4)
+                              : context.wp(2),
+                          left: index == 0 ? context.wp(4) : context.wp(0),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -565,7 +572,6 @@ class HomePage extends StatelessWidget {
             bottom: context.wp(4),
           ),
           Container(
-            padding: EdgeInsets.only(left: context.wp(4), right: context.wp(2)),
             child: Column(
               children: [
                 SizedBox(
@@ -577,7 +583,15 @@ class HomePage extends StatelessWidget {
                       final item = ItemNewsModel.list(context)[index];
                       return Container(
                         width: context.wp(40),
-                        margin: EdgeInsets.only(right: context.wp(2)),
+                        margin: EdgeInsets.only(
+                          right: ItemNewsModel.list(context)
+                              .length -
+                              1 ==
+                              index
+                              ? context.wp(4)
+                              : context.wp(2),
+                          left: index == 0 ? context.wp(4) : context.wp(0),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

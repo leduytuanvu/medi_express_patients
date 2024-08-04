@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/exception/failure.dart';
+import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 
 class ErrorHandlingService {
   void handleException(Failure failure) {
     // Check if failure.message is null
-    final BaseController baseController = Get.find<BaseController>();
+    final AuthController authController = Get.find<AuthController>();
     final message = failure.message;
-    baseController.showError(
+    authController.showError(
       () {
         // context.backScreen();
-        baseController.clearError();
+        authController.clearError();
       },
       failure.message,
       'Quay lại',

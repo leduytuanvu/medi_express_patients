@@ -13,5 +13,7 @@ class BaseState {
   var titleButtonError = ''.obs;
   var errorFunction = Rx<VoidCallback?>(null);
 
+  var accessToken = ''.obs;
+
   var auth = AuthEntity().obs;
 }

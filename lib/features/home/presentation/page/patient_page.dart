@@ -85,9 +85,9 @@ class PatientPage extends BaseStatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: homeController.serchController,
+                    controller: homeController.searchController,
                     onChanged: (value) {
-                      homeController.serchController.text = value;
+                      homeController.searchController.text = value;
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -153,9 +153,10 @@ class PatientPage extends BaseStatelessWidget {
                   ),
                 );
               },
-            ).paddingSymmetric(
-              horizontal: context.wp(4),
-              vertical: context.wp(2),
+            ).paddingOnly(
+              left: context.wp(4),
+              right: context.wp(4),
+              top: context.wp(2),
             ),
           ),
         ],

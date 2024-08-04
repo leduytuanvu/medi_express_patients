@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
-import 'package:medi_express_patients/features/account/presentation/page/main_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/change_password_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/personal_information_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
@@ -13,8 +15,10 @@ import 'package:medi_express_patients/features/auth/presentation/pages/register/
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_phone_number_register_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/register/enter_verify_code_register_page.dart';
 import 'package:medi_express_patients/features/chat/presentation/binding/chat_binding.dart';
+import 'package:medi_express_patients/features/chat/presentation/page/chat_detail_page.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/binding/doctor_binding.dart';
+import 'package:medi_express_patients/features/doctor/presentation/page/doctor_detail_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
@@ -22,6 +26,8 @@ import 'package:medi_express_patients/features/home/presentation/page/patient_pa
 import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
 import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
+import 'package:medi_express_patients/features/schedule/presentation/page/book_schedule_page.dart';
+import 'package:medi_express_patients/features/schedule/presentation/page/schedule_detail_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 import 'app_routes.dart';
 
@@ -67,13 +73,31 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.schedule,
-      page: () => const SchedulePage(),
+      page: () =>  SchedulePage(),
+      binding: ScheduleBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.scheduleDetail,
+      page: () =>  ScheduleDetailPage(),
+      binding: ScheduleBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.bookSchedule,
+      page: () =>  BookSchedulePage(),
       binding: ScheduleBinding(),
       // middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.chat,
-      page: () => const ChatPage(),
+      page: () => ChatPage(),
+      binding: ChatBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.chatDetail,
+      page: () => ChatDetailPage(),
       binding: ChatBinding(),
       // middlewares: [RouteGuard()],
     ),
@@ -137,12 +161,24 @@ class AppPages {
     //   binding: BottomBarNavigationBinding(),
     //   // middlewares: [RouteGuard()],
     // ),
-    // GetPage(
-    //   name: AppRoutes.doctorDetail,
-    //   page: () => const DoctorDetailPage(),
-    //   binding: BottomBarNavigationBinding(),
-    //   // middlewares: [RouteGuard()],
-    // ),
+    GetPage(
+      name: AppRoutes.doctorDetail,
+      page: () => DoctorDetailPage(),
+      binding: DoctorBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.personalInformation,
+      page: () => PersonalInformationPage(),
+      binding: AccountBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.changePassword,
+      page: () => ChangePasswordPage(),
+      binding: AccountBinding(),
+      // middlewares: [RouteGuard()],
+    ),
     // GetPage(
     //   name: AppRoutes.persionalInformation,
     //   page: () => const PersionalInformationPage(),

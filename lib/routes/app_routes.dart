@@ -16,8 +16,12 @@ class AppRoutes {
   static const doctor = '/doctor';
   static const doctorDetail = '/doctor_detail';
   static const schedule = '/schedule';
+  static const scheduleDetail = '/schedule_detail';
+  static const bookSchedule = '/book_schedule';
   static const chat = '/chat';
+  static const chatDetail = '/chat_detail';
   static const account = '/account';
-  static const persionalInformation = '/persional_information';
+  static const personalInformation = '/personal_information';
+  static const changePassword = '/change_password';
   static const patientPage = '/patient_page';
 }

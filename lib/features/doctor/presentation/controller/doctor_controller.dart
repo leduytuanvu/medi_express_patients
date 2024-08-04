@@ -12,6 +12,8 @@ class DoctorController extends BaseController {
 
   final DoctorState doctorState = DoctorState();
 
+  final searchController = TextEditingController();
+
   @override
   void onInit() {
     // TODO: implement onInit

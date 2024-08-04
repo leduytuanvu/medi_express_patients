@@ -93,25 +93,16 @@ class AuthController extends BaseController {
   }
 
   Future<void> initial() async {
-    Log.info("Loading initial data...");
-    final result = await getAuthFromLocalUsecase(NoParams());
-    result.fold(
-      (failure) {
-        Log.info("fail");
-        showError(
-          () => clearError(),
-          e.toString(),
-          'Quay lại',
-        );
-        clearAuth();
-      },
-      (success) async {
-        Log.info("success: ${success.accessToken}");
-        setAuth(success);
-        // clearError();
-      },
-    );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Log.info("Loading initial data...");
+      final result = await getAuthFromLocalUsecase(NoParams());
+      result.fold(
+        (failure) {},
+        (success) async {
+          Log.info("success: ${success.accessToken}");
+          setAccessToken(success.accessToken);
+        },
+      );
       FlutterNativeSplash.remove();
     });
   }
@@ -425,8 +416,8 @@ class AuthController extends BaseController {
           );
         },
         (success) {
-          Log.severe("$success");
-          setAuth(success);
+          Log.info("$success");
+          setAccessToken(success.accessToken);
         },
       );
       hideLoading();
@@ -511,79 +502,6 @@ class AuthController extends BaseController {
       context.toNamedScreen(AppRoutes.enterAnamnesisRegister);
     }
   }
-
-  // Future<void> sendOtp(Function() processWhenSuccess) async {
-  // bool isError = false;
-  // if (phoneController.text.trim().isEmpty) {
-  //   isError = true;
-  //   authState.errorPhoneForgotPassword.value =
-  //       'Số điện thoại không được để trống';
-  //   authState.errorPhoneRegister.value = 'Số điện thoại không được để trống';
-  // } else if (!PhoneValidator.validate(phoneController.text.trim())) {
-  //   isError = true;
-  //   authState.errorPhoneForgotPassword.value =
-  //       'Định dạng số điện thoại không hợp lệ';
-  //   authState.errorPhoneRegister.value = 'Định dạng số điện thoại không hợp lệ';
-  // } else {
-  //   authState.errorPhoneForgotPassword.value = '';
-  //   authState.errorPhoneRegister.value = '';
-  // }
-  // if (!isError) {
-  //   final globalController = Get.find<GlobalController>();
-  //   globalController.showLoading();
-  //   try {
-  //     globalController.showLoading();
-  //     String phoneTmp = phoneController.text;
-  //     if (phoneTmp.startsWith('0')) {
-  //       phoneTmp = phoneTmp.substring(1);
-  //     }
-  //     Log.info("phoneAuthCredential: +84${phoneController.text}");
-  //     await FirebaseAuth.instance.verifyPhoneNumber(
-  //       phoneNumber: '+84${phoneController.text}',
-  //       verificationCompleted: (phoneAuthCredential) {
-  //         Log.info("phoneAuthCredential: $phoneAuthCredential");
-  //         globalController.hideLoading();
-  //       },
-  //       verificationFailed: (error) {
-  //         Log.info("error: $error");
-  //         globalController.hideLoading();
-  //         if (error
-  //             .toString()
-  //             .contains('firebase_auth/missing-client-identifier')) {
-  //           globalController.setWarning(
-  //               'Số điện thoại chưa được xác minh! [firebase_auth/missing-client-identifier]');
-  //         } else if (error
-  //             .toString()
-  //             .contains('firebase_auth/too-many-requests')) {
-  //           globalController.setWarning(
-  //               'Hết lượt gửi mã với firebase: [firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.');
-  //         } else {
-  //           Log.info(error.toString());
-  //           globalController.setWarning('Số điện thoại không hợp lệ!');
-  //         }
-  //       },
-  //       codeSent: (verificationId, forceResendingToken) async {
-  //         Log.info("code sent verificationId: $verificationId");
-  //         authState.verificationId.value = verificationId;
-  //         // context.navigateTo(AppRoutes.enterVerifyCodeForgotPassword);
-  //         await processWhenSuccess();
-  //         // await Get.context!.navigateWithTransition(
-  //         //   AppRoutes.enterVerifyCodeForgotPassword,
-  //         //   transition: Transition.rightToLeft,
-  //         // );
-  //         globalController.hideLoading();
-  //         startTimeout();
-  //       },
-  //       codeAutoRetrievalTimeout: (verificationId) {
-  //         Log.info("verificationId end: $verificationId");
-  //         globalController.hideLoading();
-  //       },
-  //     );
-  //   } catch (e) {
-  //     Log.severe("Error: $e");
-  //   }
-  // }
-  // }
 
   Future<void> verifyCode(Function() processWhenSuccess) async {
     bool isError = false;

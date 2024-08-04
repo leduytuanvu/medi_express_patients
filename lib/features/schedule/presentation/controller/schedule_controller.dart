@@ -18,4 +18,8 @@ class ScheduleController extends BaseController {
     super.onInit();
     Log.info("init schedule controller");
   }
+
+  void setChooseScheduleDone(bool value) {
+    scheduleState.scheduleExamDone.value = value;
+  }
 }

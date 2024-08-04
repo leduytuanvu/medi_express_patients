@@ -48,19 +48,14 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      Log.info("Auth wrapper rebuilt");
-      if (authController.baseState.auth.value.firstTimeOpenApp.isEmpty ||
-          authController.baseState.auth.value.firstTimeOpenApp == 'true') {
+      Log.info("Auth wrapper built");
+      if (authController.baseState.accessToken.value.isEmpty) {
         Log.info(
-            "introooooo ${authController.baseState.auth.value.toString()}");
-        return const IntroPage();
-      } else if (authController.baseState.auth.value.accessToken.isEmpty) {
-        Log.info(
-            "loginnnnnn ${authController.baseState.auth.value.toString()}");
-        return LoginPage();
+            "loginnnnnn ${authController.baseState.accessToken.value.toString()}");
+        return IntroPage();
       } else {
         Log.info(
-            "mainnnnnnn ${authController.baseState.auth.value.toString()}");
+            "mainnnnnnn ${authController.baseState.accessToken.value.toString()}");
         return MainPage();
       }
     });

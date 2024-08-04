@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/comon/assets.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
-import 'package:medi_express_patients/features/account/presentation/page/main_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
@@ -43,11 +43,11 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<ScheduleController>(
             init: ScheduleController(
                 errorHandlingService: ErrorHandlingService()),
-            builder: (controller) => const SchedulePage(),
+            builder: (controller) => SchedulePage(),
           ),
           GetBuilder<ChatController>(
             init: ChatController(errorHandlingService: ErrorHandlingService()),
-            builder: (controller) => const ChatPage(),
+            builder: (controller) => ChatPage(),
           ),
           GetBuilder<AccountController>(
             init:

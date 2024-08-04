@@ -53,6 +53,12 @@ abstract class BaseController extends GetxController {
     baseState.warningFunction.value = () {};
   }
 
+  void setAccessToken(String accessToken) {
+    Log.info("access token 1: ${baseState.accessToken.value.toString()}");
+    baseState.accessToken.value = accessToken;
+    Log.info("access token 2: ${baseState.accessToken.value.toString()}");
+  }
+
   void setAuth(AuthEntity authEntity) {
     Log.info("Auth set 1: ${baseState.auth.value.toString()}");
     baseState.auth.value = authEntity;
