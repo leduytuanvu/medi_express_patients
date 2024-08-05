@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/core/utils/common/assets.dart';
 
 class ItemAccountModel {
   final String title;

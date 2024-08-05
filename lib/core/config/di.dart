@@ -10,14 +10,17 @@ import 'package:medi_express_patients/features/auth/data/datasources/remote/auth
 import 'package:medi_express_patients/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:medi_express_patients/features/auth/domain/repositories/auth_repository.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/check_phone_number_exists_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_user_information_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/login_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
@@ -52,6 +55,9 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => GetWardByDistrictUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => CreateMedicalHistoryUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => GetAuthFromLocalUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => SaveAuthToLocalUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => CheckPhoneNumberExistsUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => GetUserInformationUsecase(Get.find<AuthRepository>()));
 
   Get.put(
     AuthController(
@@ -65,6 +71,9 @@ Future<void> initDI(String environmentName) async {
       getWardByDistrictUsecase: Get.find<GetWardByDistrictUsecase>(),
       createMedicalHistoryUsecase: Get.find<CreateMedicalHistoryUsecase>(),
       getAuthFromLocalUsecase: Get.find<GetAuthFromLocalUsecase>(),
+      saveAuthToLocalUsecase: Get.find<SaveAuthToLocalUsecase>(),
+      checkPhoneNumberExistsUsecase: Get.find<CheckPhoneNumberExistsUsecase>(),
+      getUserInformationUsecase: Get.find<GetUserInformationUsecase>(),
     ),
   );
   Get.put(

@@ -1,12 +1,14 @@
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/network/api_response.dart';
-import 'package:medi_express_patients/core/utils/comon/execute_with_handling.dart';
+import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/auth/data/dto/city_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/create_medical_history_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/district_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/forgot_password_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/register_dto.dart';
+import 'package:medi_express_patients/features/auth/data/dto/user_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/ward_dto.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
 import '../../dto/auth_dto.dart';
 import 'auth_api_service.dart';
 
@@ -125,7 +127,7 @@ class AuthRemoteDatasource {
     }, 'AuthRemoteDatasource/getDistrictByCity');
   }
 
-  Future<ApiResponse<List<WardtDto>>> getWardByDistrict(
+  Future<ApiResponse<List<WardDto>>> getWardByDistrict(
     int districtId,
   ) async {
     Log.info("getWardByDistrict in AuthRemoteDatasource");
@@ -134,9 +136,35 @@ class AuthRemoteDatasource {
       return ApiResponse.fromJson(
         response.data!,
         (data) =>
-            (data as List).map((item) => WardtDto.fromJson(item)).toList(),
+            (data as List).map((item) => WardDto.fromJson(item)).toList(),
       );
     }, 'AuthRemoteDatasource/getWardByDistrict');
+  }
+
+  Future<bool> checkPhoneNumberExists(
+    String phoneNumber,
+  ) async {
+    Log.info("checkPhoneNumberExists in AuthRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await apiService.checkPhoneNumberExists(phoneNumber);
+      final responseData = response.data;
+      if(responseData!["code"] == -1) {
+        return true;
+      }
+      return false;
+    }, 'AuthRemoteDatasource/checkPhoneNumberExists');
+  }
+
+  Future<ApiResponse<List<UserDto>>> getUserInformation() async {
+    Log.info("getUserInformation in AuthRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await apiService.getUserInformation();
+      return ApiResponse.fromJson(
+        response.data!,
+            (data) =>
+            (data as List).map((item) => UserDto.fromJson(item)).toList(),
+      );
+    }, 'AuthRemoteDatasource/getUserInformation');
   }
 
   Future<ApiResponse<CreateMedicalHistoryDto>> createMedicalHistory(

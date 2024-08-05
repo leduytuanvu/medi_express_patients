@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
@@ -101,7 +101,7 @@ class DoctorPage extends StatelessWidget {
                   context.toNamedScreen(AppRoutes.doctorDetail);
                 },
                 child: Container(
-                  // color: Colors.red,
+                  color: Colors.transparent,
                   // margin: EdgeInsets.only(right: context.wp(2)),
                   child: Column(
                     children: [

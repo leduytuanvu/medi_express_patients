@@ -1,13 +1,13 @@
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
 
-class WardtDto {
+class WardDto {
   final int id;
   final int districtId;
   final String wardName;
   final String createdAt;
   final String updatedAt;
 
-  WardtDto({
+  WardDto({
     required this.id,
     required this.districtId,
     required this.wardName,
@@ -15,8 +15,8 @@ class WardtDto {
     required this.updatedAt,
   });
 
-  factory WardtDto.fromJson(Map<String, dynamic> json) {
-    return WardtDto(
+  factory WardDto.fromJson(Map<String, dynamic> json) {
+    return WardDto(
       id: json['id'],
       districtId: json['DistrictID'],
       wardName: json['WardName'],

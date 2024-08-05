@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
@@ -10,6 +11,7 @@ import 'package:medi_express_patients/core/utils/extensions/context_extension.da
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/password_validator.dart';
 import 'package:medi_express_patients/core/utils/validators/phone_validator.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/params/change_password_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/create_medical_history_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/forgot_password_params.dart';
@@ -17,16 +19,21 @@ import 'package:medi_express_patients/features/auth/domain/params/get_district_b
 import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/login_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/register_params.dart';
+import 'package:medi_express_patients/features/auth/domain/params/save_auth_to_local_params.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/change_password_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/check_phone_number_exists_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/create_medical_history_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_user_information_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/medi_express_patients_app.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 import '../../domain/usecases/login_usecase.dart';
 
@@ -41,6 +48,9 @@ class AuthController extends BaseController {
   final GetWardByDistrictUsecase getWardByDistrictUsecase;
   final CreateMedicalHistoryUsecase createMedicalHistoryUsecase;
   final GetAuthFromLocalUsecase getAuthFromLocalUsecase;
+  final SaveAuthToLocalUsecase saveAuthToLocalUsecase;
+  final CheckPhoneNumberExistsUsecase checkPhoneNumberExistsUsecase;
+  final GetUserInformationUsecase getUserInformationUsecase;
 
   final phoneController = TextEditingController();
   final verifyCodeController = TextEditingController();
@@ -72,6 +82,9 @@ class AuthController extends BaseController {
     required this.getWardByDistrictUsecase,
     required this.createMedicalHistoryUsecase,
     required this.getAuthFromLocalUsecase,
+    required this.saveAuthToLocalUsecase,
+    required this.checkPhoneNumberExistsUsecase,
+    required this.getUserInformationUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
@@ -99,8 +112,15 @@ class AuthController extends BaseController {
       result.fold(
         (failure) {},
         (success) async {
-          Log.info("success: ${success.accessToken}");
-          setAccessToken(success.accessToken);
+          final resultGetUserFromLocal =
+              await getUserInformationUsecase(NoParams());
+          resultGetUserFromLocal.fold(
+            (failureGetUserFromServer) {},
+            (successGetUserFromServer) async {
+              setUser(successGetUserFromServer);
+              setAuth(success);
+            },
+          );
         },
       );
       FlutterNativeSplash.remove();
@@ -147,19 +167,42 @@ class AuthController extends BaseController {
         authState.errorPhoneForgotPassword.value =
             'Định dạng số điện thoại không hợp lệ';
       } else {
-        authState.errorPhoneForgotPassword.value = '';
-        verifyCodeController.text = '';
-        authState.errorVerifyCodeForgotPassword.value = '';
-        context.toNamedScreen(
-          AppRoutes.enterVerifyCodeForgotPassword,
+        final result = await checkPhoneNumberExistsUsecase(
+          phoneController.text,
         );
-        final random = Random();
-        final verifyCode = 100000 + random.nextInt(900000);
-        authState.verifyCode.value = verifyCode;
-        NotificationService().showNotification(
-            title: 'Medi Express Verify Code', body: '$verifyCode');
-        authState.verifyCode.value = verifyCode;
-        startTimeout();
+        result.fold(
+          (failure) {
+            Log.severe("$failure");
+            showError(
+              () => clearError(),
+              failure.message,
+              'Quay lại',
+            );
+          },
+          (success) {
+            if (success) {
+              authState.errorPhoneForgotPassword.value = '';
+              verifyCodeController.text = '';
+              authState.errorVerifyCodeForgotPassword.value = '';
+              context.toNamedScreen(
+                AppRoutes.enterVerifyCodeForgotPassword,
+              );
+              final random = Random();
+              final verifyCode = 100000 + random.nextInt(900000);
+              authState.verifyCode.value = verifyCode;
+              NotificationService().showNotification(
+                  title: 'Medi Express Verify Code', body: '$verifyCode');
+              authState.verifyCode.value = verifyCode;
+              startTimeout();
+            } else {
+              showError(
+                () => clearError(),
+                'Số điện thoại chưa được đăng kí',
+                'Quay lại',
+              );
+            }
+          },
+        );
       }
     } catch (e) {
       showError(
@@ -182,19 +225,42 @@ class AuthController extends BaseController {
         authState.errorPhoneRegister.value =
             'Định dạng số điện thoại không hợp lệ';
       } else {
-        authState.errorPhoneRegister.value = '';
-        verifyCodeController.text = '';
-        authState.errorVerifyCodeRegister.value = '';
-        context.toNamedScreen(
-          AppRoutes.enterVerifyCodeRegister,
+        final result = await checkPhoneNumberExistsUsecase(
+          phoneController.text,
         );
-        final random = Random();
-        final verifyCode = 100000 + random.nextInt(900000);
-        authState.verifyCode.value = verifyCode;
-        NotificationService().showNotification(
-            title: 'Medi Express Verify Code', body: '$verifyCode');
-        authState.verifyCode.value = verifyCode;
-        startTimeout();
+        result.fold(
+          (failure) {
+            Log.severe("$failure");
+            showError(
+              () => clearError(),
+              failure.message,
+              'Quay lại',
+            );
+          },
+          (success) {
+            if (success) {
+              showError(
+                () => clearError(),
+                'Số điện thoại đã được đăng kí',
+                'Quay lại',
+              );
+            } else {
+              authState.errorPhoneRegister.value = '';
+              verifyCodeController.text = '';
+              authState.errorVerifyCodeRegister.value = '';
+              context.toNamedScreen(
+                AppRoutes.enterVerifyCodeRegister,
+              );
+              final random = Random();
+              final verifyCode = 100000 + random.nextInt(900000);
+              authState.verifyCode.value = verifyCode;
+              NotificationService().showNotification(
+                  title: 'Medi Express Verify Code', body: '$verifyCode');
+              authState.verifyCode.value = verifyCode;
+              startTimeout();
+            }
+          },
+        );
       }
     } catch (e) {
       showError(
@@ -407,6 +473,51 @@ class AuthController extends BaseController {
         ),
       );
       result.fold(
+        (failureLogin) {
+          Log.severe("$failureLogin");
+          showError(
+            () => clearError(),
+            failureLogin.message,
+            'Quay lại',
+          );
+        },
+        (successLogin) async {
+          final result = await getUserInformationUsecase(NoParams());
+          result.fold(
+            (failureGetUserInformation) {
+              Log.severe("$failureGetUserInformation");
+              showError(
+                () => clearError(),
+                failureGetUserInformation.message,
+                'Quay lại',
+              );
+            },
+            (successGetUserInformation) {
+              setUser(successGetUserInformation);
+              setAuth(successLogin);
+            },
+          );
+        },
+      );
+      hideLoading();
+    }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    showConfirm(() async {
+      clearConfirm();
+      showLoading();
+      await Future.delayed(Duration(seconds: 2));
+      var auth = AuthEntity(
+        accessToken: '',
+        expiresIn: -1,
+        refreshToken: '',
+        firstTimeOpenApp: 'false',
+      );
+      final result = await saveAuthToLocalUsecase(
+        SaveAuthToLocalParams(auth: auth),
+      );
+      result.fold(
         (failure) {
           Log.severe("$failure");
           showError(
@@ -416,12 +527,13 @@ class AuthController extends BaseController {
           );
         },
         (success) {
-          Log.info("$success");
-          setAccessToken(success.accessToken);
+          setAuth(auth);
         },
       );
+
+      setAuth(auth);
       hideLoading();
-    }
+    }, 'Đăng xuất tài khoản', 'Đồng ý');
   }
 
   Future<void> enterInformation(BuildContext context) async {

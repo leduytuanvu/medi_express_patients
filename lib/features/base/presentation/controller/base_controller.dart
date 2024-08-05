@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 
@@ -22,19 +23,37 @@ abstract class BaseController extends GetxController {
 
   void showError(
     VoidCallback callback,
-    String errorgMessage,
+    String errorMessage,
     String titleButtonError,
   ) {
-    baseState.titleButtonError.value = titleButtonError;
+    baseState.errorTitleButton.value = titleButtonError;
     baseState.errorFunction.value = callback;
-    baseState.errorMessage.value = errorgMessage;
+    baseState.errorMessage.value = errorMessage;
   }
 
   void clearError() {
-    baseState.titleButtonError.value = '';
+    baseState.errorTitleButton.value = '';
     baseState.errorMessage.value = '';
     baseState.errorFunction.value = () {};
     baseState.errorMessage.value = '';
+  }
+
+  void showConfirm(
+      VoidCallback callback,
+      String confirmMessage,
+      String titleButtonConfirm,
+      ) {
+    Log.info("confirm: $confirmMessage");
+    baseState.confirmTitleButton.value = titleButtonConfirm;
+    baseState.confirmFunction.value = callback;
+    baseState.confirmMessage.value = confirmMessage;
+  }
+
+  void clearConfirm() {
+    baseState.confirmTitleButton.value = '';
+    baseState.confirmMessage.value = '';
+    baseState.confirmFunction.value = () {};
+    baseState.confirmMessage.value = '';
   }
 
   void showWarning(
@@ -42,21 +61,15 @@ abstract class BaseController extends GetxController {
     String warningMessage,
     String titleButtonWarning,
   ) {
-    baseState.titleButtonWarning.value = titleButtonWarning;
+    baseState.warningTitleButton.value = titleButtonWarning;
     baseState.warningFunction.value = callback;
     baseState.warningMessage.value = warningMessage;
   }
 
   void clearWarning() {
-    baseState.titleButtonWarning.value = '';
+    baseState.warningTitleButton.value = '';
     baseState.warningMessage.value = '';
     baseState.warningFunction.value = () {};
-  }
-
-  void setAccessToken(String accessToken) {
-    Log.info("access token 1: ${baseState.accessToken.value.toString()}");
-    baseState.accessToken.value = accessToken;
-    Log.info("access token 2: ${baseState.accessToken.value.toString()}");
   }
 
   void setAuth(AuthEntity authEntity) {
@@ -67,5 +80,15 @@ abstract class BaseController extends GetxController {
 
   void clearAuth() {
     baseState.auth.value = AuthEntity();
+  }
+
+  void setUser(UserEntity userEntity) {
+    Log.info("Auth set 1: ${baseState.auth.value.toString()}");
+    baseState.user.value = userEntity;
+    Log.info("Auth set 2: ${baseState.auth.value.toString()}");
+  }
+
+  void clearUser() {
+    baseState.user.value = UserEntity();
   }
 }

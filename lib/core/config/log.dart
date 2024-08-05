@@ -20,11 +20,14 @@ class Log {
     final formattedTime = '${rec.time}';
     switch (rec.level.name) {
       case 'INFO':
-        return '$formattedTime: \x1B[32m${rec.message}\x1B[0m';
+        return '$formattedTime: ${rec.message}';
+        // return '$formattedTime: \x1B[32m${rec.message}\x1B[0m';
       case 'WARNING':
-        return '$formattedTime: \x1B[33m${rec.message}\x1B[0m';
+        return '$formattedTime: ${rec.message}';
+        // return '$formattedTime: \x1B[33m${rec.message}\x1B[0m';
       case 'SEVERE':
-        return '$formattedTime: \x1B[31m${rec.message}\x1B[0m';
+        return '$formattedTime: ${rec.message}';
+        // return '$formattedTime: \x1B[31m${rec.message}\x1B[0m';
       default:
         return rec.message;
     }

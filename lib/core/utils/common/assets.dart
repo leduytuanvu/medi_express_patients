@@ -65,6 +65,16 @@ class _Svg {
   final String helper = '${path}helper.svg';
   final String language = '${path}language.svg';
   final String logout = '${path}logout.svg';
+  final String alarm = '${path}alarm.svg';
+
+  final String height = '${path}height.svg';
+  final String weight = '${path}weight.svg';
+  final String temp = '${path}temp.svg';
+  final String heartbeat = '${path}heartbeat.svg';
+  final String bloodPressure = '${path}blood_pressure.svg';
+  final String bloodSugar = '${path}blood_sugar.svg';
+  final String spo2 = '${path}spo2.svg';
+  final String ua = '${path}ua.svg';
 
   final String diagnostic = '${path}diagnostic.svg';
   final String examSchedule = '${path}exam_schedule.svg';

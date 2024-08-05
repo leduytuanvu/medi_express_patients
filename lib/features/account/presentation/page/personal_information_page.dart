@@ -5,7 +5,6 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_drop_down_box_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
@@ -14,9 +13,6 @@ import 'package:medi_express_patients/features/auth/domain/entities/city_entity.
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
-import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
-import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 
 class PersonalInformationPage extends BaseStatelessWidget {
   final AccountController accountController = Get.find<AccountController>();

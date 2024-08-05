@@ -43,19 +43,25 @@ class MediExpressPatientsApp extends StatelessWidget {
 
 class AuthWrapper extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
+
   AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       Log.info("Auth wrapper built");
-      if (authController.baseState.accessToken.value.isEmpty) {
+      if (authController.baseState.auth.value.firstTimeOpenApp == 'true' ||
+          authController.baseState.auth.value.firstTimeOpenApp.isEmpty) {
         Log.info(
-            "loginnnnnn ${authController.baseState.accessToken.value.toString()}");
+            "introooooo ${authController.baseState.auth.value.toString()}");
         return IntroPage();
+      } else if (authController.baseState.auth.value.accessToken.isEmpty) {
+        Log.info(
+            "loginnnnnn ${authController.baseState.auth.value.toString()}");
+        return LoginPage();
       } else {
         Log.info(
-            "mainnnnnnn ${authController.baseState.accessToken.value.toString()}");
+            "mainnnnnnn ${authController.baseState.auth.value.toString()}");
         return MainPage();
       }
     });

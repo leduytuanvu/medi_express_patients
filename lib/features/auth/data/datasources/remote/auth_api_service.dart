@@ -90,12 +90,29 @@ class AuthApiService {
     return response;
   }
 
+  Future<Response<Map<String, dynamic>>> checkPhoneNumberExists(
+    String phoneNumber,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/checkPhoneNumber',
+      queryParameters: {'PhoneNumber': phoneNumber},
+    );
+    return response;
+  }
+
   Future<Response<Map<String, dynamic>>> getWardByDistrict(
     int districtId,
   ) async {
     final response = await dio.get<Map<String, dynamic>>(
       '/mediexpress/address/getWardByDistrict',
       queryParameters: {'DistrictID': districtId},
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getUserInformation() async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/user/getPersonal',
     );
     return response;
   }

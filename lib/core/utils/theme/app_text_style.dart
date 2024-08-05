@@ -172,6 +172,13 @@ class AppTextStyle {
         color: Colors.black,
       );
 
+  static TextStyle smallItemTitle(BuildContext context) => bepro(
+    context: context,
+    fontSize: context.sp(15),
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+
   static TextStyle bigItemPatientTitle(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(15),

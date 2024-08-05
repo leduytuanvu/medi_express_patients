@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/change_password_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/health_index_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/heartbeat_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/personal_information_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
@@ -29,6 +31,7 @@ import 'package:medi_express_patients/features/schedule/presentation/binding/sch
 import 'package:medi_express_patients/features/schedule/presentation/page/book_schedule_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_detail_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
+import 'package:medi_express_patients/routes/route_guard.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -38,14 +41,13 @@ class AppPages {
       page: () => LoginPage(),
       binding: AuthBinding(),
       transition: Transition.noTransition,
-      // middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.main,
       page: () => MainPage(),
       binding: MainBinding(),
       transition: Transition.noTransition,
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.enterPhoneNumberForgotPassword,
@@ -56,14 +58,13 @@ class AppPages {
     GetPage(
       name: AppRoutes.intro,
       page: () => const IntroPage(),
-      // binding: AuthBinding(),
-      // middlewares: [RouteGuard()],
+      binding: AuthBinding(),
     ),
     GetPage(
       name: AppRoutes.home,
       page: () => HomePage(),
       binding: HomeBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.doctor,
@@ -75,37 +76,49 @@ class AppPages {
       name: AppRoutes.schedule,
       page: () =>  SchedulePage(),
       binding: ScheduleBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.scheduleDetail,
       page: () =>  ScheduleDetailPage(),
       binding: ScheduleBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.bookSchedule,
       page: () =>  BookSchedulePage(),
       binding: ScheduleBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.chat,
       page: () => ChatPage(),
       binding: ChatBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.chatDetail,
       page: () => ChatDetailPage(),
       binding: ChatBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.account,
-      page: () => const AccountPage(),
+      page: () =>  AccountPage(),
       binding: AccountBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.heartbeat,
+      page: () => HeartbeatPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.healthIndex,
+      page: () => HealthIndexPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.enterVerifyCodeForgotPassword,
@@ -153,7 +166,7 @@ class AppPages {
       name: AppRoutes.patientPage,
       page: () => PatientPage(),
       binding: HomeBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     // GetPage(
     //   name: AppRoutes.bottomBarNavigation,
@@ -165,19 +178,19 @@ class AppPages {
       name: AppRoutes.doctorDetail,
       page: () => DoctorDetailPage(),
       binding: DoctorBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.personalInformation,
       page: () => PersonalInformationPage(),
       binding: AccountBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.changePassword,
       page: () => ChangePasswordPage(),
       binding: AccountBinding(),
-      // middlewares: [RouteGuard()],
+      middlewares: [RouteGuard()],
     ),
     // GetPage(
     //   name: AppRoutes.persionalInformation,

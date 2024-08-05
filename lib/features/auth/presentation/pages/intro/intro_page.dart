@@ -1,10 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
+import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 class IntroPage extends StatefulWidget {
@@ -100,7 +103,14 @@ class _IntroPageState extends State<IntroPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.offNamedScreen(AppRoutes.login);
+                      final AuthController authController = Get.find<AuthController>();
+                      var auth = AuthEntity(
+                        accessToken: '',
+                        expiresIn: -1,
+                        refreshToken: '',
+                        firstTimeOpenApp: 'false',
+                      );
+                      authController.setAuth(auth);
                     },
                     child: Container(
                       height: context.hp(6),
@@ -122,9 +132,16 @@ class _IntroPageState extends State<IntroPage> {
                     onPressed: () async {
                       final currentPage = _pageController.page?.toInt() ?? 0;
                       if (currentPage == pages.length - 1) {
-                        context.offNamedScreen(AppRoutes.login);
+                        final AuthController authController = Get.find<AuthController>();
+                        var auth = AuthEntity(
+                          accessToken: '',
+                          expiresIn: -1,
+                          refreshToken: '',
+                          firstTimeOpenApp: 'false',
+                        );
+                        authController.setAuth(auth);
                       } else {
-                        await Future.delayed(const Duration(microseconds: 1));
+                        await Future.delayed(const Duration(microseconds: 100));
                         _pageController.animateToPage(
                           currentPage + 1,
                           duration: const Duration(milliseconds: 300),

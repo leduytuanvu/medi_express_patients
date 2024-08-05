@@ -1,12 +1,15 @@
+import 'dart:convert';
+
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/exception/exceptions.dart';
-import 'package:medi_express_patients/core/utils/comon/constants.dart';
-import 'package:medi_express_patients/core/utils/comon/execute_with_handling.dart';
+import 'package:medi_express_patients/core/utils/common/constants.dart';
+import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/create_medical_history_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/forgot_password_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/register_entity.dart';
+import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
 import '../../domain/entities/auth_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -55,6 +58,27 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       }
     }, 'AuthRepositoryImpl/login');
+  }
+
+  @override
+  Future<UserEntity> getUserInformation() async {
+    Log.info("getUserInformation in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getUserInformation();
+      if (apiResponse.code == 1) {
+        final userJson = apiResponse.data![0].toJson();
+        await localDatasource.save(
+          Constants.keyFirstTimeOpenApp,
+          jsonEncode(userJson),
+        );
+        return apiResponse.data![0].toEntity();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AuthRepositoryImpl/getUserInformation',
+        );
+      }
+    }, 'AuthRepositoryImpl/getUserInformation');
   }
 
   @override
@@ -200,6 +224,33 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return auth;
     }, 'AuthRepositoryImpl/getAuthFromLocal');
+  }
+
+  @override
+  Future<bool> saveAuthToLocal(AuthEntity authEntity) {
+    Log.info("saveAuthToLocal in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      await localDatasource.save(
+          Constants.keyAccessToken, authEntity.accessToken);
+      await localDatasource.save(
+          Constants.keyRefreshToken, authEntity.refreshToken);
+      await localDatasource.save(
+          Constants.keyExpiresIn, authEntity.expiresIn.toString());
+      await localDatasource.save(
+          Constants.keyFirstTimeOpenApp, authEntity.firstTimeOpenApp);
+      return true;
+    }, 'AuthRepositoryImpl/saveAuthToLocal');
+  }
+
+  @override
+  Future<bool> checkPhoneNumberExists(String phoneNumber) {
+    Log.info("checkPhoneNumberExists in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.checkPhoneNumberExists(
+        phoneNumber,
+      );
+      return apiResponse;
+    }, 'AuthRepositoryImpl/saveAuthToLocal');
   }
 
   @override

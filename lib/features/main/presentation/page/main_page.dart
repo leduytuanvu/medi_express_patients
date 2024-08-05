@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
@@ -52,7 +52,7 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<AccountController>(
             init:
                 AccountController(errorHandlingService: ErrorHandlingService()),
-            builder: (controller) => const AccountPage(),
+            builder: (controller) =>  AccountPage(),
           ),
         ],
       ),

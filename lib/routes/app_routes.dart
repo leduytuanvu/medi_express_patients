@@ -21,6 +21,8 @@ class AppRoutes {
   static const chat = '/chat';
   static const chatDetail = '/chat_detail';
   static const account = '/account';
+  static const healthIndex = '/health_index';
+  static const heartbeat = '/heartbeat';
   static const personalInformation = '/personal_information';
   static const changePassword = '/change_password';
   static const patientPage = '/patient_page';

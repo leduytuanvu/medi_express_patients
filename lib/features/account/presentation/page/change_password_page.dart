@@ -5,7 +5,7 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_drop_down_box_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
-import 'package:medi_express_patients/core/utils/comon/assets.dart';
+import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
@@ -80,21 +80,21 @@ class ChangePasswordPage extends BaseStatelessWidget {
               controller: authController.passwordForgotPasswordController,
               type: TextFieldType.password,
               errorText: authController.authState.errorPasswordForgotPassword,
-            ),
+            ).paddingSymmetric(horizontal: context.wp(4)),
             CustomTextFieldWidget(
               labelText: 'Mật khẩu mới',
               controller: authController.rePasswordForgotPasswordController,
               type: TextFieldType.password,
               errorText:
               authController.authState.errorRePasswordForgotPassword,
-            ),
+            ).paddingSymmetric(horizontal: context.wp(4)),
             CustomTextFieldWidget(
               labelText: 'Xác nhận mật khẩu mới',
               controller: authController.rePasswordForgotPasswordController,
               type: TextFieldType.password,
               errorText:
               authController.authState.errorRePasswordForgotPassword,
-            ),
+            ).paddingSymmetric(horizontal: context.wp(4)),
             CustomButtonWidget(
               height: context.hp(6),
               width: context.wp(100),
@@ -107,7 +107,7 @@ class ChangePasswordPage extends BaseStatelessWidget {
               titleSize: context.sp(14),
               radius: context.rp(10),
               fontWeight: FontWeight.w600,
-            ),
+            ).paddingSymmetric(horizontal: context.wp(4)),
           ],
         ),
       ),
