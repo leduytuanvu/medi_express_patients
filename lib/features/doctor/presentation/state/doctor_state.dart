@@ -5,6 +5,7 @@ import 'package:medi_express_patients/features/doctor/domain/entities/doctor_inf
 import 'package:medi_express_patients/features/doctor/domain/entities/information_doctor_entity.dart';
 
 class DoctorState extends BaseState {
+  var search = ''.obs;
   var listAllInformationDoctor = <InformationDoctorEntity>[].obs;
   var listSearchDoctor = <DoctorByNameEntity>[].obs;
   var doctorInformationDetail = DoctorInformationDetailEntity(
