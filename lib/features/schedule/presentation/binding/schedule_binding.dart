@@ -8,12 +8,16 @@ import 'package:medi_express_patients/features/auth/domain/usecases/get_district
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
 import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 
 class ScheduleBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => ScheduleController(
+          getAllScheduleUsecase: Get.find<GetAllScheduleUsecase>(),
+          getScheduleResultUsecase: Get.find<GetScheduleResultUsecase>(),
           errorHandlingService: Get.find<ErrorHandlingService>(),
         ));
   }

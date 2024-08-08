@@ -167,6 +167,13 @@ class AccountPage extends StatelessWidget {
                 ).paddingSymmetric(horizontal: context.wp(4)),
                 GestureDetector(
                   onTap: () {
+                    authController.oldChangePasswordController.text = '';
+                    authController.newChangePasswordController.text = '';
+                    authController.reNewChangePasswordController.text = '';
+
+                    authController.authState.errorOldPasswordChangePassword.value = '';
+                    authController.authState.errorNewPasswordChangePassword.value = '';
+                    authController.authState.errorReNewPasswordChangePassword.value = '';
                     context.toNamedScreen(AppRoutes.changePassword);
                   },
                   child: Container(

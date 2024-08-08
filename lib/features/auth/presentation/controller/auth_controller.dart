@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
@@ -33,8 +33,8 @@ import 'package:medi_express_patients/features/auth/domain/usecases/register_use
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
-import 'package:medi_express_patients/medi_express_patients_app.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
+
 import '../../domain/usecases/login_usecase.dart';
 
 class AuthController extends BaseController {
@@ -69,6 +69,10 @@ class AuthController extends BaseController {
   final addressController = TextEditingController();
   final bhytController = TextEditingController();
   final anotherController = TextEditingController();
+
+  final oldChangePasswordController = TextEditingController();
+  final newChangePasswordController = TextEditingController();
+  final reNewChangePasswordController = TextEditingController();
 
   Timer? _timer;
 
@@ -179,8 +183,10 @@ class AuthController extends BaseController {
               'Quay lại',
             );
           },
-          (success) {
+          (success) async {
+            Log.info(success.toString());
             if (success) {
+              Log.info('Thành cồng');
               authState.errorPhoneForgotPassword.value = '';
               verifyCodeController.text = '';
               authState.errorVerifyCodeForgotPassword.value = '';
@@ -190,8 +196,15 @@ class AuthController extends BaseController {
               final random = Random();
               final verifyCode = 100000 + random.nextInt(900000);
               authState.verifyCode.value = verifyCode;
-              NotificationService().showNotification(
-                  title: 'Medi Express Verify Code', body: '$verifyCode');
+              try {
+                NotificationService().showNotification(
+                  title: 'Medi Express Verify Code',
+                  body: '$verifyCode',
+                );
+                Log.info('Notification sent successfully');
+              } catch (e) {
+                Log.severe('Failed to send notification: $e');
+              }
               authState.verifyCode.value = verifyCode;
               startTimeout();
             } else {
@@ -254,8 +267,15 @@ class AuthController extends BaseController {
               final random = Random();
               final verifyCode = 100000 + random.nextInt(900000);
               authState.verifyCode.value = verifyCode;
-              NotificationService().showNotification(
-                  title: 'Medi Express Verify Code', body: '$verifyCode');
+              try {
+                NotificationService().showNotification(
+                  title: 'Medi Express Verify Code',
+                  body: '$verifyCode',
+                );
+                Log.info('Notification sent successfully');
+              } catch (e) {
+                Log.severe('Failed to send notification: $e');
+              }
               authState.verifyCode.value = verifyCode;
               startTimeout();
             }
@@ -801,27 +821,73 @@ class AuthController extends BaseController {
   }
 
   Future<void> changePassword(BuildContext context) async {
-    showLoading();
-    final result = await changePasswordUsecase(
-      ChangePasswordParams(
-        oldPassword: passwordLoginController.text,
-        newPassword: passwordLoginController.text,
-      ),
-    );
-    result.fold(
-      (failure) {
-        showError(
-          () => clearError(),
-          failure.message,
-          'Quay lại',
-        );
-      },
-      (success) {
-        Log.severe("$success");
-        context.offAllNamedScreen(AppRoutes.home);
-        clearError();
-      },
-    );
-    hideLoading();
+    var check = true;
+
+    if (!PasswordValidator.validate(oldChangePasswordController.text.trim())) {
+      check = false;
+      authState.errorOldPasswordChangePassword.value =
+          'Mật khẩu phải có it nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 kí tự đặc biệt, 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
+    } else {
+      authState.errorOldPasswordChangePassword.value = '';
+    }
+
+    if (!PasswordValidator.validate(newChangePasswordController.text.trim())) {
+      check = false;
+      authState.errorNewPasswordChangePassword.value =
+          'Mật khẩu phải có it nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 kí tự đặc biệt, 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
+    } else {
+      authState.errorNewPasswordChangePassword.value = '';
+      if (reNewChangePasswordController.text.trim() !=
+          newChangePasswordController.text.trim()) {
+        check = false;
+        authState.errorReNewPasswordChangePassword.value =
+            'Mật khẩu không trùng khớp';
+      } else {
+        authState.errorReNewPasswordChangePassword.value = '';
+      }
+    }
+
+    if (check) {
+      showLoading();
+      final result = await changePasswordUsecase(
+        ChangePasswordParams(
+          oldPassword: oldChangePasswordController.text,
+          newPassword: newChangePasswordController.text,
+        ),
+      );
+      result.fold(
+        (failure) {
+          showError(
+            () => clearError(),
+            failure.message,
+            'Quay lại',
+          );
+        },
+        (success) {
+          if (success.code == 1) {
+            showWarning(
+              () {
+                Log.info("go to login");
+                // context.offAllNamedScreen(AppRoutes.login);
+                clearWarning();
+              },
+              'Thay đổi mật khẩu thành công',
+              'Đóng',
+            );
+          } else {
+            showWarning(
+              () {
+                Log.info("go to login");
+                // context.offAllNamedScreen(AppRoutes.login);
+                clearWarning();
+              },
+              success.message,
+              'Đóng',
+            );
+          }
+        },
+      );
+      hideLoading();
+    }
   }
 }

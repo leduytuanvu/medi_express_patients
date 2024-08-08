@@ -29,6 +29,15 @@ class DoctorApiService {
     return response;
   }
 
+  Future<Response<Map<String, dynamic>>> getDoctorInformationDetail(int doctorId) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/doctor/information/getDoctorDetail',
+      queryParameters: {'DoctorID': doctorId},
+    );
+    return response;
+  }
+
+
   // Future<Response<Map<String, dynamic>>> getDoctorDetail(
   //     String doctorId,
   //     ) async {

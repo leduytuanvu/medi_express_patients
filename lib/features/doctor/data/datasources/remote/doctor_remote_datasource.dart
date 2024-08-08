@@ -13,7 +13,9 @@ import 'package:medi_express_patients/features/auth/domain/entities/user_entity.
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_api_service.dart';
 import 'package:medi_express_patients/features/doctor/data/dto/doctor_dto.dart';
 import 'package:medi_express_patients/features/doctor/data/dto/doctor_by_name_dto.dart';
+import 'package:medi_express_patients/features/doctor/data/dto/doctor_information_detail_dto.dart';
 import 'package:medi_express_patients/features/doctor/data/dto/information_doctor_dto.dart';
+import 'package:medi_express_patients/features/doctor/domain/entities/doctor_information_detail_entity.dart';
 
 class DoctorRemoteDatasource {
   final DoctorApiService apiService;
@@ -54,6 +56,17 @@ class DoctorRemoteDatasource {
             (data as List).map((item) => InformationDoctorDto.fromJson(item)).toList(),
       );
     }, 'DoctorRemoteDatasource/getAllInformationDoctor');
+  }
+
+  Future<ApiResponse<DoctorInformationDetailDto>> getDoctorInformationDetail(int doctorId) async {
+    Log.info("getDoctorInformationDetail in DoctorRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await apiService.getDoctorInformationDetail(doctorId);
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => DoctorInformationDetailDto.fromJson(data),
+      );
+    }, 'DoctorRemoteDatasource/getDoctorInformationDetail');
   }
 
   // Future<ApiResponse<List<DoctorDto>>> getDoctorDetail() async {

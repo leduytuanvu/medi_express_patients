@@ -34,7 +34,7 @@ Future<T> executeWithHandling<T>(
         );
       } else {
         throw ApiErrorException(
-          'No network connection.',
+          'No network connection.$context, ${e.message}, ${e.error}, ${e.toString()}',
           '${e.error} is SocketException in $context',
         );
       }

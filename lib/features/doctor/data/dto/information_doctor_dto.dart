@@ -4,46 +4,46 @@ class InformationDoctorDto {
   final int id;
   final int doctorId;
   final String degree;
+  final String name;
+  final String avatar;
   final String? major;
   final String? specialistDoctor;
   final String currentWork;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   InformationDoctorDto({
     required this.id,
     required this.doctorId,
     required this.degree,
+    required this.name,
+    required this.avatar,
     this.major,
     this.specialistDoctor,
     required this.currentWork,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory InformationDoctorDto.fromJson(Map<String, dynamic> json) {
     return InformationDoctorDto(
       id: json['id'],
-      doctorId: json['DoctorID'],
+      doctorId: json['doctorId'],
       degree: json['Degree'],
+      name: json['Name'],
+      avatar: json['Avatar'],
       major: json['Major'],
       specialistDoctor: json['SpecialistDoctor'],
       currentWork: json['CurrentWork'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'DoctorID': doctorId,
+      'doctorId': doctorId,
       'Degree': degree,
+      'Name': name,
+      'Avatar': avatar,
       'Major': major,
       'SpecialistDoctor': specialistDoctor,
       'CurrentWork': currentWork,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 
@@ -52,11 +52,11 @@ class InformationDoctorDto {
       id: id,
       doctorId: doctorId,
       degree: degree,
+      name: name,
+      avatar: avatar,
       major: major,
       specialistDoctor: specialistDoctor,
       currentWork: currentWork,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
     );
   }
 }

@@ -8,11 +8,17 @@ import 'package:medi_express_patients/features/account/presentation/page/account
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
 import 'package:medi_express_patients/features/doctor/presentation/controller/doctor_controller.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
+import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
 import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 
@@ -32,16 +38,27 @@ class MainPage extends BaseStatelessWidget {
         },
         children: [
           GetBuilder<HomeController>(
-            init: HomeController(errorHandlingService: ErrorHandlingService()),
+            init: HomeController(
+              getAllHealthRecordUsecase: Get.find<GetAllHealthRecordUsecase>(),
+              errorHandlingService: ErrorHandlingService(),
+            ),
             builder: (controller) => HomePage(),
           ),
           GetBuilder<DoctorController>(
-            init:
-                DoctorController(errorHandlingService: ErrorHandlingService()),
+            init: DoctorController(
+              getAllInformationDoctorUsecase:
+                  Get.find<GetAllInformationDoctorUsecase>(),
+              getDoctorByNameUsecase: Get.find<GetDoctorByNameUsecase>(),
+              getDoctorInformationDetailUsecase:
+                  Get.find<GetDoctorInformationDetailUsecase>(),
+              errorHandlingService: ErrorHandlingService(),
+            ),
             builder: (controller) => DoctorPage(),
           ),
           GetBuilder<ScheduleController>(
             init: ScheduleController(
+                getAllScheduleUsecase: Get.find<GetAllScheduleUsecase>(),
+                getScheduleResultUsecase: Get.find<GetScheduleResultUsecase>(),
                 errorHandlingService: ErrorHandlingService()),
             builder: (controller) => SchedulePage(),
           ),
@@ -52,7 +69,7 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<AccountController>(
             init:
                 AccountController(errorHandlingService: ErrorHandlingService()),
-            builder: (controller) =>  AccountPage(),
+            builder: (controller) => AccountPage(),
           ),
         ],
       ),

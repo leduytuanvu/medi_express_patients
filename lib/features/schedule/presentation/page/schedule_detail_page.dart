@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
-import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
+import 'package:medi_express_patients/features/schedule/domain/entities/schedule_entity.dart';
 import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 
 class ScheduleDetailPage extends BaseStatelessWidget {
@@ -16,6 +14,11 @@ class ScheduleDetailPage extends BaseStatelessWidget {
 
   @override
   Widget buildContent(BuildContext context) {
+    final arguments = Get.arguments as Map<String, dynamic>;
+    final ScheduleEntity schedule = arguments['schedule'] as ScheduleEntity;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scheduleController.getScheduleResult(schedule.appointmentId.toString());
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -89,11 +92,11 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '08',
+                              schedule.appointmentDate.toDate(),
                               style: AppTextStyle.titleNumberPatient(context),
                             ),
                             Text(
-                              'Th5',
+                              'Th ${schedule.appointmentDate.toMonth()}',
                               style: AppTextStyle.bodyNumberPatient(context),
                             ),
                           ],
@@ -105,12 +108,12 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Khám bệnh tại nhà',
+                            schedule.nameServiceType,
                             style: AppTextStyle.mediumItemTitle(context),
                           ),
                           context.hp(0.3).sbh,
                           Text(
-                            '13:55 - 08/05/2024',
+                            '${schedule.startTime.toHourMinute()} - ${schedule.appointmentDate.toFormattedDate()}',
                             style: AppTextStyle.bigHint(context).copyWith(
                               color: Color(0xFF777F89),
                             ),
@@ -134,7 +137,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        'Hà Ngọc Cường',
+                        schedule.nameDoctor,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -152,7 +155,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        '096 119 1732',
+                        schedule.phoneDoctor,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -170,7 +173,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        'Sức khỏe tổng quát',
+                        schedule.nameService,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -188,7 +191,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        'Phòng khám huyết học P321',
+                        schedule.clinic,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -227,31 +230,51 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                 context.hp(2).sbh,
                 Text('Kết luận', style: AppTextStyle.smallTitle(context)),
                 context.hp(0.8).sbh,
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      Assets.svg.dot,
-                      height: context.wp(1),
-                      width: context.wp(1),
-                    ),
-                    context.wp(2).sbw,
-                    Text('Cơn đau thắt ngực',
-                        style: AppTextStyle.smallBody(context)),
-                  ],
-                ),
-                context.hp(0.5).sbh,
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      Assets.svg.dot,
-                      height: context.wp(1),
-                      width: context.wp(1),
-                    ),
-                    context.wp(2).sbw,
-                    Text('Basedown', style: AppTextStyle.smallBody(context)),
-                  ],
-                ),
+                Obx(() {
+                  if (scheduleController.scheduleState.scheduleResult.value
+                      .clinicalIndication.isNotEmpty) {
+                    return Row(
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.dot,
+                          height: context.wp(1),
+                          width: context.wp(1),
+                        ),
+                        context.wp(2).sbw,
+                        Text(
+                            scheduleController.scheduleState.scheduleResult
+                                .value.clinicalIndication,
+                            style: AppTextStyle.smallBody(context)),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.dot,
+                          height: context.wp(1),
+                          width: context.wp(1),
+                        ),
+                        context.wp(2).sbw,
+                        Text('Chưa có kết luận',
+                            style: AppTextStyle.smallBody(context)),
+                      ],
+                    );
+                  }
+                }),
                 context.hp(2).sbh,
+                // Row(
+                //   children: [
+                //     SvgPicture.asset(
+                //       Assets.svg.dot,
+                //       height: context.wp(1),
+                //       width: context.wp(1),
+                //     ),
+                //     context.wp(2).sbw,
+                //     Text('Basedown', style: AppTextStyle.smallBody(context)),
+                //   ],
+                // ),
+                // context.hp(2).sbh,
                 Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFFF5F6F9),
@@ -264,35 +287,41 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       Text('Chỉ định',
                           style: AppTextStyle.smallBodyW600(context)),
                       context.hp(1).sbh,
-                      Row(
-                        children: [
-                          Text('Siêu âm Doppler tim',
-                              style: AppTextStyle.smallBodyW500(context)),
-                          Spacer(),
-                          Text('Chi tiết',
-                              style: AppTextStyle.smallBodyLink(context)),
-                        ],
-                      ),
-                      context.hp(0.6).sbh,
-                      Row(
-                        children: [
-                          Text('XN hóa ',
-                              style: AppTextStyle.smallBodyW500(context)),
-                          Spacer(),
-                          Text('Chi tiết',
-                              style: AppTextStyle.smallBodyLink(context)),
-                        ],
-                      ),
-                      context.hp(0.6).sbh,
-                      Row(
-                        children: [
-                          Text('Điện tim thường',
-                              style: AppTextStyle.smallBodyW500(context)),
-                          Spacer(),
-                          Text('Chi tiết',
-                              style: AppTextStyle.smallBodyLink(context)),
-                        ],
-                      ),
+                      if (scheduleController.scheduleState.scheduleResult.value
+                          .diagnosis.isNotEmpty) ...{
+                        Row(
+                          children: [
+                            Text('Siêu âm Doppler tim',
+                                style: AppTextStyle.smallBodyW500(context)),
+                            Spacer(),
+                            Text('Chi tiết',
+                                style: AppTextStyle.smallBodyLink(context)),
+                          ],
+                        ),
+                        context.hp(0.6).sbh,
+                        Row(
+                          children: [
+                            Text('XN hóa ',
+                                style: AppTextStyle.smallBodyW500(context)),
+                            Spacer(),
+                            Text('Chi tiết',
+                                style: AppTextStyle.smallBodyLink(context)),
+                          ],
+                        ),
+                        context.hp(0.6).sbh,
+                        Row(
+                          children: [
+                            Text('Điện tim thường',
+                                style: AppTextStyle.smallBodyW500(context)),
+                            Spacer(),
+                            Text('Chi tiết',
+                                style: AppTextStyle.smallBodyLink(context)),
+                          ],
+                        ),
+                      } else ...{
+                        Text('Chưa có chỉ định',
+                            style: AppTextStyle.smallBodyW500(context)),
+                      }
                     ],
                   ).paddingAll(context.wp(4)),
                 ),

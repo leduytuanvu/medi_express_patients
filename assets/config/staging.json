@@ -1,5 +1,5 @@
 {
   "appName": "Medi Express Patient (Staging)",
-  "apiBaseUrl": "https://staging-api.example.com",
+  "apiBaseUrl": "http://api-stg.combros.tech:10110/",
   "logLevel": "info"
 }

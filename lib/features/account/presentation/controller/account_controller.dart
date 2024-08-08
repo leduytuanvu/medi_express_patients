@@ -71,4 +71,26 @@ class AccountController extends BaseController {
       authController.bhytController.text = user.bhytCode!;
     }
   }
+
+  // Future<void> changePassword() async {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //     Log.info("Loading initial data...");
+  //     final result = await getAuthFromLocalUsecase(NoParams());
+  //     result.fold(
+  //           (failure) {},
+  //           (success) async {
+  //         final resultGetUserFromLocal =
+  //         await getUserInformationUsecase(NoParams());
+  //         resultGetUserFromLocal.fold(
+  //               (failureGetUserFromServer) {},
+  //               (successGetUserFromServer) async {
+  //             setUser(successGetUserFromServer);
+  //             setAuth(success);
+  //           },
+  //         );
+  //       },
+  //     );
+  //     FlutterNativeSplash.remove();
+  //   });
+  // }
 }

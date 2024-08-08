@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
-import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
+import 'package:medi_express_patients/core/config/log.dart';
+import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
-import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
+import 'package:medi_express_patients/features/doctor/domain/entities/information_doctor_entity.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
+
 import '../controller/doctor_controller.dart';
 
 class DoctorDetailPage extends BaseStatelessWidget {
@@ -18,19 +20,45 @@ class DoctorDetailPage extends BaseStatelessWidget {
 
   @override
   Widget buildContent(BuildContext context) {
-    
+    final arguments = Get.arguments as Map<String, dynamic>;
+    final InformationDoctorEntity doctorInformation =
+        arguments['doctorInformation'] as InformationDoctorEntity;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: _content(context, doctorController),
+      // body: _content(context, doctorController, doctorInformation),
+      body: GetBuilder<DoctorController>(
+        init: DoctorController(
+          getAllInformationDoctorUsecase:
+              Get.find<GetAllInformationDoctorUsecase>(),
+          getDoctorByNameUsecase: Get.find<GetDoctorByNameUsecase>(),
+          getDoctorInformationDetailUsecase:
+              Get.find<GetDoctorInformationDetailUsecase>(),
+          errorHandlingService: Get.find<ErrorHandlingService>(),
+        ),
+        initState: (_) {
+          Log.info(doctorInformation.toString());
+          Log.info(doctorInformation.doctorId.toString());
+          // Call the function when the page is first shown
+          doctorController
+              .getDoctorInformationDetail(doctorInformation.doctorId);
+        },
+        builder: (controller) {
+          return _content(context, doctorController, doctorInformation);
+        },
+      ),
     );
   }
 
-  Stack _content(BuildContext context, DoctorController doctorController) {
+  Stack _content(
+    BuildContext context,
+    DoctorController doctorController,
+    InformationDoctorEntity doctorInformation,
+  ) {
     return Stack(
       children: [
         _header(context, doctorController),
-        _body(context, doctorController),
+        _body(context, doctorController, doctorInformation),
         Align(
           alignment: Alignment.topCenter,
           child: ClipRRect(
@@ -47,7 +75,11 @@ class DoctorDetailPage extends BaseStatelessWidget {
     );
   }
 
-  Positioned _body(BuildContext context, DoctorController doctorController) {
+  Positioned _body(
+    BuildContext context,
+    DoctorController doctorController,
+    InformationDoctorEntity doctorInformation,
+  ) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -65,23 +97,23 @@ class DoctorDetailPage extends BaseStatelessWidget {
           children: [
             context.hp(7).sbh,
             Text(
-              'BS Trần Minh Khuyên',
+              '${doctorInformation.degree} ${doctorInformation.name}',
               style: AppTextStyle.bigItemPatientTitle(
                 context,
               ),
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              'Bác sĩ chuyên khoa 2',
+              doctorInformation.major ?? 'Chưa có thông tin',
               style: AppTextStyle.mediumDateTime(context)
                   .copyWith(color: Color(0xFF414852)),
             ),
             Text(
-              'Sức khỏe tâm thần',
+              doctorInformation.specialistDoctor ?? 'Chưa có thông tin',
               style: AppTextStyle.mediumDateTime(context),
             ),
             Text(
-              'Bệnh viện Đại học Y Dược 1',
+              doctorInformation.currentWork ?? 'Chưa có thông tin',
               style: AppTextStyle.mediumDateTime(context),
             ),
             context.hp(2).sbh,
@@ -143,121 +175,147 @@ class DoctorDetailPage extends BaseStatelessWidget {
               thickness: context.hp(0.9),
               color: Color(0xFFF4F5F7),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    context.hp(1.6).sbh,
-                    Text(
-                      'Giới thiệu về bác sĩ Trần Minh Khuyên',
-                      style: AppTextStyle.bigItemPatientTitle(
-                        context,
-                      ),
-                    ),
-                    context.hp(1.8).sbh,
-                    Text(
-                      'Tiến sĩ, Bác sĩ Trần Minh Khuyên',
-                      style: AppTextStyle.bigItemPatientTitle(context)
-                          .copyWith(fontSize: context.sp(14)),
-                    ),
-                    context.hp(0.6).sbh,
-                    Text(
-                      'Bác sĩ điều trị tại khoa Cấp cứu A9 - Bệnh viện Bạch Mai',
-                      style: AppTextStyle.bigItemPatientTitle(context).copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: context.sp(14)),
-                    ),
-                    context.hp(0.6).sbh,
-                    Text(
-                      'Giảng viên trường Đaị học Y Hà Nội',
-                      style: AppTextStyle.bigItemPatientTitle(
-                        context,
-                      ).copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: context.sp(14)),
-                    ),
-                    context.hp(0.6).sbh,
-                    Text(
-                      'Bác sĩ tại phòng khám Đa khoa vip 12 clinic',
-                      style: AppTextStyle.bigItemPatientTitle(
-                        context,
-                      ).copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: context.sp(14)),
-                    ),
-                    context.hp(1.4).sbh,
-                    Divider(
-                      thickness: context.hp(0.1),
-                      color: Color(0xFFF4F5F7),
-                    ),
-                    context.hp(2).sbh,
-                    Text(
-                      'Quá trình công tác',
-                      style: AppTextStyle.bigItemPatientTitle(
-                        context,
-                      ),
-                    ),
-                    context.hp(1.8).sbh,
-                    for (int i = 0; i < 10; i++) ...{
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: context.hp(1)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1, // Adjust flex as needed
-                              child: Text(
-                                '2024:',
-                                style: AppTextStyle.mediumDateTime(context),
-                              ),
-                            ),
-                            SizedBox(width: context.wp(2)), // Add spacing between texts
-                            Expanded(
-                              flex: 3, // Adjust flex as needed
-                              child: Text(
-                                'Tốt nghiệp hệ bác sĩ nội trú chuyên ngành Hồi sức cấp cứu - trường Đại học Y Hà Nội',
-                                style: AppTextStyle.mediumDateTime(context),
-                                softWrap: true,
-                                overflow: TextOverflow.visible, // Allows wrapping
-                              ),
-                            ),
-                          ],
+            Obx(() {
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      context.hp(1.6).sbh,
+                      Text(
+                        'Giới thiệu về bác sĩ ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
+                        style: AppTextStyle.bigItemPatientTitle(
+                          context,
                         ),
-                      )
-                    }
-                    // ListView.builder for work history
-                    // Container(
-                    //   height: context.hp(30), // Adjust height as needed
-                    //   child: ListView.builder(
-                    //     padding: EdgeInsets.zero,
-                    //     itemCount: 10, // Replace with your data length
-                    //     itemBuilder: (context, index) {
-                    //       return Padding(
-                    //         padding: EdgeInsets.symmetric(vertical: context.hp(1)),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               'Item ${index * 2 + 1}',
-                    //               style: AppTextStyle.mediumDateTime(context),
-                    //             ),
-                    //             Text(
-                    //               'Item ${index * 2 + 2}',
-                    //               style: AppTextStyle.mediumDateTime(context),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ).paddingSymmetric(vertical: context.hp(2)),
-                  ],
-                ).paddingSymmetric(
-                    horizontal: context.wp(4), vertical: context.hp(1)),
-              ),
-            ),
+                      ),
+                      context.hp(1.8).sbh,
+                      Text(
+                        '${doctorController.doctorState.doctorInformationDetail.value.information.degree} ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
+                        style: AppTextStyle.bigItemPatientTitle(context)
+                            .copyWith(fontSize: context.sp(14)),
+                      ),
+                      context.hp(0.6).sbh,
+                      Text(
+                        '${doctorController.doctorState.doctorInformationDetail.value.information.specialistDoctor} - ${doctorController.doctorState.doctorInformationDetail.value.information.currentWork}',
+                        style: AppTextStyle.bigItemPatientTitle(context)
+                            .copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: context.sp(14)),
+                      ),
+                      // context.hp(0.6).sbh,
+                      // Text(
+                      //   'Giảng viên trường Đaị học Y Hà Nội',
+                      //   style: AppTextStyle.bigItemPatientTitle(
+                      //     context,
+                      //   ).copyWith(
+                      //       fontWeight: FontWeight.w400,
+                      //       fontSize: context.sp(14)),
+                      // ),
+                      // context.hp(0.6).sbh,
+                      // Text(
+                      //   'Bác sĩ tại phòng khám Đa khoa vip 12 clinic',
+                      //   style: AppTextStyle.bigItemPatientTitle(
+                      //     context,
+                      //   ).copyWith(
+                      //       fontWeight: FontWeight.w400,
+                      //       fontSize: context.sp(14)),
+                      // ),
+                      context.hp(1.4).sbh,
+                      Divider(
+                        thickness: 1,
+                        color: Color(0xFFF4F5F7),
+                      ),
+                      context.hp(2).sbh,
+                      Text(
+                        'Quá trình công tác',
+                        style: AppTextStyle.bigItemPatientTitle(
+                          context,
+                        ),
+                      ),
+                      context.hp(1.8).sbh,
+                      for (int i = 0;
+                          i <
+                              doctorController
+                                  .doctorState
+                                  .doctorInformationDetail
+                                  .value
+                                  .workingProcess
+                                  .length;
+                          i++) ...{
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: context.hp(1)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 2, // Adjust flex as needed
+                                child: Text(
+                                  '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].year}:' ??
+                                      '',
+                                  style: AppTextStyle.mediumDateTime(context),
+                                ),
+                              ),
+                              SizedBox(
+                                  width: context
+                                      .wp(2)), // Add spacing between texts
+                              Expanded(
+                                flex: 5, // Adjust flex as needed
+                                child: Text(
+                                  '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].info}',
+                                  style: AppTextStyle.mediumDateTime(context),
+                                  softWrap: true,
+                                  overflow:
+                                      TextOverflow.visible, // Allows wrapping
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      },
+                      // if (doctorController
+                      //     .doctorState
+                      //     .doctorInformationDetail
+                      //     .value
+                      //     .workingProcess
+                      //     .length -
+                      //     1 >
+                      //     i) ...{
+                      context.hp(10).sbh,
+                      // }
+                      // ListView.builder for work history
+                      // Container(
+                      //   height: context.hp(30), // Adjust height as needed
+                      //   child: ListView.builder(
+                      //     padding: EdgeInsets.zero,
+                      //     itemCount: 10, // Replace with your data length
+                      //     itemBuilder: (context, index) {
+                      //       return Padding(
+                      //         padding: EdgeInsets.symmetric(vertical: context.hp(1)),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //           children: [
+                      //             Text(
+                      //               'Item ${index * 2 + 1}',
+                      //               style: AppTextStyle.mediumDateTime(context),
+                      //             ),
+                      //             Text(
+                      //               'Item ${index * 2 + 2}',
+                      //               style: AppTextStyle.mediumDateTime(context),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ).paddingSymmetric(vertical: context.hp(2)),
+                    ],
+                  ).paddingSymmetric(
+                      horizontal: context.wp(4), vertical: context.hp(1)),
+                ),
+              );
+            }),
           ],
         ),
       ),

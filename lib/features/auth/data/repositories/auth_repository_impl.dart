@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/exception/exceptions.dart';
+import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/core/utils/common/constants.dart';
 import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
@@ -137,7 +138,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<int> changePassword(
+  Future<ApiResponse<List<int>>> changePassword(
     String oldPassword,
     String newPassword,
   ) async {
@@ -147,15 +148,16 @@ class AuthRepositoryImpl implements AuthRepository {
         oldPassword,
         newPassword,
       );
-      if (apiResponse.data == 1) {
-        // await localDatasource.saveUser(userEntity);
-        return apiResponse.data!;
-      } else {
-        throw ApiErrorException(
-          apiResponse.message,
-          '${apiResponse.message} in AuthRepositoryImpl/forgotPassword',
-        );
-      }
+      return apiResponse;
+      // if (apiResponse.code == 1) {
+      //   // await localDatasource.saveUser(userEntity);
+      //   return apiResponse.data!;
+      // } else {
+      //   throw ApiErrorException(
+      //     apiResponse.message,
+      //     '${apiResponse.message} in AuthRepositoryImpl/forgotPassword',
+      //   );
+      // }
     }, 'AuthRepositoryImpl/forgotPassword');
   }
 

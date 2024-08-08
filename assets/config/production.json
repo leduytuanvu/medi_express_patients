@@ -1,5 +1,5 @@
 {
   "appName": "Medi Express Patient",
-  "apiBaseUrl": "https://api.example.com",
+  "apiBaseUrl": "http://api-stg.combros.tech:10110/",
   "logLevel": "error"
 }

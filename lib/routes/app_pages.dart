@@ -24,7 +24,7 @@ import 'package:medi_express_patients/features/doctor/presentation/page/doctor_d
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
-import 'package:medi_express_patients/features/home/presentation/page/patient_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/health_record_page.dart';
 import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
 import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
@@ -73,20 +73,26 @@ class AppPages {
       // middlewares: [RouteGuard()],
     ),
     GetPage(
+      name: AppRoutes.doctorDetail,
+      page: () => DoctorDetailPage(),
+      binding: DoctorBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
       name: AppRoutes.schedule,
-      page: () =>  SchedulePage(),
+      page: () => SchedulePage(),
       binding: ScheduleBinding(),
       middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.scheduleDetail,
-      page: () =>  ScheduleDetailPage(),
+      page: () => ScheduleDetailPage(),
       binding: ScheduleBinding(),
       middlewares: [RouteGuard()],
     ),
     GetPage(
       name: AppRoutes.bookSchedule,
-      page: () =>  BookSchedulePage(),
+      page: () => BookSchedulePage(),
       binding: ScheduleBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -104,7 +110,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.account,
-      page: () =>  AccountPage(),
+      page: () => AccountPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -163,8 +169,8 @@ class AppPages {
       // middlewares: [RouteGuard()],
     ),
     GetPage(
-      name: AppRoutes.patientPage,
-      page: () => PatientPage(),
+      name: AppRoutes.healthRecord,
+      page: () => HealthRecordPage(),
       binding: HomeBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -174,12 +180,7 @@ class AppPages {
     //   binding: BottomBarNavigationBinding(),
     //   // middlewares: [RouteGuard()],
     // ),
-    GetPage(
-      name: AppRoutes.doctorDetail,
-      page: () => DoctorDetailPage(),
-      binding: DoctorBinding(),
-      middlewares: [RouteGuard()],
-    ),
+
     GetPage(
       name: AppRoutes.personalInformation,
       page: () => PersonalInformationPage(),

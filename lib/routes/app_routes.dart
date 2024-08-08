@@ -25,5 +25,5 @@ class AppRoutes {
   static const heartbeat = '/heartbeat';
   static const personalInformation = '/personal_information';
   static const changePassword = '/change_password';
-  static const patientPage = '/patient_page';
+  static const healthRecord = '/health_record';
 }

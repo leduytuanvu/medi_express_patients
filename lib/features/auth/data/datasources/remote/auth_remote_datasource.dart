@@ -79,10 +79,10 @@ class AuthRemoteDatasource {
     }, 'AuthRemoteDatasource/forgotPassword');
   }
 
-  Future<ApiResponse<int>> changePassword(
-    String oldPassword,
-    String newPassword,
-  ) async {
+  Future<ApiResponse<List<int>>> changePassword(
+      String oldPassword,
+      String newPassword,
+      ) async {
     Log.info("changePassword in AuthRemoteDatasource");
     return executeWithHandling(() async {
       final response = await apiService.changePassword(
@@ -91,7 +91,9 @@ class AuthRemoteDatasource {
       );
       return ApiResponse.fromJson(
         response.data!,
-        (data) => int.parse(data.toString()),
+            (data) => data == null
+            ? []
+            : (data as List<dynamic>).map((e) => e as int).toList(),
       );
     }, 'AuthRemoteDatasource/changePassword');
   }

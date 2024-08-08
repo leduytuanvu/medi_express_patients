@@ -1,3 +1,4 @@
+import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/create_medical_history_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
@@ -31,7 +32,7 @@ abstract class AuthRepository {
     String password,
   );
 
-  Future<int> changePassword(
+  Future<ApiResponse<List<int>>> changePassword(
     String oldPassword,
     String newPassword,
   );

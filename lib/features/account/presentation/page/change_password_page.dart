@@ -13,6 +13,7 @@ import 'package:medi_express_patients/features/account/presentation/controller/a
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
+import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
@@ -20,6 +21,7 @@ import 'package:medi_express_patients/features/schedule/presentation/controller/
 
 class ChangePasswordPage extends BaseStatelessWidget {
   final AccountController accountController = Get.find<AccountController>();
+  final AuthController authController = Get.find<AuthController>();
   ChangePasswordPage({super.key});
 
   @override
@@ -77,23 +79,23 @@ class ChangePasswordPage extends BaseStatelessWidget {
             SizedBox(height: context.hp(3)),
             CustomTextFieldWidget(
               labelText: 'Mật khẩu cũ',
-              controller: authController.passwordForgotPasswordController,
+              controller: authController.oldChangePasswordController,
               type: TextFieldType.password,
-              errorText: authController.authState.errorPasswordForgotPassword,
+              errorText: authController.authState.errorOldPasswordChangePassword,
             ).paddingSymmetric(horizontal: context.wp(4)),
             CustomTextFieldWidget(
               labelText: 'Mật khẩu mới',
-              controller: authController.rePasswordForgotPasswordController,
+              controller: authController.newChangePasswordController,
               type: TextFieldType.password,
               errorText:
-              authController.authState.errorRePasswordForgotPassword,
+              authController.authState.errorNewPasswordChangePassword,
             ).paddingSymmetric(horizontal: context.wp(4)),
             CustomTextFieldWidget(
               labelText: 'Xác nhận mật khẩu mới',
-              controller: authController.rePasswordForgotPasswordController,
+              controller: authController.reNewChangePasswordController,
               type: TextFieldType.password,
               errorText:
-              authController.authState.errorRePasswordForgotPassword,
+              authController.authState.errorReNewPasswordChangePassword,
             ).paddingSymmetric(horizontal: context.wp(4)),
             CustomButtonWidget(
               height: context.hp(6),
@@ -101,7 +103,7 @@ class ChangePasswordPage extends BaseStatelessWidget {
               title: "Cập nhật",
               onPressed: () async {
                 FocusScope.of(context).unfocus();
-                authController.forgotPassword(context);
+                authController.changePassword(context);
               },
               color: const Color(0xffCF4375),
               titleSize: context.sp(14),

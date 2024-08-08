@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
         children: [
           Container(
             height: context.hp(31),
-            width: context.wp(100),
+            width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF0D4E96), Color(0xFF1C75D8)],
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
                           Log.info("dịch vụ y tế");
                         };
                       case "Bệnh án":
-                        context.toNamedScreen(AppRoutes.patientPage);
+                        context.toNamedScreen(AppRoutes.healthRecord);
                     }
                   },
                   child: DottedBorder(

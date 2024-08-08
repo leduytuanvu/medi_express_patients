@@ -14,11 +14,17 @@ abstract class BaseController extends GetxController {
   BaseController(this.errorHandlingService);
 
   void showLoading() {
-    baseState.isLoading.value = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      baseState.isLoading.value = true;
+    });
+    // baseState.isLoading.value = true;
   }
 
   void hideLoading() {
-    baseState.isLoading.value = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      baseState.isLoading.value = false;
+    });
+    // baseState.isLoading.value = false;
   }
 
   void showError(

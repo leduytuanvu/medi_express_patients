@@ -75,6 +75,7 @@ class _Svg {
   final String bloodSugar = '${path}blood_sugar.svg';
   final String spo2 = '${path}spo2.svg';
   final String ua = '${path}ua.svg';
+  final String close = '${path}close.svg';
 
   final String diagnostic = '${path}diagnostic.svg';
   final String examSchedule = '${path}exam_schedule.svg';

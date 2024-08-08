@@ -17,6 +17,11 @@ class AuthState extends BaseState {
   var errorPasswordForgotPassword = ''.obs;
   var errorRePasswordForgotPassword = ''.obs;
   var errorRePasswordRegister = ''.obs;
+
+  var errorOldPasswordChangePassword = ''.obs;
+  var errorNewPasswordChangePassword = ''.obs;
+  var errorReNewPasswordChangePassword = ''.obs;
+
   var errorFullName = ''.obs;
   var errorEmail = ''.obs;
   var errorBirthdate = ''.obs;
