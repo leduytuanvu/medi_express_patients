@@ -1,16 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
+import 'package:medi_express_patients/core/usecases/no_params.dart';
+import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/features/schedule/domain/params/create_appointment_params.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/create_appointment_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_type_create_appointment_service_usecase.dart';
 import 'package:medi_express_patients/features/schedule/presentation/state/schedule_state.dart';
 
 class ScheduleController extends BaseController {
   ScheduleController({
     required this.getAllScheduleUsecase,
     required this.getScheduleResultUsecase,
+    required this.getTypeCreateAppointmentServiceUsecase,
+    required this.createAppointmentUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
@@ -18,7 +26,10 @@ class ScheduleController extends BaseController {
   final ScheduleState scheduleState = ScheduleState();
 
   final GetAllScheduleUsecase getAllScheduleUsecase;
+  final CreateAppointmentUsecase createAppointmentUsecase;
   final GetScheduleResultUsecase getScheduleResultUsecase;
+  final GetTypeCreateAppointmentServiceUsecase
+      getTypeCreateAppointmentServiceUsecase;
 
   @override
   void onInit() async {
@@ -50,8 +61,8 @@ class ScheduleController extends BaseController {
     result.fold(
       (failure) {
         Log.severe("$failure");
-        showError(
-          () => clearError(),
+        authController.showError(
+          () => authController.clearError(),
           failure.message,
           'Quay lại',
         );
@@ -65,6 +76,105 @@ class ScheduleController extends BaseController {
     authController.hideLoading();
   }
 
+  Future<void> createAppointment(BuildContext context) async {
+    authController.showLoading();
+    Log.info("create appointment");
+    var typeService = -1;
+    if (scheduleState.typeExamAtHome.value) {
+      typeService = 1;
+    } else {
+      typeService = 0;
+    }
+    Log.info("============= type exam at home: $typeService");
+    Log.info(
+        "============= type service: ${scheduleState.typeCreateAppointmentService.value}");
+    Log.info("============= user id:${authController.baseState.user.value.id}");
+    Log.info("============= time choose:${scheduleState.timeChoose.value}");
+
+    var check = true;
+    if (scheduleState.dateChoose.value.isEmpty) {
+      check = false;
+      scheduleState.errorChooseDate.value = 'Vui lòng chọn ngày';
+    } else {
+      scheduleState.errorChooseDate.value = '';
+    }
+
+    if (scheduleState.timeChoose.value.isEmpty) {
+      check = false;
+      scheduleState.errorChooseTime.value = 'Vui lòng chọn thời gian';
+    } else {
+      scheduleState.errorChooseTime.value = '';
+    }
+
+    if (check) {
+      List<String> times = scheduleState.timeChoose.value.split(' - ');
+      var dateChoose =
+          '${scheduleState.yearChoose}-${scheduleState.monthChoose}-${scheduleState.dateChoose.value}';
+      Log.info("============= date choose:$dateChoose");
+      final result = await createAppointmentUsecase(
+        CreateAppointmentParams(
+          patientID: authController.authState.user.value.id,
+          serviceID: typeService,
+          serviceTypeID:
+              scheduleState.typeCreateAppointmentService.value.id ?? 0,
+          appointmentDate: dateChoose,
+          startTime: times[0],
+          endTime: times[1],
+        ),
+      );
+      result.fold(
+        (failure) {
+          Log.severe("$failure");
+          authController.showError(
+            () => authController.clearError(),
+            failure.message,
+            'Quay lại',
+          );
+          Log.info(failure.toString());
+          Log.info(failure.description.toString());
+        },
+        (success) async {
+          authController.showWarning(
+            () {
+              Log.info("create success");
+              authController.clearWarning();
+              context.backScreen();
+            },
+            'Đặt lịch khám thành công',
+            'Xác nhận',
+          );
+        },
+      );
+    }
+    authController.hideLoading();
+  }
+
+  Future<void> getTypeCreateAppointmentService() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      authController.showLoading();
+    });
+
+    final result = await getTypeCreateAppointmentServiceUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) async {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scheduleState.listTypeCreateAppointmentService.value = success;
+        });
+      },
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      authController.hideLoading();
+    });
+  }
+
   Future<void> getScheduleResult(String id) async {
     authController.showLoading();
     final result = await getScheduleResultUsecase(id);
@@ -72,7 +182,7 @@ class ScheduleController extends BaseController {
       (failure) {
         Log.severe("$failure");
         authController.showError(
-          () => clearError(),
+          () => authController.clearError(),
           failure.message,
           'Quay lại',
         );
@@ -94,8 +204,8 @@ class ScheduleController extends BaseController {
     result.fold(
       (failure) {
         Log.severe("$failure");
-        showError(
-          () => clearError(),
+        authController.showError(
+          () => authController.clearError(),
           failure.message,
           'Quay lại',
         );

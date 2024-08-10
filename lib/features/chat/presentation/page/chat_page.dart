@@ -3,13 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
-import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 class ChatPage extends BaseStatelessWidget {
@@ -111,7 +109,7 @@ class ChatPage extends BaseStatelessWidget {
               itemCount: ItemPatientModel.list(context).length,
               itemBuilder: (context, index) {
                 final item = ItemPatientModel.list(context)[index];
-                if(index==0) {
+                if (index == 0) {
                   return context.hp(1).sbh;
                 }
                 return GestureDetector(
@@ -119,41 +117,45 @@ class ChatPage extends BaseStatelessWidget {
                     Log.info("click");
                     context.toNamedScreen(AppRoutes.chatDetail);
                   },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(
-                          Assets.png.avatar1,
-                          height: context.hp(7.6),
-                          fit: BoxFit.cover,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.asset(
+                            Assets.png.avatar1,
+                            height: context.hp(7.6),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      context.wp(4).sbw,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Bs. Hà Ngọc Cường',
-                              style: AppTextStyle.bigItemPatientTitle(context),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            context.hp(0.4).sbh,
-                            Text(
-                              'Chào bác sĩ',
-                              style: AppTextStyle.mediumDateTime(context),
-                            ),
-                          ],
+                        context.wp(4).sbw,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Bs. Hà Ngọc Cường',
+                                style:
+                                    AppTextStyle.bigItemPatientTitle(context),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              context.hp(0.4).sbh,
+                              Text(
+                                'Chào bác sĩ',
+                                style: AppTextStyle.mediumDateTime(context),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Text('3 giờ trước'),
-                    ],
-                  ).paddingOnly(bottom: context.hp(1.9)),
+                        Text('3 giờ trước'),
+                      ],
+                    ).paddingOnly(bottom: context.hp(2)),
+                  ),
                 );
               },
             ).paddingSymmetric(

@@ -7,6 +7,7 @@ import 'package:medi_express_patients/features/doctor/domain/entities/informatio
 class DoctorState extends BaseState {
   var search = ''.obs;
   var listAllInformationDoctor = <InformationDoctorEntity>[].obs;
+  var listAllInformationDoctorSearch = <InformationDoctorEntity>[].obs;
   var listSearchDoctor = <DoctorByNameEntity>[].obs;
   var doctorInformationDetail = DoctorInformationDetailEntity(
     information: InformationEntity(),

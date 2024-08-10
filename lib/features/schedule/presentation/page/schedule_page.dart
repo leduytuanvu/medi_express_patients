@@ -53,6 +53,9 @@ class SchedulePage extends StatelessWidget {
                   onTap: () {
                     // context.backScreen();
                     scheduleController.scheduleState.dateChoose.value = '';
+                    scheduleController.scheduleState.timeChoose.value = '';
+                    scheduleController.scheduleState.typeExamAtHome.value =
+                        true;
                     context.toNamedScreen(AppRoutes.bookSchedule);
                   },
                   child: Container(
@@ -235,12 +238,12 @@ class SchedulePage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    item.appointmentDate.toDate(),
+                                    item.appointmentDate!.toDate(),
                                     style: AppTextStyle.titleNumberPatient(
                                         context),
                                   ),
                                   Text(
-                                    'Th ${item.appointmentDate.toMonth()}',
+                                    'Th ${item.appointmentDate!.toMonth()}',
                                     style:
                                         AppTextStyle.bodyNumberPatient(context),
                                   ),
@@ -253,12 +256,12 @@ class SchedulePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item.nameServiceType,
+                                  item.nameServiceType!,
                                   style: AppTextStyle.mediumItemTitle(context),
                                 ),
                                 context.hp(0.3).sbh,
                                 Text(
-                                  '${item.startTime.toHourMinute()} - ${item.appointmentDate.toFormattedDate()}',
+                                  '${item.startTime!.toHourMinute()} - ${item.appointmentDate!.toFormattedDate()}',
                                   style: AppTextStyle.bigHint(context).copyWith(
                                     color: Color(0xFF777F89),
                                   ),
@@ -283,7 +286,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.nameDoctor,
+                              item.nameDoctor!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -301,7 +304,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.phoneDoctor,
+                              item.phoneDoctor!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -319,7 +322,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.nameService,
+                              item.nameService!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -400,12 +403,12 @@ class SchedulePage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    item.appointmentDate.toDate(),
+                                    item.appointmentDate!.toDate(),
                                     style: AppTextStyle.titleNumberPatient(
                                         context),
                                   ),
                                   Text(
-                                    'Th ${item.appointmentDate.toMonth()}',
+                                    'Th ${item.appointmentDate!.toMonth()}',
                                     style:
                                         AppTextStyle.bodyNumberPatient(context),
                                   ),
@@ -418,12 +421,12 @@ class SchedulePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item.nameServiceType,
+                                  item.nameServiceType!,
                                   style: AppTextStyle.mediumItemTitle(context),
                                 ),
                                 context.hp(0.3).sbh,
                                 Text(
-                                  '${item.startTime.toHourMinute()} - ${item.appointmentDate.toFormattedDate()}',
+                                  '${item.startTime!.toHourMinute()} - ${item.appointmentDate!.toFormattedDate()}',
                                   style: AppTextStyle.bigHint(context).copyWith(
                                     color: Color(0xFF777F89),
                                   ),
@@ -447,7 +450,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.nameDoctor,
+                              item.nameDoctor!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -465,7 +468,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.phoneDoctor,
+                              item.phoneDoctor!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -483,7 +486,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.nameService,
+                              item.nameService!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),
@@ -501,7 +504,7 @@ class SchedulePage extends StatelessWidget {
                             ),
                             Spacer(),
                             Text(
-                              item.clinic,
+                              item.address!,
                               style: AppTextStyle.mediumBody(context).copyWith(
                                 fontSize: context.sp(13),
                               ),

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
@@ -33,6 +34,7 @@ import 'package:medi_express_patients/features/auth/domain/usecases/register_use
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 import '../../domain/usecases/login_usecase.dart';
@@ -116,17 +118,31 @@ class AuthController extends BaseController {
       result.fold(
         (failure) {},
         (success) async {
-          final resultGetUserFromLocal =
-              await getUserInformationUsecase(NoParams());
-          resultGetUserFromLocal.fold(
-            (failureGetUserFromServer) {},
-            (successGetUserFromServer) async {
-              setUser(successGetUserFromServer);
-              setAuth(success);
-            },
-          );
+          if (success.accessToken.isNotEmpty) {
+            final resultGetUserFromLocal =
+                await getUserInformationUsecase(NoParams());
+            resultGetUserFromLocal.fold(
+              (failureGetUserFromServer) {
+                setAuth(
+                  AuthEntity(
+                    accessToken: '',
+                    refreshToken: '',
+                    expiresIn: -1,
+                    firstTimeOpenApp: 'false',
+                  ),
+                );
+              },
+              (successGetUserFromServer) async {
+                setUser(successGetUserFromServer);
+                setAuth(success);
+              },
+            );
+          } else {
+            setAuth(success);
+          }
         },
       );
+      await Future.delayed(Duration(seconds: 1));
       FlutterNativeSplash.remove();
     });
   }
@@ -196,16 +212,11 @@ class AuthController extends BaseController {
               final random = Random();
               final verifyCode = 100000 + random.nextInt(900000);
               authState.verifyCode.value = verifyCode;
-              try {
-                NotificationService().showNotification(
-                  title: 'Medi Express Verify Code',
-                  body: '$verifyCode',
-                );
-                Log.info('Notification sent successfully');
-              } catch (e) {
-                Log.severe('Failed to send notification: $e');
-              }
-              authState.verifyCode.value = verifyCode;
+              NotificationService().showNotification(
+                id: verifyCode,
+                title: "Medi Express $verifyCode",
+                body: "Medi Express Verify Code $verifyCode",
+              );
               startTimeout();
             } else {
               showError(
@@ -267,16 +278,11 @@ class AuthController extends BaseController {
               final random = Random();
               final verifyCode = 100000 + random.nextInt(900000);
               authState.verifyCode.value = verifyCode;
-              try {
-                NotificationService().showNotification(
-                  title: 'Medi Express Verify Code',
-                  body: '$verifyCode',
-                );
-                Log.info('Notification sent successfully');
-              } catch (e) {
-                Log.severe('Failed to send notification: $e');
-              }
-              authState.verifyCode.value = verifyCode;
+              NotificationService().showNotification(
+                id: verifyCode,
+                title: 'Medi Express $verifyCode',
+                body: 'Medi Express Verify Code $verifyCode',
+              );
               startTimeout();
             }
           },
@@ -383,8 +389,10 @@ class AuthController extends BaseController {
       authState.errorVerifyCodeForgotPassword.value = '';
       authState.errorVerifyCodeRegister.value = '';
       NotificationService().showNotification(
-          title: 'Medi Express Verify Code', body: '$verifyCode');
-      authState.verifyCode.value = verifyCode;
+        id: verifyCode,
+        title: 'Medi Express $verifyCode',
+        body: 'Medi Express Verify Code $verifyCode',
+      );
       startTimeout();
     } catch (e) {
       showError(
@@ -514,6 +522,7 @@ class AuthController extends BaseController {
             },
             (successGetUserInformation) {
               setUser(successGetUserInformation);
+              successLogin.firstTimeOpenApp = "false";
               setAuth(successLogin);
             },
           );
@@ -527,7 +536,7 @@ class AuthController extends BaseController {
     showConfirm(() async {
       clearConfirm();
       showLoading();
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
       var auth = AuthEntity(
         accessToken: '',
         expiresIn: -1,
@@ -548,6 +557,8 @@ class AuthController extends BaseController {
         },
         (success) {
           setAuth(auth);
+          final MainController mainController = Get.find<MainController>();
+          mainController.changePage(0);
         },
       );
 

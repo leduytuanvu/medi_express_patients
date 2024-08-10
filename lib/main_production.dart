@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,8 @@ void main() {
   runZonedGuarded<Future<void>>(() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    await NotificationService().initNotification();
+    final notificationService = NotificationService();
+    await notificationService.initNotification();
     // await Firebase.initializeApp();
 
     BindingBase.debugZoneErrorsAreFatal = true;

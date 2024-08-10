@@ -8,7 +8,7 @@ class AuthEntity {
     this.accessToken = '',
     this.refreshToken = '',
     this.expiresIn = -1,
-    this.firstTimeOpenApp = 'false',
+    this.firstTimeOpenApp = 'true',
   });
 
   @override

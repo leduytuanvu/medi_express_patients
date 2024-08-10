@@ -17,8 +17,10 @@ import 'package:medi_express_patients/features/home/domain/usecases/get_all_heal
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/create_appointment_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_type_create_appointment_service_usecase.dart';
 import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 
@@ -58,6 +60,9 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<ScheduleController>(
             init: ScheduleController(
                 getAllScheduleUsecase: Get.find<GetAllScheduleUsecase>(),
+                createAppointmentUsecase: Get.find<CreateAppointmentUsecase>(),
+                getTypeCreateAppointmentServiceUsecase:
+                    Get.find<GetTypeCreateAppointmentServiceUsecase>(),
                 getScheduleResultUsecase: Get.find<GetScheduleResultUsecase>(),
                 errorHandlingService: ErrorHandlingService()),
             builder: (controller) => SchedulePage(),

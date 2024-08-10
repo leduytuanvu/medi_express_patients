@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
+import 'package:medi_express_patients/core/service/error_handling_service.dart';
+import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
+import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
+import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
-import 'package:medi_express_patients/core/service/error_handling_service.dart';
-import 'package:medi_express_patients/features/main/presentation/state/main_state.dart';
 
 class AccountController extends BaseController {
   AccountController({
@@ -13,6 +14,7 @@ class AccountController extends BaseController {
   }) : super(errorHandlingService);
 
   final AccountState accountState = AccountState();
+  final AuthController authController = Get.find<AuthController>();
 
   // final phoneController = TextEditingController();
   // final verifyCodeController = TextEditingController();
@@ -35,39 +37,143 @@ class AccountController extends BaseController {
   @override
   void onInit() {
     // TODO: implement onInit
+    authController.fullNameController.text =
+        authController.baseState.user.value.name ?? '';
+    authController.emailController.text =
+        authController.baseState.user.value.email ?? '';
+    authController.birthdateController.text =
+        authController.baseState.user.value.birthDate ?? '';
+    authController.genderController.text =
+        authController.baseState.user.value.gender.toString() ?? '';
+    authController.cityController.text =
+        authController.baseState.user.value.city ?? '';
+    authController.districtController.text =
+        authController.baseState.user.value.district ?? '';
+    authController.wardController.text =
+        authController.baseState.user.value.ward ?? '';
+    authController.addressController.text =
+        authController.baseState.user.value.street ?? '';
+    authController.bhytController.text =
+        authController.baseState.user.value.bhytCode ?? '';
+    Log.info("++++++ ${authController.baseState.user.value.toString()}");
     super.onInit();
     Log.info("init account controller");
   }
 
+  Future<void> init() async {
+    showLoading();
+    final result = await authController.getAllCityUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        showError(
+          () => clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        accountState.listAllCity.value = success;
+
+        clearError();
+      },
+    );
+    hideLoading();
+  }
+
+  Future<void> getAllCity() async {
+    showLoading();
+    final result = await authController.getAllCityUsecase(NoParams());
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        showError(
+          () => clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        accountState.listAllCity.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    hideLoading();
+  }
+
+  Future<void> getDistrictByCity(int cityId) async {
+    showLoading();
+    final result = await authController
+        .getDistrictByCityUsecase(GetDistrictByCityParams(cityId: cityId));
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        showError(
+          () => clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        accountState.listAllDistrict.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    hideLoading();
+  }
+
+  Future<void> getWardByDistrict(int districtId) async {
+    showLoading();
+    final result = await authController.getWardByDistrictUsecase(
+        GetWardByDistrictParams(districtId: districtId));
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        showError(
+          () => clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        accountState.listAllWard.value = success;
+        Log.severe("$success");
+        clearError();
+      },
+    );
+    hideLoading();
+  }
+
   Future<void> initial() async {
-    final AuthController authController = Get.find<AuthController>();
     var user = authController.baseState.user.value;
-    if(user.name!.isNotEmpty) {
+    if (user.name!.isNotEmpty) {
       authController.fullNameController.text = user.name!;
     }
-    if(user.email!.isNotEmpty) {
+    if (user.email!.isNotEmpty) {
       authController.emailController.text = user.email!;
     }
-    if(user.birthDate!.isNotEmpty) {
+    if (user.birthDate!.isNotEmpty) {
       authController.birthdateController.text = user.birthDate!;
     }
-    if(user.birthDate!.isNotEmpty) {
+    if (user.birthDate!.isNotEmpty) {
       authController.birthdateController.text = user.birthDate!;
     }
     authController.genderController.text = user.gender.toString()!;
-    if(user.city!.isNotEmpty) {
+    if (user.city!.isNotEmpty) {
       authController.cityController.text = user.city!;
     }
-    if(user.district!.isNotEmpty) {
+    if (user.district!.isNotEmpty) {
       authController.districtController.text = user.district!;
     }
-    if(user.ward!.isNotEmpty) {
+    if (user.ward!.isNotEmpty) {
       authController.wardController.text = user.ward!;
     }
-    if(user.street!.isNotEmpty) {
+    if (user.street!.isNotEmpty) {
       authController.addressController.text = user.street!;
     }
-    if(user.bhytCode!.isNotEmpty) {
+    if (user.bhytCode!.isNotEmpty) {
       authController.bhytController.text = user.bhytCode!;
     }
   }

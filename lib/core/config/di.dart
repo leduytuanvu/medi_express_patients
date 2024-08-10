@@ -22,7 +22,6 @@ import 'package:medi_express_patients/features/auth/domain/usecases/login_usecas
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/local/doctor_local_datasource.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_api_service.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_remote_datasource.dart';
@@ -31,22 +30,22 @@ import 'package:medi_express_patients/features/doctor/domain/repositories/doctor
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
-import 'package:medi_express_patients/features/doctor/presentation/controller/doctor_controller.dart';
 import 'package:medi_express_patients/features/home/data/datasources/local/home_local_datasource.dart';
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_api_service.dart';
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_remote_datasource.dart';
 import 'package:medi_express_patients/features/home/data/repositories/home_repository_impl.dart';
 import 'package:medi_express_patients/features/home/domain/repositories/home_repository.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
-import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/local/schedule_local_datasource.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/remote/schedule_api_service.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/remote/schedule_remote_datasource.dart';
 import 'package:medi_express_patients/features/schedule/data/repositories/schedule_repository_impl.dart';
 import 'package:medi_express_patients/features/schedule/domain/repositories/schedule_repository.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/create_appointment_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
+import 'package:medi_express_patients/features/schedule/domain/usecases/get_type_create_appointment_service_usecase.dart';
 
 Future<void> initDI(String environmentName) async {
   Get.put<ErrorHandlingService>(ErrorHandlingService());
@@ -123,8 +122,7 @@ Future<void> initDI(String environmentName) async {
       () => GetAllInformationDoctorUsecase(Get.find<DoctorRepository>()));
   Get.lazyPut(
       () => GetDoctorInformationDetailUsecase(Get.find<DoctorRepository>()));
-  Get.lazyPut(
-          () => GetDoctorByNameUsecase(Get.find<DoctorRepository>()));
+  Get.lazyPut(() => GetDoctorByNameUsecase(Get.find<DoctorRepository>()));
 
   /// Schedule
   Get.lazyPut(() => ScheduleApiService(Get.find<ApiClient>().client));
@@ -142,6 +140,9 @@ Future<void> initDI(String environmentName) async {
       ));
   Get.lazyPut(() => GetAllScheduleUsecase(Get.find<ScheduleRepository>()));
   Get.lazyPut(() => GetScheduleResultUsecase(Get.find<ScheduleRepository>()));
+  Get.lazyPut(() => CreateAppointmentUsecase(Get.find<ScheduleRepository>()));
+  Get.lazyPut(() =>
+      GetTypeCreateAppointmentServiceUsecase(Get.find<ScheduleRepository>()));
 
   // Home
   Get.lazyPut(() => HomeApiService(Get.find<ApiClient>().client));

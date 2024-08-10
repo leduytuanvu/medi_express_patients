@@ -49,7 +49,7 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      Log.info("Auth wrapper built");
+      Log.info("Auth wrapper built: ${authController.baseState.auth.value}");
       if (authController.baseState.auth.value.firstTimeOpenApp == 'true' ||
           authController.baseState.auth.value.firstTimeOpenApp.isEmpty) {
         Log.info(

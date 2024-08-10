@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/exception/exceptions.dart';
 import 'package:medi_express_patients/core/network/api_response.dart';
@@ -12,6 +10,7 @@ import 'package:medi_express_patients/features/auth/domain/entities/forgot_passw
 import 'package:medi_express_patients/features/auth/domain/entities/register_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
+
 import '../../domain/entities/auth_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/local/auth_local_datasource.dart';
@@ -67,11 +66,6 @@ class AuthRepositoryImpl implements AuthRepository {
     return executeWithHandling(() async {
       final apiResponse = await remoteDatasource.getUserInformation();
       if (apiResponse.code == 1) {
-        final userJson = apiResponse.data![0].toJson();
-        await localDatasource.save(
-          Constants.keyFirstTimeOpenApp,
-          jsonEncode(userJson),
-        );
         return apiResponse.data![0].toEntity();
       } else {
         throw ApiErrorException(
@@ -218,12 +212,14 @@ class AuthRepositoryImpl implements AuthRepository {
       final expireIn = await localDatasource.get(Constants.keyExpiresIn);
       final firstTimeOpenApp =
           await localDatasource.get(Constants.keyFirstTimeOpenApp);
+      Log.info("mmmmmmmmmmmmmmmmmmmmmm: ${firstTimeOpenApp}");
       final auth = AuthEntity(
         accessToken: accessToken ?? '',
         refreshToken: refreshToken ?? '',
         expiresIn: int.parse(expireIn ?? '-1'),
         firstTimeOpenApp: firstTimeOpenApp ?? 'true',
       );
+      Log.info("bbbbbbbbbbbbbbbbbbbbbbbbb: ${auth.toString()}");
       return auth;
     }, 'AuthRepositoryImpl/getAuthFromLocal');
   }

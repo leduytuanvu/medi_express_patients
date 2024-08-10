@@ -16,9 +16,9 @@ class ScheduleDetailPage extends BaseStatelessWidget {
   Widget buildContent(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>;
     final ScheduleEntity schedule = arguments['schedule'] as ScheduleEntity;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scheduleController.getScheduleResult(schedule.appointmentId.toString());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   scheduleController.getScheduleResult(schedule.appointmentId.toString());
+    // });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -92,11 +92,11 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              schedule.appointmentDate.toDate(),
+                              schedule.appointmentDate!.toDate(),
                               style: AppTextStyle.titleNumberPatient(context),
                             ),
                             Text(
-                              'Th ${schedule.appointmentDate.toMonth()}',
+                              'Th ${schedule.appointmentDate!.toMonth()}',
                               style: AppTextStyle.bodyNumberPatient(context),
                             ),
                           ],
@@ -108,12 +108,12 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            schedule.nameServiceType,
+                            schedule.nameServiceType!,
                             style: AppTextStyle.mediumItemTitle(context),
                           ),
                           context.hp(0.3).sbh,
                           Text(
-                            '${schedule.startTime.toHourMinute()} - ${schedule.appointmentDate.toFormattedDate()}',
+                            '${schedule.startTime!.toHourMinute()} - ${schedule.appointmentDate!.toFormattedDate()}',
                             style: AppTextStyle.bigHint(context).copyWith(
                               color: Color(0xFF777F89),
                             ),
@@ -137,7 +137,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        schedule.nameDoctor,
+                        schedule.nameDoctor!,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -155,7 +155,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        schedule.phoneDoctor,
+                        schedule.phoneDoctor!,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -173,7 +173,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        schedule.nameService,
+                        schedule.nameService!,
                         style: AppTextStyle.mediumBody(context).copyWith(
                           fontSize: context.sp(13),
                         ),
@@ -182,6 +182,8 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                   ),
                   context.hp(0.5).sbh,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Phòng khám',
@@ -190,10 +192,16 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        schedule.clinic,
-                        style: AppTextStyle.mediumBody(context).copyWith(
-                          fontSize: context.sp(13),
+                      Expanded(
+                        flex: 8,
+                        child: Text(
+                          schedule.address!,
+                          style: AppTextStyle.mediumBody(context).copyWith(
+                            fontSize: context.sp(13),
+                          ),
+                          textAlign: TextAlign.right,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

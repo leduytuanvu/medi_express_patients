@@ -8,6 +8,7 @@ import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
+import 'package:medi_express_patients/features/schedule/domain/entities/type_create_appointment_service_entity.dart';
 import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 
 class BookSchedulePage extends BaseStatelessWidget {
@@ -17,7 +18,7 @@ class BookSchedulePage extends BaseStatelessWidget {
   @override
   Widget buildContent(BuildContext context) {
     DateTime selectedDate = DateTime.now();
-
+    scheduleController.getTypeCreateAppointmentService();
     void _selectMonthYear(BuildContext context) async {
       showDialog(
         context: context,
@@ -168,46 +169,60 @@ class BookSchedulePage extends BaseStatelessWidget {
               horizontal: context.wp(4),
             ),
             context.hp(1.8).sbh,
-            DropdownButtonFormField<String>(
-              value: 'Sức khoẻ tổng quát',
-              hint: Text(''),
-              items: ['Sức khoẻ tổng quát', 'Tai mũi họng', 'Chân vai gáy']
-                  .map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              style: AppTextStyle.mediumBody(context),
-              onChanged: (String? newValue) {},
-              decoration: InputDecoration(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Color(0xFFE3E8EF), // Border color
-                    width: 1, // Border width
+            Obx(() {
+              return DropdownButtonFormField<
+                  TypeCreateAppointmentServiceEntity>(
+                value: scheduleController.scheduleState
+                        .listTypeCreateAppointmentService.isNotEmpty
+                    ? scheduleController
+                        .scheduleState.listTypeCreateAppointmentService.first
+                    : null,
+                hint: Text('Chọn dịch vụ'),
+                items: scheduleController
+                    .scheduleState.listTypeCreateAppointmentService
+                    .map((service) {
+                  return DropdownMenuItem<TypeCreateAppointmentServiceEntity>(
+                    value: service,
+                    child: Text(service.serviceName!),
+                  );
+                }).toList(),
+                style: AppTextStyle.mediumBody(context),
+                onChanged: (TypeCreateAppointmentServiceEntity? newValue) {
+                  if (newValue != null) {
+                    // Handle the selection here
+                    print('Selected service: ${newValue.serviceName}');
+                  }
+                },
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Color(0xFFE3E8EF), // Border color
+                      width: 1, // Border width
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Color(0xFFE3E8EF), // Border color when enabled
+                      width: 1, // Border width when enabled
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Color(0xFFE3E8EF), // Border color when focused
+                      width: 1, // Border width when focused
+                    ),
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Color(0xFFE3E8EF), // Border color when enabled
-                    width: 1, // Border width when enabled
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: Color(0xFFE3E8EF), // Border color when focused
-                    width: 1, // Border width when focused
-                  ),
-                ),
-              ),
-            ).paddingSymmetric(
-              horizontal: context.wp(4),
-            ),
+              ).paddingSymmetric(
+                horizontal: context.wp(4),
+              );
+            }),
+
             context.hp(2.2).sbh,
             Divider(
               thickness: context.hp(0.9),
@@ -220,6 +235,7 @@ class BookSchedulePage extends BaseStatelessWidget {
             ).paddingSymmetric(
               horizontal: context.wp(4),
             ),
+
             context.hp(1.8).sbh,
             GestureDetector(
               onTap: () {
@@ -293,6 +309,20 @@ class BookSchedulePage extends BaseStatelessWidget {
                 selectedDate: scheduleController.scheduleState.dateChoose.value,
                 scheduleController: scheduleController,
               );
+            }),
+            Obx(() {
+              if (scheduleController.scheduleState.errorChooseDate.isNotEmpty) {
+                return Text(
+                  scheduleController.scheduleState.errorChooseDate.value,
+                  style: AppTextStyle.mediumError(context),
+                ).paddingOnly(
+                  left: context.wp(4),
+                  right: context.wp(4),
+                  top: context.hp(1),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
             }),
 
             context.hp(1.8).sbh,
@@ -368,6 +398,20 @@ class BookSchedulePage extends BaseStatelessWidget {
                 timeChoose: scheduleController.scheduleState.timeChoose.value,
               );
             }),
+            Obx(() {
+              if (scheduleController.scheduleState.errorChooseTime.isNotEmpty) {
+                return Text(
+                  scheduleController.scheduleState.errorChooseTime.value,
+                  style: AppTextStyle.mediumError(context),
+                ).paddingOnly(
+                  left: context.wp(4),
+                  right: context.wp(4),
+                  top: context.hp(1),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
             context.hp(1).sbh,
             CustomButtonWidget(
               height: context.hp(6),
@@ -376,7 +420,7 @@ class BookSchedulePage extends BaseStatelessWidget {
               onPressed: () async {
                 // Handle button press
                 FocusScope.of(context).unfocus();
-                authController.enterInformation(context);
+                scheduleController.createAppointment(context);
               },
               color: const Color(0xffCF4375),
               titleSize: context.sp(14),
@@ -430,8 +474,14 @@ class TimeSlotPicker extends StatelessWidget {
               bool isPast = isTimeSlotPast(now, morningSlots[index]);
               return GestureDetector(
                 onTap: () {
-                  scheduleController.scheduleState.timeChoose.value =
-                      morningSlots[index];
+                  if (now.day <
+                      int.parse(
+                          scheduleController.scheduleState.dateChoose.value)) {
+                    scheduleController.scheduleState.timeChoose.value =
+                        morningSlots[index];
+                  } else {
+                    Log.info("${now.hour}, ${morningSlots[index]}");
+                  }
                 },
                 child: Container(
                   height: context.hp(4),

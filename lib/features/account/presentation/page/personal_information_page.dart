@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
@@ -104,7 +103,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                         Log.info(gender ?? '');
                         authController.genderController.text = gender ?? '';
                         authController.authState.genderId.value =
-                        gender == 'Nam' ? 1 : 0;
+                            gender == 'Nam' ? 1 : 0;
                       },
                       errorText: authController.authState.errorGender,
                     ),
