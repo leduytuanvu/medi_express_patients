@@ -25,6 +25,7 @@ class BookSchedulePage extends BaseStatelessWidget {
         builder: (BuildContext context) {
           return MonthYearPicker(
             initialDate: selectedDate,
+            scheduleController: scheduleController,
             onDateChanged: (newDate) {
               selectedDate = newDate;
               final String formattedDate =
@@ -189,6 +190,8 @@ class BookSchedulePage extends BaseStatelessWidget {
                 style: AppTextStyle.mediumBody(context),
                 onChanged: (TypeCreateAppointmentServiceEntity? newValue) {
                   if (newValue != null) {
+                    scheduleController.scheduleState
+                        .typeCreateAppointmentService.value = newValue;
                     // Handle the selection here
                     print('Selected service: ${newValue.serviceName}');
                   }
@@ -222,7 +225,6 @@ class BookSchedulePage extends BaseStatelessWidget {
                 horizontal: context.wp(4),
               );
             }),
-
             context.hp(2.2).sbh,
             Divider(
               thickness: context.hp(0.9),
@@ -235,7 +237,6 @@ class BookSchedulePage extends BaseStatelessWidget {
             ).paddingSymmetric(
               horizontal: context.wp(4),
             ),
-
             context.hp(1.8).sbh,
             GestureDetector(
               onTap: () {
@@ -260,43 +261,6 @@ class BookSchedulePage extends BaseStatelessWidget {
               ]).paddingSymmetric(horizontal: context.wp(4)),
             ),
             context.hp(1.6).sbh,
-            // Container(
-            //   height: context.hp(9),
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal, // Scroll horizontally
-            //     itemCount: 10, // Number of items in the list
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Container(
-            //         height: context.hp(7.8),
-            //         width: context.wp(14),
-            //         margin: EdgeInsets.only(
-            //           left: index == 0 ? context.wp(4) : context.wp(0),
-            //           right: index == 9 ? context.wp(4) : context.wp(2),
-            //         ), // Width of each item
-            //         // margin: EdgeInsets.symmetric(horizontal: 8.0),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(8.0),
-            //           border: Border.all(
-            //             color: Color(0xFFEEF2F6), // Border color
-            //             width: 1.0, // Border width
-            //           ),
-            //         ),
-            //         child: Center(
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.start,
-            //             crossAxisAlignment: CrossAxisAlignment.center,
-            //             children: [
-            //               context.hp(0.7).sbh,
-            //               Text('T2', style: AppTextStyle.smallBody(context)),
-            //               context.hp(0.8).sbh,
-            //               Text('13', style: AppTextStyle.bodyH1(context)),
-            //             ],
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
             Obx(() {
               DateTime now = DateTime.now();
               int dateChoose = now.day;
@@ -324,79 +288,16 @@ class BookSchedulePage extends BaseStatelessWidget {
                 return SizedBox.shrink();
               }
             }),
-
             context.hp(1.8).sbh,
             Text('Chọn giờ', style: AppTextStyle.mediumBody(context))
                 .paddingOnly(left: context.wp(4)),
             context.hp(1.6).sbh,
-            // Container(
-            //   height: context.hp(6),
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal, // Scroll horizontally
-            //     itemCount: 6, // Number of items in the list
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Container(
-            //         height: context.hp(4),
-            //         width: context.wp(34),
-            //         margin: EdgeInsets.only(
-            //           left: index == 0 ? context.wp(4) : context.wp(0),
-            //           right: index == 5 ? context.wp(4) : context.wp(2),
-            //         ), // Width of each item
-            //         // margin: EdgeInsets.symmetric(horizontal: 8.0),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(8.0),
-            //           border: Border.all(
-            //             color: Color(0xFFEEF2F6), // Border color
-            //             width: 1.0, // Border width
-            //           ),
-            //         ),
-            //         child: Center(
-            //           child: Text(
-            //             '07:00 - 08:00',
-            //             style: AppTextStyle.mediumBody(context),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
-            // context.hp(1).sbh,
-            // Container(
-            //   height: context.hp(6),
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal, // Scroll horizontally
-            //     itemCount: 6, // Number of items in the list
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Container(
-            //         height: context.hp(4),
-            //         width: context.wp(34),
-            //         margin: EdgeInsets.only(
-            //           left: index == 0 ? context.wp(4) : context.wp(0),
-            //           right: index == 5 ? context.wp(4) : context.wp(2),
-            //         ), // Width of each item
-            //         // margin: EdgeInsets.symmetric(horizontal: 8.0),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(8.0),
-            //           border: Border.all(
-            //             color: Color(0xFFEEF2F6), // Border color
-            //             width: 1.0, // Border width
-            //           ),
-            //         ),
-            //         child: Center(
-            //           child: Text(
-            //             '07:00 - 08:00',
-            //             style: AppTextStyle.mediumBody(context),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
             Obx(() {
               return TimeSlotPicker(
-                scheduleController: scheduleController,
-                timeChoose: scheduleController.scheduleState.timeChoose.value,
-              );
+                  scheduleController: scheduleController,
+                  timeChoose: scheduleController.scheduleState.timeChoose.value,
+                  dateChoose:
+                      scheduleController.scheduleState.dateChoose.value);
             }),
             Obx(() {
               if (scheduleController.scheduleState.errorChooseTime.isNotEmpty) {
@@ -437,14 +338,25 @@ class BookSchedulePage extends BaseStatelessWidget {
 class TimeSlotPicker extends StatelessWidget {
   final ScheduleController scheduleController;
   final String timeChoose;
+  final String dateChoose;
+
   TimeSlotPicker({
     required this.scheduleController,
     required this.timeChoose,
+    required this.dateChoose,
   });
+
   @override
   Widget build(BuildContext context) {
     // Get the current time plus 30 minutes
     DateTime now = DateTime.now().add(Duration(minutes: 30));
+
+    // Combine the selected date with the selected time to create a DateTime object
+    DateTime selectedDate = DateTime(
+      int.parse(scheduleController.scheduleState.yearChoose.value),
+      int.parse(scheduleController.scheduleState.monthChoose.value),
+      int.parse(dateChoose),
+    );
 
     // Define the morning and afternoon time slots
     List<String> morningSlots = [
@@ -459,127 +371,327 @@ class TimeSlotPicker extends StatelessWidget {
       '14:00 - 15:00',
       '15:00 - 16:00',
       '16:00 - 17:00',
-      '17:00 - 18:00',
-      '18:00 - 19:00',
     ];
 
     return Column(
       children: [
-        Container(
-          height: context.hp(6),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: morningSlots.length,
-            itemBuilder: (BuildContext context, int index) {
-              bool isPast = isTimeSlotPast(now, morningSlots[index]);
-              return GestureDetector(
-                onTap: () {
-                  if (now.day <
-                      int.parse(
-                          scheduleController.scheduleState.dateChoose.value)) {
-                    scheduleController.scheduleState.timeChoose.value =
-                        morningSlots[index];
-                  } else {
-                    Log.info("${now.hour}, ${morningSlots[index]}");
-                  }
-                },
-                child: Container(
-                  height: context.hp(4),
-                  width: context.wp(34),
-                  margin: EdgeInsets.only(
-                    left: index == 0 ? context.wp(4) : context.wp(0),
-                    right: index == morningSlots.length - 1
-                        ? context.wp(4)
-                        : context.wp(2),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                      color: timeChoose == morningSlots[index]
-                          ? Color(0xFF005495)
-                          : Color(0xFFEEF2F6), // Border color
-                      width: 1.0, // Border width
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      morningSlots[index],
-                      style: AppTextStyle.mediumBody(context).copyWith(
-                        color: isPast
-                            ? Colors.grey
-                            : Colors.black, // Disable past times
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
+        _buildTimeSlotList(context, morningSlots, selectedDate, now),
         SizedBox(height: context.hp(1)),
-        Container(
-          height: context.hp(6),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: afternoonSlots.length,
-            itemBuilder: (BuildContext context, int index) {
-              bool isPast = isTimeSlotPast(now, afternoonSlots[index]);
-
-              return GestureDetector(
-                onTap: () {
-                  scheduleController.scheduleState.timeChoose.value =
-                      afternoonSlots[index];
-                },
-                child: Container(
-                  height: context.hp(4),
-                  width: context.wp(34),
-                  margin: EdgeInsets.only(
-                    left: index == 0 ? context.wp(4) : context.wp(0),
-                    right: index == afternoonSlots.length - 1
-                        ? context.wp(4)
-                        : context.wp(2),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                      color: timeChoose == afternoonSlots[index]
-                          ? Color(0xFF005495)
-                          : Color(0xFFEEF2F6), // Border color
-                      width: 1.0, // Border width
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      afternoonSlots[index],
-                      style: AppTextStyle.mediumBody(context).copyWith(
-                        color: isPast
-                            ? Colors.grey
-                            : Colors.black, // Disable past times
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
+        _buildTimeSlotList(context, afternoonSlots, selectedDate, now),
       ],
     );
   }
 
-  bool isTimeSlotPast(DateTime now, String timeSlot) {
+  Widget _buildTimeSlotList(BuildContext context, List<String> slots,
+      DateTime selectedDate, DateTime now) {
+    return Container(
+      height: context.hp(6),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: slots.length,
+        itemBuilder: (BuildContext context, int index) {
+          bool isDisabled = isTimeSlotDisabled(now, selectedDate, slots[index]);
+
+          return GestureDetector(
+            onTap: () {
+              if (!isDisabled) {
+                scheduleController.scheduleState.timeChoose.value =
+                    slots[index];
+              }
+            },
+            child: Container(
+              height: context.hp(4),
+              width: context.wp(34),
+              margin: EdgeInsets.only(
+                left: index == 0 ? context.wp(4) : context.wp(0),
+                right:
+                    index == slots.length - 1 ? context.wp(4) : context.wp(2),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(
+                  color: timeChoose == slots[index] && !isDisabled
+                      ? Color(0xFF005495)
+                      : Color(0xFFEEF2F6), // Border color
+                  width: 1.0, // Border width
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  slots[index],
+                  style: AppTextStyle.mediumBody(context).copyWith(
+                    color: isDisabled
+                        ? Colors.grey
+                        : Colors.black, // Disable past times
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  bool isTimeSlotDisabled(
+      DateTime now, DateTime selectedDate, String timeSlot) {
     List<String> times = timeSlot.split(' - ');
     DateTime slotStartTime = DateFormat('HH:mm').parse(times[0]);
     DateTime slotStartDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
       slotStartTime.hour,
       slotStartTime.minute,
     );
-    return now.isAfter(slotStartDateTime);
+
+    // Check if the selected date is the same as today
+    bool isSameDay = selectedDate.year == now.year &&
+        selectedDate.month == now.month &&
+        selectedDate.day == now.day;
+
+    // If the selected date is today, disable slots in the past
+    if (isSameDay) {
+      return now.isAfter(slotStartDateTime);
+    }
+
+    // If the selected date is in the future, all slots are enabled
+    return false;
   }
 }
+
+// class TimeSlotPicker extends StatelessWidget {
+//   final ScheduleController scheduleController;
+//   final String timeChoose;
+//   TimeSlotPicker({
+//     required this.scheduleController,
+//     required this.timeChoose,
+//   });
+//   @override
+//   Widget build(BuildContext context) {
+//     // Get the current time plus 30 minutes
+//     DateTime now = DateTime.now().add(Duration(minutes: 30));
+//
+//     // Define the morning and afternoon time slots
+//     List<String> morningSlots = [
+//       '08:00 - 09:00',
+//       '09:00 - 10:00',
+//       '10:00 - 11:00',
+//       '11:00 - 12:00',
+//     ];
+//
+//     List<String> afternoonSlots = [
+//       '13:00 - 14:00',
+//       '14:00 - 15:00',
+//       '15:00 - 16:00',
+//       '16:00 - 17:00',
+//       '17:00 - 18:00',
+//       '18:00 - 19:00',
+//     ];
+//
+//     return Column(
+//       children: [
+//         Container(
+//           height: context.hp(6),
+//           child: ListView.builder(
+//             scrollDirection: Axis.horizontal,
+//             itemCount: morningSlots.length,
+//             itemBuilder: (BuildContext context, int index) {
+//               bool isPast = isTimeSlotPast(now, morningSlots[index]);
+//               return GestureDetector(
+//                 onTap: () {
+//                   if (now.day <
+//                       int.parse(
+//                           scheduleController.scheduleState.dateChoose.value)) {
+//                     scheduleController.scheduleState.timeChoose.value =
+//                         morningSlots[index];
+//                   } else {
+//                     Log.info("${now.hour}, ${morningSlots[index]}");
+//                   }
+//                 },
+//                 child: Container(
+//                   height: context.hp(4),
+//                   width: context.wp(34),
+//                   margin: EdgeInsets.only(
+//                     left: index == 0 ? context.wp(4) : context.wp(0),
+//                     right: index == morningSlots.length - 1
+//                         ? context.wp(4)
+//                         : context.wp(2),
+//                   ),
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(8.0),
+//                     border: Border.all(
+//                       color: timeChoose == morningSlots[index]
+//                           ? Color(0xFF005495)
+//                           : Color(0xFFEEF2F6), // Border color
+//                       width: 1.0, // Border width
+//                     ),
+//                   ),
+//                   child: Center(
+//                     child: Text(
+//                       morningSlots[index],
+//                       style: AppTextStyle.mediumBody(context).copyWith(
+//                         color: isPast
+//                             ? Colors.grey
+//                             : Colors.black, // Disable past times
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//         SizedBox(height: context.hp(1)),
+//         Container(
+//           height: context.hp(6),
+//           child: ListView.builder(
+//             scrollDirection: Axis.horizontal,
+//             itemCount: afternoonSlots.length,
+//             itemBuilder: (BuildContext context, int index) {
+//               bool isPast = isTimeSlotPast(now, afternoonSlots[index]);
+//
+//               return GestureDetector(
+//                 onTap: () {
+//                   scheduleController.scheduleState.timeChoose.value =
+//                       afternoonSlots[index];
+//                 },
+//                 child: Container(
+//                   height: context.hp(4),
+//                   width: context.wp(34),
+//                   margin: EdgeInsets.only(
+//                     left: index == 0 ? context.wp(4) : context.wp(0),
+//                     right: index == afternoonSlots.length - 1
+//                         ? context.wp(4)
+//                         : context.wp(2),
+//                   ),
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(8.0),
+//                     border: Border.all(
+//                       color: timeChoose == afternoonSlots[index]
+//                           ? Color(0xFF005495)
+//                           : Color(0xFFEEF2F6), // Border color
+//                       width: 1.0, // Border width
+//                     ),
+//                   ),
+//                   child: Center(
+//                     child: Text(
+//                       afternoonSlots[index],
+//                       style: AppTextStyle.mediumBody(context).copyWith(
+//                         color: isPast
+//                             ? Colors.grey
+//                             : Colors.black, // Disable past times
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   bool isTimeSlotPast(DateTime now, String timeSlot) {
+//     List<String> times = timeSlot.split(' - ');
+//     DateTime slotStartTime = DateFormat('HH:mm').parse(times[0]);
+//     DateTime slotStartDateTime = DateTime(
+//       now.year,
+//       now.month,
+//       now.day,
+//       slotStartTime.hour,
+//       slotStartTime.minute,
+//     );
+//     return now.isAfter(slotStartDateTime);
+//   }
+// }
+
+// class DaysList extends StatelessWidget {
+//   final DateTime selectedMonth;
+//   final ScheduleController scheduleController;
+//   final String selectedDate;
+//
+//   DaysList({
+//     required this.selectedMonth,
+//     required this.scheduleController,
+//     required this.selectedDate,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // final ScheduleController scheduleController =
+//     //     Get.find<ScheduleController>();
+//     // Get the selected date
+//     int currentDay = selectedMonth.day;
+//     int lastDayOfMonth =
+//         DateTime(selectedMonth.year, selectedMonth.month + 1, 0).day;
+//
+//     // Create a list of days from the current day to the end of the month
+//     List<int> days = List<int>.generate(
+//         lastDayOfMonth - currentDay + 1, (i) => currentDay + i);
+//
+//     return Container(
+//       height: MediaQuery.of(context).size.height * 0.09,
+//       child: ListView.builder(
+//         scrollDirection: Axis.horizontal,
+//         itemCount: days.length,
+//         itemBuilder: (BuildContext context, int index) {
+//           int day = days[index];
+//
+//           return GestureDetector(
+//             onTap: () {
+//               Log.info("date choose: $day");
+//               scheduleController.scheduleState.dateChoose.value =
+//                   day.toString();
+//             },
+//             child: Container(
+//               height: MediaQuery.of(context).size.height * 0.078,
+//               width: MediaQuery.of(context).size.width * 0.14,
+//               margin: EdgeInsets.only(
+//                 left: index == 0
+//                     ? MediaQuery.of(context).size.width * 0.04
+//                     : MediaQuery.of(context).size.width * 0,
+//                 right: index == days.length - 1
+//                     ? MediaQuery.of(context).size.width * 0.04
+//                     : MediaQuery.of(context).size.width * 0.02,
+//               ),
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(8.0),
+//                 border: Border.all(
+//                   color: scheduleController.scheduleState.dateChoose.value ==
+//                           day.toString()
+//                       ? Color(0xFF005495)
+//                       : Color(0xFFEEF2F6), // Border color
+//                   width: 1.0, // Border width
+//                 ),
+//               ),
+//               child: Center(
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+//                     Text(
+//                       DateFormat.E('vi_VN').format(DateTime(selectedMonth.year,
+//                           selectedMonth.month, day)), // Day of the week
+//                       style: AppTextStyle.smallBody(context),
+//                     ),
+//                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+//                     Text(
+//                       day.toString(),
+//                       style: AppTextStyle.bodyH1(context),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class DaysList extends StatelessWidget {
   final DateTime selectedMonth;
@@ -594,10 +706,17 @@ class DaysList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final ScheduleController scheduleController =
-    //     Get.find<ScheduleController>();
-    // Get the selected date
-    int currentDay = selectedMonth.day;
+    DateTime now = DateTime.now();
+    int currentDay;
+
+    // If the selected month is the current month, start from today
+    // Otherwise, start from the first day of the selected month
+    if (selectedMonth.year == now.year && selectedMonth.month == now.month) {
+      currentDay = now.day;
+    } else {
+      currentDay = 1;
+    }
+
     int lastDayOfMonth =
         DateTime(selectedMonth.year, selectedMonth.month + 1, 0).day;
 
@@ -667,12 +786,153 @@ class DaysList extends StatelessWidget {
   }
 }
 
+// class MonthYearPicker extends StatefulWidget {
+//   final DateTime initialDate;
+//   final ScheduleController scheduleController;
+//   final ValueChanged<DateTime> onDateChanged;
+//
+//   MonthYearPicker({
+//     required this.initialDate,
+//     required this.scheduleController,
+//     required this.onDateChanged,
+//   });
+//
+//   @override
+//   _MonthYearPickerState createState() => _MonthYearPickerState();
+// }
+//
+// class _MonthYearPickerState extends State<MonthYearPicker> {
+//   late int selectedMonth;
+//   late int selectedYear;
+//   late DateTime firstDate;
+//   late DateTime lastDate;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     selectedMonth = widget.initialDate.month;
+//     selectedYear = widget.initialDate.year;
+//
+//     firstDate = DateTime(selectedYear, selectedMonth);
+//     lastDate = DateTime(selectedYear + 1, selectedMonth);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       title: Text('Chọn tháng và năm'),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.all(Radius.circular(context.sp(4))),
+//       ),
+//       content: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           DropdownButton<int>(
+//             value: selectedMonth,
+//             items: _buildMonthItems(),
+//             onChanged: (value) {
+//               if (value != null) {
+//                 setState(() {
+//                   selectedMonth = value;
+//                 });
+//               }
+//             },
+//           ),
+//           DropdownButton<int>(
+//             value: selectedYear,
+//             items: _buildYearItems(),
+//             onChanged: (value) {
+//               if (value != null) {
+//                 setState(() {
+//                   selectedYear = value;
+//                   // Điều chỉnh tháng nếu năm thay đổi đến năm hiện tại
+//                   if (selectedYear == firstDate.year &&
+//                       selectedMonth < firstDate.month) {
+//                     selectedMonth = firstDate.month;
+//                   }
+//                   if (selectedYear == lastDate.year &&
+//                       selectedMonth > lastDate.month) {
+//                     selectedMonth = lastDate.month;
+//                   }
+//                 });
+//               }
+//             },
+//           ),
+//         ],
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           child: Text(
+//             'Hủy',
+//             style: AppTextStyle.linkH5(context),
+//           ),
+//         ),
+//         TextButton(
+//           onPressed: () {
+//             widget.onDateChanged(DateTime(selectedYear, selectedMonth));
+//             widget.scheduleController.scheduleState.monthChoose.value =
+//                 selectedMonth.toString();
+//             widget.scheduleController.scheduleState.yearChoose.value =
+//                 selectedYear.toString();
+//             widget.scheduleController.scheduleState.dateChoose.value =
+//                 1.toString();
+//             Navigator.pop(context);
+//           },
+//           child: Text(
+//             'Đồng ý',
+//             style: AppTextStyle.linkH5(context),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   List<DropdownMenuItem<int>> _buildMonthItems() {
+//     final items = <DropdownMenuItem<int>>[];
+//
+//     for (var month = 1; month <= 12; month++) {
+//       if (selectedYear == firstDate.year && month < firstDate.month) {
+//         continue;
+//       }
+//       if (selectedYear == lastDate.year && month > lastDate.month) {
+//         continue;
+//       }
+//       items.add(
+//         DropdownMenuItem(
+//           child: Text(DateFormat.MMMM('vi_VN').format(DateTime(0, month))),
+//           value: month,
+//         ),
+//       );
+//     }
+//     return items;
+//   }
+//
+//   List<DropdownMenuItem<int>> _buildYearItems() {
+//     final items = <DropdownMenuItem<int>>[];
+//
+//     for (var year = firstDate.year; year <= lastDate.year; year++) {
+//       items.add(
+//         DropdownMenuItem(
+//           child: Text('$year'),
+//           value: year,
+//         ),
+//       );
+//     }
+//     return items;
+//   }
+// }
+
 class MonthYearPicker extends StatefulWidget {
   final DateTime initialDate;
+  final ScheduleController scheduleController;
   final ValueChanged<DateTime> onDateChanged;
 
   MonthYearPicker({
     required this.initialDate,
+    required this.scheduleController,
     required this.onDateChanged,
   });
 
@@ -685,14 +945,16 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
   late int selectedYear;
   late DateTime firstDate;
   late DateTime lastDate;
+  late DateTime currentDate;
 
   @override
   void initState() {
     super.initState();
+    currentDate = DateTime.now(); // Get the current date
     selectedMonth = widget.initialDate.month;
     selectedYear = widget.initialDate.year;
 
-    firstDate = DateTime(selectedYear, selectedMonth);
+    firstDate = DateTime(currentDate.year, currentDate.month);
     lastDate = DateTime(selectedYear + 1, selectedMonth);
   }
 
@@ -724,14 +986,11 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
               if (value != null) {
                 setState(() {
                   selectedYear = value;
-                  // Điều chỉnh tháng nếu năm thay đổi đến năm hiện tại
-                  if (selectedYear == firstDate.year &&
-                      selectedMonth < firstDate.month) {
-                    selectedMonth = firstDate.month;
-                  }
-                  if (selectedYear == lastDate.year &&
-                      selectedMonth > lastDate.month) {
-                    selectedMonth = lastDate.month;
+
+                  // Ensure the selected month is valid for the selected year
+                  if (selectedYear == currentDate.year &&
+                      selectedMonth < currentDate.month) {
+                    selectedMonth = currentDate.month;
                   }
                 });
               }
@@ -752,6 +1011,19 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
         TextButton(
           onPressed: () {
             widget.onDateChanged(DateTime(selectedYear, selectedMonth));
+            widget.scheduleController.scheduleState.monthChoose.value =
+                selectedMonth.toString();
+            widget.scheduleController.scheduleState.yearChoose.value =
+                selectedYear.toString();
+            if (DateTime.now().month < selectedMonth ||
+                DateTime.now().year < selectedYear) {
+              widget.scheduleController.scheduleState.dateChoose.value =
+                  1.toString();
+            } else {
+              widget.scheduleController.scheduleState.dateChoose.value =
+                  DateTime.now().day.toString();
+            }
+
             Navigator.pop(context);
           },
           child: Text(
@@ -767,10 +1039,8 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
     final items = <DropdownMenuItem<int>>[];
 
     for (var month = 1; month <= 12; month++) {
-      if (selectedYear == firstDate.year && month < firstDate.month) {
-        continue;
-      }
-      if (selectedYear == lastDate.year && month > lastDate.month) {
+      // Only restrict months if the selected year is the current year
+      if (selectedYear == currentDate.year && month < currentDate.month) {
         continue;
       }
       items.add(
@@ -786,7 +1056,7 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
   List<DropdownMenuItem<int>> _buildYearItems() {
     final items = <DropdownMenuItem<int>>[];
 
-    for (var year = firstDate.year; year <= lastDate.year; year++) {
+    for (var year = currentDate.year; year <= lastDate.year; year++) {
       items.add(
         DropdownMenuItem(
           child: Text('$year'),

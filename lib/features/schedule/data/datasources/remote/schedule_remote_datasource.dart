@@ -14,10 +14,11 @@ class ScheduleRemoteDatasource {
 
   ScheduleRemoteDatasource(this.apiService);
 
-  Future<ApiResponse<List<ScheduleDto>>> getAllSchedule(String status) async {
+  Future<ApiResponse<List<ScheduleDto>>> getAllSchedule(
+      String status, int patientId) async {
     Log.info("getAllSchedule in ScheduleRemoteDatasource");
     return executeWithHandling(() async {
-      final response = await apiService.getAllSchedule(status);
+      final response = await apiService.getAllSchedule(status, patientId);
       return ApiResponse.fromJson(
         response.data!,
         (data) =>

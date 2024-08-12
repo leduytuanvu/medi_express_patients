@@ -36,6 +36,7 @@ import 'package:medi_express_patients/features/auth/presentation/state/auth_stat
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../domain/usecases/login_usecase.dart';
 
@@ -468,6 +469,21 @@ class AuthController extends BaseController {
       },
     );
     hideLoading();
+  }
+
+  Future<void> requestNotificationPermission() async {
+    final status = await Permission.notification.request();
+    if (status == PermissionStatus.granted) {
+      // Permission granted
+      print("Notification Permission granted");
+    } else if (status == PermissionStatus.denied) {
+      // Permission denied
+      print("Notification Permission denied");
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      // The user opted not to grant permission and chose to never ask again.
+      // Open the app settings to let the user manually enable it.
+      openAppSettings();
+    }
   }
 
   Future<void> login(BuildContext context) async {

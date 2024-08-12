@@ -18,10 +18,12 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   ScheduleRepositoryImpl(this.localDatasource, this.remoteDatasource);
 
   @override
-  Future<List<ScheduleEntity>> getAllSchedule(String status) async {
+  Future<List<ScheduleEntity>> getAllSchedule(
+      String status, int patientId) async {
     Log.info("getAllDoctor in ScheduleRepositoryImpl");
     return executeWithHandling(() async {
-      final apiResponse = await remoteDatasource.getAllSchedule(status);
+      final apiResponse =
+          await remoteDatasource.getAllSchedule(status, patientId);
       if (apiResponse.code == 1) {
         return apiResponse.data!.map((dto) => dto.toEntity()).toList() ?? [];
       } else if (apiResponse.code == 0) {

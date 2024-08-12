@@ -6,10 +6,11 @@ class ScheduleApiService {
 
   ScheduleApiService(this.dio);
 
-  Future<Response<Map<String, dynamic>>> getAllSchedule(String status) async {
+  Future<Response<Map<String, dynamic>>> getAllSchedule(
+      String status, int patientId) async {
     final response = await dio.get<Map<String, dynamic>>(
       '/mediexpress/medical/appointment',
-      queryParameters: {'Status': status},
+      queryParameters: {'Status': status, 'PatientID': patientId},
     );
     return response;
   }

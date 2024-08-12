@@ -4,6 +4,7 @@ import 'package:medi_express_patients/core/config/enviroment.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/network/api_client.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
+import 'package:medi_express_patients/core/storage/local_storage.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_remote_datasource.dart';
@@ -53,7 +54,9 @@ Future<void> initDI(String environmentName) async {
   final environment = await Environment.load(environmentName);
   Get.put<Environment>(environment);
   Get.put(ApiClient(environment.apiBaseUrl));
-  Get.put(const FlutterSecureStorage());
+  final localStorage = LocalStorage();
+  await localStorage.init(); // Ensure SharedPreferences is ready
+  Get.put<LocalStorage>(localStorage); // Now it's safe to use LocalStorage
 
   /// Auth
   Get.lazyPut(() => AuthApiService(Get.find<ApiClient>().client));

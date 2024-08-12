@@ -14,7 +14,7 @@ dependencies:
   get: ^4.6.6
   logging: ^1.2.0
   equatable: ^2.0.5
-  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.1
   dio: ^5.5.0+1
   dartz: ^0.10.1
   flutter_screenutil: ^5.9.3
@@ -27,6 +27,7 @@ dependencies:
   cached_network_image: ^3.4.0
   path: ^1.8.0
   diacritic: ^0.1.5
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:medi_express_patients/core/utils/extensions/context_extension.da
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 import 'package:medi_express_patients/features/schedule/domain/params/create_appointment_params.dart';
+import 'package:medi_express_patients/features/schedule/domain/params/get_all_schedule_params.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/create_appointment_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_all_schedule_usecase.dart';
 import 'package:medi_express_patients/features/schedule/domain/usecases/get_schedule_result_usecase.dart';
@@ -57,7 +58,11 @@ class ScheduleController extends BaseController {
     scheduleState.scheduleExamDone.value = false;
     authController.showLoading();
     Log.info("Loading initial data...");
-    final result = await getAllScheduleUsecase('Pending');
+    final result = await getAllScheduleUsecase(
+      GetAllScheduleParams(
+          status: 'Approved',
+          patientId: authController.baseState.user.value.id),
+    );
     result.fold(
       (failure) {
         Log.severe("$failure");
@@ -85,11 +90,6 @@ class ScheduleController extends BaseController {
     } else {
       typeService = 0;
     }
-    Log.info("============= type exam at home: $typeService");
-    Log.info(
-        "============= type service: ${scheduleState.typeCreateAppointmentService.value}");
-    Log.info("============= user id:${authController.baseState.user.value.id}");
-    Log.info("============= time choose:${scheduleState.timeChoose.value}");
 
     var check = true;
     if (scheduleState.dateChoose.value.isEmpty) {
@@ -98,6 +98,14 @@ class ScheduleController extends BaseController {
     } else {
       scheduleState.errorChooseDate.value = '';
     }
+
+    if (scheduleState.typeCreateAppointmentService.value.id == -1) {
+      scheduleState.typeCreateAppointmentService.value =
+          scheduleState.listTypeCreateAppointmentService.first;
+    }
+    // else {
+    //   scheduleState.errorChooseService.value = '';
+    // }
 
     if (scheduleState.timeChoose.value.isEmpty) {
       check = false;
@@ -113,7 +121,7 @@ class ScheduleController extends BaseController {
       Log.info("============= date choose:$dateChoose");
       final result = await createAppointmentUsecase(
         CreateAppointmentParams(
-          patientID: authController.authState.user.value.id,
+          patientID: authController.baseState.user.value.id,
           serviceID: typeService,
           serviceTypeID:
               scheduleState.typeCreateAppointmentService.value.id ?? 0,
@@ -200,7 +208,12 @@ class ScheduleController extends BaseController {
     scheduleState.scheduleExamDone.value = true;
     authController.showLoading();
     Log.info("Loading initial data...");
-    final result = await getAllScheduleUsecase('Completed');
+    final result = await getAllScheduleUsecase(
+      GetAllScheduleParams(
+        status: 'Completed',
+        patientId: authController.baseState.user.value.id,
+      ),
+    );
     result.fold(
       (failure) {
         Log.severe("$failure");

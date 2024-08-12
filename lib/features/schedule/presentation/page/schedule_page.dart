@@ -56,6 +56,12 @@ class SchedulePage extends StatelessWidget {
                     scheduleController.scheduleState.timeChoose.value = '';
                     scheduleController.scheduleState.typeExamAtHome.value =
                         true;
+                    scheduleController.scheduleState.dateChoose.value =
+                        '${DateTime.now().day}';
+                    scheduleController.scheduleState.yearChoose.value =
+                    '${DateTime.now().year}';
+                    scheduleController.scheduleState.monthChoose.value =
+                    '${DateTime.now().month}';
                     context.toNamedScreen(AppRoutes.bookSchedule);
                   },
                   child: Container(

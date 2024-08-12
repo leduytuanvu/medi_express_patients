@@ -6,7 +6,7 @@ import 'package:medi_express_patients/features/schedule/domain/entities/type_cre
 import 'package:medi_express_patients/features/schedule/domain/params/create_appointment_params.dart';
 
 abstract class ScheduleRepository {
-  Future<List<ScheduleEntity>> getAllSchedule(String status);
+  Future<List<ScheduleEntity>> getAllSchedule(String status, int patientId);
 
   Future<List<TypeCreateAppointmentServiceEntity>>
       getTypeCreateAppointmentService();

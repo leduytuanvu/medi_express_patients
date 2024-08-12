@@ -1,5 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 /// Data source for handling local authentication data.
 class AuthLocalDatasource {
   final FlutterSecureStorage secureStorage;

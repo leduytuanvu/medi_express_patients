@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart'; // Add this import
+import 'package:permission_handler/permission_handler.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -9,7 +9,8 @@ class NotificationService {
 
   Future<void> initNotification() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('logo_splash'); // Ensure this icon exists
+        AndroidInitializationSettings(
+            'logo_splash'); // Ensure this icon exists in res/drawable
 
     final DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
@@ -47,7 +48,8 @@ class NotificationService {
             sound: true,
           );
       print('iOS notification permission granted: $result');
-    } else if (Platform.isAndroid) {
+    } else if (Platform.isAndroid && Platform.version.compareTo("33") >= 0) {
+      // Android 13+ requires runtime permission for notifications
       if (await Permission.notification.isDenied) {
         final status = await Permission.notification.request();
         print('Android notification permission granted: $status');
@@ -63,7 +65,7 @@ class NotificationService {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
-        icon: 'logo_splash', // Ensure this icon exists
+        icon: 'logo_splash', // Ensure this icon exists in res/drawable
       ),
       iOS: DarwinNotificationDetails(),
     );

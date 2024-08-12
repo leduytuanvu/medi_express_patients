@@ -4,11 +4,11 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
+
 import '../../controller/auth_controller.dart';
 
 class LoginPage extends BaseStatelessWidget {
@@ -63,6 +63,7 @@ class LoginPage extends BaseStatelessWidget {
               // authController.phoneController.text = '';
               // authController.authState.errorPhoneRegister.value = '';
               context.toNamedScreen(AppRoutes.enterPhoneNumberRegister);
+              authController.requestNotificationPermission();
             },
           ),
         ],
@@ -129,6 +130,7 @@ class LoginPage extends BaseStatelessWidget {
                   context.toNamedScreen(
                     AppRoutes.enterPhoneNumberForgotPassword,
                   );
+                  authController.requestNotificationPermission();
                 },
                 child: Container(
                   height: context.hp(6),
