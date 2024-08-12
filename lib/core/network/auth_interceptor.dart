@@ -1,20 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:medi_express_patients/core/config/log.dart';
+import 'package:medi_express_patients/core/storage/local_storage.dart';
 import 'package:medi_express_patients/core/utils/common/constants.dart';
 
 class AuthInterceptor extends Interceptor {
-  final FlutterSecureStorage secureStorage;
+  final LocalStorage localStorage;
   final Dio dio;
   bool _refreshing = false;
   final List<QueuedRequest> _requestQueue = [];
 
-  AuthInterceptor(this.secureStorage, this.dio);
+  AuthInterceptor(this.localStorage, this.dio);
 
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final accessToken = await secureStorage.read(key: Constants.keyAccessToken);
+    final accessToken = await localStorage.get(Constants.keyAccessToken);
     Log.info("Access Token: $accessToken");
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
@@ -26,8 +26,7 @@ class AuthInterceptor extends Interceptor {
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     Log.info("Error occurred: ${err.response?.statusCode}");
     if (err.response?.statusCode == 401) {
-      final refreshToken =
-          await secureStorage.read(key: Constants.keyRefreshToken);
+      final refreshToken = await localStorage.get(Constants.keyRefreshToken);
       Log.info("Refresh Token: $refreshToken");
 
       if (refreshToken == null) {
@@ -60,12 +59,10 @@ class AuthInterceptor extends Interceptor {
         Log.info("New Expires In: $newExpiresIn");
 
         // Update the tokens in secure storage
-        await secureStorage.write(
-            key: Constants.keyAccessToken, value: newAccessToken);
-        await secureStorage.write(
-            key: Constants.keyRefreshToken, value: newRefreshToken);
-        await secureStorage.write(
-            key: Constants.keyExpiresIn, value: newExpiresIn.toString());
+        await localStorage.save(Constants.keyAccessToken, newAccessToken);
+        await localStorage.save(Constants.keyRefreshToken, newRefreshToken);
+        await localStorage.save(
+            Constants.keyExpiresIn, newExpiresIn.toString());
 
         _refreshing = false;
         _retryQueuedRequests(newAccessToken);
@@ -73,9 +70,9 @@ class AuthInterceptor extends Interceptor {
         Log.info("Token refresh failed: $e");
         _refreshing = false;
         // Handle token refresh failure (e.g., redirect to login)
-        await secureStorage.delete(key: Constants.keyAccessToken);
-        await secureStorage.delete(key: Constants.keyRefreshToken);
-        await secureStorage.delete(key: Constants.keyExpiresIn);
+        await localStorage.clear(Constants.keyAccessToken);
+        await localStorage.clear(Constants.keyRefreshToken);
+        await localStorage.clear(Constants.keyExpiresIn);
 
         handler.next(err); // Pass the error forward
       }

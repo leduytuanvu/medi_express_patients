@@ -891,15 +891,40 @@ class AuthController extends BaseController {
           );
         },
         (success) {
+          Log.info("success: $success");
           if (success.code == 1) {
             showWarning(
-              () {
-                Log.info("go to login");
-                // context.offAllNamedScreen(AppRoutes.login);
-                clearWarning();
+              () async {
+                var auth = AuthEntity(
+                  accessToken: '',
+                  expiresIn: -1,
+                  refreshToken: '',
+                  firstTimeOpenApp: 'false',
+                );
+                context.backScreen();
+                final result2 = await saveAuthToLocalUsecase(
+                  SaveAuthToLocalParams(auth: auth),
+                );
+                result2.fold(
+                  (failure2) {
+                    Log.severe("$failure2");
+                    showError(
+                      () => clearError(),
+                      failure2.message,
+                      'Quay lại',
+                    );
+                  },
+                  (success2) {
+                    setAuth(auth);
+                    final MainController mainController =
+                        Get.find<MainController>();
+                    mainController.changePage(0);
+                    clearWarning();
+                  },
+                );
               },
               'Thay đổi mật khẩu thành công',
-              'Đóng',
+              'Đăng nhập ngay',
             );
           } else {
             showWarning(

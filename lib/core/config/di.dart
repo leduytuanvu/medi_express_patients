@@ -1,4 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/enviroment.dart';
 import 'package:medi_express_patients/core/config/log.dart';
@@ -61,7 +60,7 @@ Future<void> initDI(String environmentName) async {
   /// Auth
   Get.lazyPut(() => AuthApiService(Get.find<ApiClient>().client));
   Get.lazyPut<AuthLocalDatasource>(
-      () => AuthLocalDatasource(Get.find<FlutterSecureStorage>()));
+      () => AuthLocalDatasource(Get.find<LocalStorage>()));
   Get.lazyPut<AuthRemoteDatasource>(
       () => AuthRemoteDatasource(Get.find<AuthApiService>()));
   Get.lazyPut(() => AuthRepositoryImpl(
@@ -110,7 +109,7 @@ Future<void> initDI(String environmentName) async {
   /// Doctor
   Get.lazyPut(() => DoctorApiService(Get.find<ApiClient>().client));
   Get.lazyPut<DoctorLocalDatasource>(
-      () => DoctorLocalDatasource(Get.find<FlutterSecureStorage>()));
+      () => DoctorLocalDatasource(Get.find<LocalStorage>()));
   Get.lazyPut<DoctorRemoteDatasource>(
       () => DoctorRemoteDatasource(Get.find<DoctorApiService>()));
   Get.lazyPut(() => DoctorRepositoryImpl(
@@ -130,7 +129,7 @@ Future<void> initDI(String environmentName) async {
   /// Schedule
   Get.lazyPut(() => ScheduleApiService(Get.find<ApiClient>().client));
   Get.lazyPut<ScheduleLocalDatasource>(
-      () => ScheduleLocalDatasource(Get.find<FlutterSecureStorage>()));
+      () => ScheduleLocalDatasource(Get.find<LocalStorage>()));
   Get.lazyPut<ScheduleRemoteDatasource>(
       () => ScheduleRemoteDatasource(Get.find<ScheduleApiService>()));
   Get.lazyPut(() => ScheduleRepositoryImpl(
@@ -150,7 +149,7 @@ Future<void> initDI(String environmentName) async {
   // Home
   Get.lazyPut(() => HomeApiService(Get.find<ApiClient>().client));
   Get.lazyPut<HomeLocalDatasource>(
-      () => HomeLocalDatasource(Get.find<FlutterSecureStorage>()));
+      () => HomeLocalDatasource(Get.find<LocalStorage>()));
   Get.lazyPut<HomeRemoteDatasource>(
       () => HomeRemoteDatasource(Get.find<HomeApiService>()));
   Get.lazyPut(() => HomeRepositoryImpl(
