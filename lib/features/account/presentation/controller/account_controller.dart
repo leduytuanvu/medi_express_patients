@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
+import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
@@ -35,16 +36,18 @@ class AccountController extends BaseController {
   // final anotherController = TextEditingController();
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
+    await init();
+    Log.info("==== ${authController.baseState.user.value}");
     authController.fullNameController.text =
         authController.baseState.user.value.name ?? '';
     authController.emailController.text =
         authController.baseState.user.value.email ?? '';
     authController.birthdateController.text =
-        authController.baseState.user.value.birthDate ?? '';
+        authController.baseState.user.value.birthDate!.toFormattedDate() ?? '';
     authController.genderController.text =
-        authController.baseState.user.value.gender.toString() ?? '';
+        authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
     authController.cityController.text =
         authController.baseState.user.value.city ?? '';
     authController.districtController.text =
@@ -62,20 +65,67 @@ class AccountController extends BaseController {
 
   Future<void> init() async {
     showLoading();
-    final result = await authController.getAllCityUsecase(NoParams());
-    result.fold(
-      (failure) {
-        Log.severe("$failure");
+    final resultCity = await authController.getAllCityUsecase(NoParams());
+    resultCity.fold(
+      (failureCity) {
+        Log.severe("$failureCity");
         showError(
           () => clearError(),
-          failure.message,
+          failureCity.message,
           'Quay lại',
         );
       },
-      (success) {
-        accountState.listAllCity.value = success;
-
-        clearError();
+      (successCity) async {
+        accountState.listAllCity.value = successCity;
+        for (var elementCity in successCity) {
+          if (elementCity.name == authController.baseState.user.value.city) {
+            accountState.city.value = elementCity;
+          }
+        }
+        final resultDistrict = await authController.getDistrictByCityUsecase(
+            GetDistrictByCityParams(cityId: accountState.city.value.id));
+        resultDistrict.fold(
+          (failureDistrict) {
+            showError(
+              () => clearError(),
+              failureDistrict.message,
+              'Quay lại',
+            );
+          },
+          (successDistrict) async {
+            Log.info(successDistrict.toString());
+            accountState.listAllDistrict.value = successDistrict;
+            for (var elementDistrict in successDistrict) {
+              if (elementDistrict.districtName ==
+                  authController.baseState.user.value.district) {
+                accountState.district.value = elementDistrict;
+              }
+            }
+            final resultWard = await authController.getWardByDistrictUsecase(
+              GetWardByDistrictParams(
+                  districtId: accountState.district.value.id),
+            );
+            resultWard.fold(
+              (failureWard) {
+                showError(
+                  () => clearError(),
+                  failureWard.message,
+                  'Quay lại',
+                );
+              },
+              (successWard) async {
+                Log.info(successWard.toString());
+                accountState.listAllWard.value = successWard;
+                for (var elementWard in successWard) {
+                  if (elementWard.wardName ==
+                      authController.baseState.user.value.ward) {
+                    accountState.ward.value = elementWard;
+                  }
+                }
+              },
+            );
+          },
+        );
       },
     );
     hideLoading();
@@ -95,6 +145,11 @@ class AccountController extends BaseController {
       },
       (success) {
         accountState.listAllCity.value = success;
+        for (var element in success) {
+          if (element.name == authController.baseState.user.value.city) {
+            accountState.city.value = element;
+          }
+        }
         Log.severe("$success");
         clearError();
       },

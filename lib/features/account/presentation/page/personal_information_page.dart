@@ -98,7 +98,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       borderRadius: 8.0,
                       items: authController.authState.listGender,
                       displayItem: (gender) => gender,
-                      selectedItem: null,
+                      selectedItem: authController.genderController.text,
                       onChanged: (String? gender) {
                         Log.info(gender ?? '');
                         authController.genderController.text = gender ?? '';
@@ -110,9 +110,9 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     CustomDropDownBoxWidget<CityEntity>(
                       labelText: 'Tỉnh/thành phố',
                       borderRadius: 8.0,
-                      items: authController.authState.listAllCity,
+                      items: accountController.accountState.listAllCity,
                       displayItem: (city) => city.name,
-                      selectedItem: null,
+                      selectedItem: accountController.accountState.city.value,
                       onChanged: (CityEntity? city) {
                         authController.getDistrictByCity(city!.id);
                         authController.cityController.text = city.name;
@@ -122,9 +122,10 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     CustomDropDownBoxWidget<DistrictEntity>(
                       labelText: 'Quận/huyện',
                       borderRadius: 8.0,
-                      items: authController.authState.listAllDistrict,
+                      items: accountController.accountState.listAllDistrict,
                       displayItem: (district) => district.districtName,
-                      selectedItem: null,
+                      selectedItem:
+                          accountController.accountState.district.value,
                       onChanged: (DistrictEntity? district) {
                         Log.info(district?.districtName ?? '');
                         authController.getWardByDistrict(district!.id);
@@ -136,9 +137,9 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     CustomDropDownBoxWidget<WardEntity>(
                       labelText: 'Phường/xã',
                       borderRadius: 8.0,
-                      items: authController.authState.listAllWard,
+                      items: accountController.accountState.listAllWard,
                       displayItem: (ward) => ward.wardName,
-                      selectedItem: null,
+                      selectedItem: accountController.accountState.ward.value,
                       onChanged: (WardEntity? ward) {
                         Log.info(ward?.wardName ?? '');
                         authController.wardController.text = ward!.wardName;

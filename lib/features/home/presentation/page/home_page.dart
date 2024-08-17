@@ -1,17 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/home/data/model/item_home_examination_package_model.dart';
-import 'package:medi_express_patients/features/home/data/model/item_utilities_model.dart';
 import 'package:medi_express_patients/features/home/data/model/item_news_model.dart';
+import 'package:medi_express_patients/features/home/data/model/item_utilities_model.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
@@ -22,6 +20,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // homeController.getAllHomeExaminationPackage();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,56 +251,80 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
-                  height: context.hp(21),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount:
-                        ItemHomeExaminationPackageModel.list(context).length,
-                    itemBuilder: (context, index) {
-                      final item =
-                          ItemHomeExaminationPackageModel.list(context)[index];
-                      return Container(
-                        width: context.wp(40),
-                        margin: EdgeInsets.only(
-                          right: ItemHomeExaminationPackageModel.list(context)
-                                          .length -
-                                      1 ==
-                                  index
-                              ? context.wp(4)
-                              : context.wp(2),
-                          left: index == 0 ? context.wp(4) : context.wp(0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              item.iconPath,
-                              width: context.wp(40),
-                            ),
-                            SizedBox(height: context.hp(1)),
-                            Text(
-                              item.title,
-                              style: AppTextStyle.bigItemBody(context),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: context.hp(0.3)),
-                            Text(
-                              item.price,
-                              style: AppTextStyle.mediumItemPrice(context),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: context
+                        .hp(22), // Adjust the height constraint as needed
                   ),
+                  child: Obx(() {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: homeController
+                          .homeState.listAllHomeExaminationPackage.length,
+                      itemBuilder: (context, index) {
+                        final item = homeController
+                            .homeState.listAllHomeExaminationPackage[index];
+                        return Container(
+                          // color: Colors.amber,
+                          width: context.wp(40),
+                          margin: EdgeInsets.only(
+                            right: homeController
+                                            .homeState
+                                            .listAllHomeExaminationPackage
+                                            .length -
+                                        1 ==
+                                    index
+                                ? context.wp(4)
+                                : context.wp(2),
+                            left: index == 0 ? context.wp(4) : context.wp(0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              (item.filePath == null || item.filePath.isEmpty)
+                                  ? Image.network(
+                                      item.filePath,
+                                      width: context.wp(40),
+                                    )
+                                  : SizedBox(
+                                      width: context.hp(40),
+                                      child: Center(
+                                        child: CachedNetworkImage(
+                                          imageUrl: item.filePath,
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(
+                                            color: Colors.grey,
+                                            strokeWidth: 2,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                        ),
+                                      ),
+                                    ),
+                              SizedBox(height: context.hp(1)),
+                              Text(
+                                item.serviceName,
+                                style: AppTextStyle.bigItemBody(context),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: context.hp(0.3)),
+                              Text(
+                                item.priceTag.toVnd(),
+                                style: AppTextStyle.mediumItemPrice(context),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ],
             ),
           ),
 
-          context.hp(1.8).sbh,
+          context.hp(1.4).sbh,
           Divider(
             color: const Color(0xFFF4F5F7),
             thickness: context.hp(1),

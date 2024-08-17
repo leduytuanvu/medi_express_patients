@@ -117,7 +117,16 @@ class AuthController extends BaseController {
       Log.info("Loading initial data...");
       final result = await getAuthFromLocalUsecase(NoParams());
       result.fold(
-        (failure) {},
+        (failure) {
+          setAuth(
+            AuthEntity(
+              accessToken: '',
+              refreshToken: '',
+              expiresIn: -1,
+              firstTimeOpenApp: 'false',
+            ),
+          );
+        },
         (success) async {
           if (success.accessToken.isNotEmpty) {
             final resultGetUserFromLocal =
@@ -143,7 +152,7 @@ class AuthController extends BaseController {
           }
         },
       );
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 3));
       FlutterNativeSplash.remove();
     });
   }
@@ -215,8 +224,8 @@ class AuthController extends BaseController {
               authState.verifyCode.value = verifyCode;
               NotificationService().showNotification(
                 id: verifyCode,
-                title: "Medi Express $verifyCode",
-                body: "Medi Express Verify Code $verifyCode",
+                title: "Medi Express",
+                body: "Verify Code $verifyCode",
               );
               startTimeout();
             } else {
@@ -281,8 +290,8 @@ class AuthController extends BaseController {
               authState.verifyCode.value = verifyCode;
               NotificationService().showNotification(
                 id: verifyCode,
-                title: 'Medi Express $verifyCode',
-                body: 'Medi Express Verify Code $verifyCode',
+                title: 'Medi Express',
+                body: 'Verify Code $verifyCode',
               );
               startTimeout();
             }
@@ -391,8 +400,8 @@ class AuthController extends BaseController {
       authState.errorVerifyCodeRegister.value = '';
       NotificationService().showNotification(
         id: verifyCode,
-        title: 'Medi Express $verifyCode',
-        body: 'Medi Express Verify Code $verifyCode',
+        title: 'Medi Express',
+        body: 'Verify Code $verifyCode',
       );
       startTimeout();
     } catch (e) {
@@ -786,6 +795,7 @@ class AuthController extends BaseController {
       RegisterParams(
         phoneNumber: phoneController.text,
         name: fullNameController.text,
+        email: emailController.text,
         address: addressController.text,
         wardId: authState.wardId.value,
         gender: authState.genderId.value,

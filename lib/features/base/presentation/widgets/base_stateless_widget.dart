@@ -7,7 +7,6 @@ import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 
 abstract class BaseStatelessWidget extends StatelessWidget {
@@ -217,6 +216,9 @@ abstract class BaseStatelessWidget extends StatelessWidget {
                       Assets.svg.close,
                       height: context.wp(9),
                       width: context.wp(9),
+                    ).paddingOnly(
+                      top: context.wp(1.5),
+                      right: context.wp(1.5),
                     ),
                   ),
                 ),

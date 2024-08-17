@@ -8,7 +8,7 @@ import 'package:medi_express_patients/features/auth/data/dto/forgot_password_dto
 import 'package:medi_express_patients/features/auth/data/dto/register_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/user_dto.dart';
 import 'package:medi_express_patients/features/auth/data/dto/ward_dto.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
+
 import '../../dto/auth_dto.dart';
 import 'auth_api_service.dart';
 
@@ -38,6 +38,7 @@ class AuthRemoteDatasource {
     String phoneNumber,
     String name,
     String address,
+    String email,
     int wardId,
     int gender,
     String birthdate,
@@ -49,6 +50,7 @@ class AuthRemoteDatasource {
         phoneNumber,
         name,
         address,
+        email,
         wardId,
         gender,
         birthdate,
@@ -80,9 +82,9 @@ class AuthRemoteDatasource {
   }
 
   Future<ApiResponse<List<int>>> changePassword(
-      String oldPassword,
-      String newPassword,
-      ) async {
+    String oldPassword,
+    String newPassword,
+  ) async {
     Log.info("changePassword in AuthRemoteDatasource");
     return executeWithHandling(() async {
       final response = await apiService.changePassword(
@@ -91,7 +93,7 @@ class AuthRemoteDatasource {
       );
       return ApiResponse.fromJson(
         response.data!,
-            (data) => data == null
+        (data) => data == null
             ? []
             : (data as List<dynamic>).map((e) => e as int).toList(),
       );
@@ -137,8 +139,7 @@ class AuthRemoteDatasource {
       final response = await apiService.getWardByDistrict(districtId);
       return ApiResponse.fromJson(
         response.data!,
-        (data) =>
-            (data as List).map((item) => WardDto.fromJson(item)).toList(),
+        (data) => (data as List).map((item) => WardDto.fromJson(item)).toList(),
       );
     }, 'AuthRemoteDatasource/getWardByDistrict');
   }
@@ -150,7 +151,7 @@ class AuthRemoteDatasource {
     return executeWithHandling(() async {
       final response = await apiService.checkPhoneNumberExists(phoneNumber);
       final responseData = response.data;
-      if(responseData!["code"] == -1) {
+      if (responseData!["code"] == -1) {
         return true;
       }
       return false;
@@ -163,8 +164,7 @@ class AuthRemoteDatasource {
       final response = await apiService.getUserInformation();
       return ApiResponse.fromJson(
         response.data!,
-            (data) =>
-            (data as List).map((item) => UserDto.fromJson(item)).toList(),
+        (data) => (data as List).map((item) => UserDto.fromJson(item)).toList(),
       );
     }, 'AuthRemoteDatasource/getUserInformation');
   }

@@ -3,79 +3,86 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 class AccountPage extends StatelessWidget {
   final AccountController accountController = Get.find<AccountController>();
   final AuthController authController = Get.find<AuthController>();
-   AccountPage({super.key});
+  AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         context.hp(5).sbh,
-        Container(
-          height: context.hp(12),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(
-                  Assets.png.avatar1,
-                  width: context.wp(16),
-                  height: context.wp(16),
+        GestureDetector(
+          onTap: () {
+            context.toNamedScreen(AppRoutes.personalInformation);
+          },
+          child: Container(
+            color: Colors.transparent,
+            height: context.hp(12),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    Assets.png.avatar1,
+                    width: context.wp(16),
+                    height: context.wp(16),
+                  ),
                 ),
-              ),
-              context.wp(4).sbw,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Obx(() {
-                    if (authController
-                        .baseState.user.value.name!.isNotEmpty) {
-                      return Text(
-                        '${authController.baseState.user.value.name}',
-                        style: AppTextStyle.mediumItemTitle(context),
-                      );
-                    } else {
-                      return Text(
-                        'Ẩn danh',
-                        style: AppTextStyle.mediumItemTitle(context),
-                      );
-                    }
-                  }),
-                  Obx(() {
-                    if (authController
-                        .baseState.user.value.email!.isNotEmpty) {
-                      return Text(
-                        '${authController.baseState.user.value.email}',
-                        style: AppTextStyle.bigHint(context),
-                      );
-                    } else {
-                      return Text(
-                        'andanh@gmail.com',
-                        style: AppTextStyle.bigHint(context),
-                      );
-                    }
-                  }),
-                ],
-              ),
-              Spacer(),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: context.wp(5),
-              ),
-            ],
-          ).paddingSymmetric(horizontal: context.wp(4)),
+                context.wp(4).sbw,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() {
+                      if (authController
+                          .baseState.user.value.name!.isNotEmpty) {
+                        return Text(
+                          '${authController.baseState.user.value.name}',
+                          style: AppTextStyle.mediumItemTitle(context),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        );
+                      } else {
+                        return Text(
+                          'Ẩn danh',
+                          style: AppTextStyle.mediumItemTitle(context),
+                        );
+                      }
+                    }),
+                    Obx(() {
+                      if (authController
+                          .baseState.user.value.email!.isNotEmpty) {
+                        return Text(
+                          '${authController.baseState.user.value.email}',
+                          style: AppTextStyle.bigHint(context),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        );
+                      } else {
+                        return Text(
+                          'andanh@gmail.com',
+                          style: AppTextStyle.bigHint(context),
+                        );
+                      }
+                    }),
+                  ],
+                ),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: context.wp(5),
+                ),
+              ],
+            ).paddingSymmetric(horizontal: context.wp(4)),
+          ),
         ),
         Divider(
           thickness: context.hp(0.9),
@@ -86,7 +93,7 @@ class AccountPage extends StatelessWidget {
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     context.toNamedScreen(AppRoutes.healthIndex);
                   },
                   child: Container(
@@ -171,9 +178,12 @@ class AccountPage extends StatelessWidget {
                     authController.newChangePasswordController.text = '';
                     authController.reNewChangePasswordController.text = '';
 
-                    authController.authState.errorOldPasswordChangePassword.value = '';
-                    authController.authState.errorNewPasswordChangePassword.value = '';
-                    authController.authState.errorReNewPasswordChangePassword.value = '';
+                    authController
+                        .authState.errorOldPasswordChangePassword.value = '';
+                    authController
+                        .authState.errorNewPasswordChangePassword.value = '';
+                    authController
+                        .authState.errorReNewPasswordChangePassword.value = '';
                     context.toNamedScreen(AppRoutes.changePassword);
                   },
                   child: Container(
@@ -279,34 +289,123 @@ class AccountPage extends StatelessWidget {
                   thickness: context.hp(0.1),
                   color: Color(0xFFF4F5F7),
                 ).paddingSymmetric(horizontal: context.wp(4)),
-                Row(
-                  children: [
-                    Container(
-                      height: context.wp(14),
-                      width: context.wp(14),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F6F9),
-                        borderRadius: BorderRadius.circular(context.rp(20)),
+                GestureDetector(
+                  onTap: () {
+                    String selectedLanguage = "Tiếng Việt"; // Default value
+                    List<String> languages = [
+                      "Tiếng Việt",
+                      "English",
+                    ];
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            "Chọn ngôn ngữ",
+                            style: AppTextStyle.mediumBody(context),
+                          ).paddingOnly(bottom: context.wp(2)),
+                          content: DropdownButtonFormField<String>(
+                            value: selectedLanguage,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: context.wp(4),
+                                vertical: context.hp(2),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(context.rp(4)),
+                                ),
+                                borderSide: BorderSide(
+                                  color: Colors.black, // Set the border color
+                                  width: 1.0, // Set the border thickness
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(context.rp(4)),
+                                ),
+                                borderSide: BorderSide(
+                                  color: Colors.black, // Set the border color
+                                  width: 1.0, // Set the border thickness
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(context.rp(4)),
+                                ),
+                                borderSide: BorderSide(
+                                  color: Colors
+                                      .black, // Set the border color when focused
+                                  width:
+                                      1.0, // Set the border thickness when focused
+                                ),
+                              ),
+                            ),
+                            icon: Padding(
+                              padding: EdgeInsets.only(
+                                  left: context.wp(
+                                      2)), // Add space between text and icon
+                              child: Icon(Icons.arrow_drop_down,
+                                  size: context.wp(5)),
+                            ),
+                            items: languages.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: AppTextStyle.mediumBody(context),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              // Update the selected language
+                              selectedLanguage = newValue!;
+
+                              // Close the dialog
+                              Navigator.of(context).pop();
+
+                              // Optionally, do something with the selected language
+                              print('Selected Language: $selectedLanguage');
+                            },
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(context.rp(4)),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        height: context.wp(14),
+                        width: context.wp(14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F6F9),
+                          borderRadius: BorderRadius.circular(context.rp(20)),
+                        ),
+                        child: SvgPicture.asset(
+                          Assets.svg.language,
+                        ).paddingAll(
+                          context.wp(3.4),
+                        ),
                       ),
-                      child: SvgPicture.asset(
-                        Assets.svg.language,
-                      ).paddingAll(
-                        context.wp(3.4),
+                      context.wp(4).sbw,
+                      Text('Ngôn ngữ'),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: context.wp(5),
                       ),
-                    ),
-                    context.wp(4).sbw,
-                    Text('Ngôn ngữ'),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: context.wp(5),
-                    ),
-                  ],
-                ).paddingOnly(
-                  bottom: context.hp(1.7),
-                  top: context.hp(0.4),
-                  left: context.wp(4),
-                  right: context.wp(4),
+                    ],
+                  ).paddingOnly(
+                    bottom: context.hp(1.7),
+                    top: context.hp(0.4),
+                    left: context.wp(4),
+                    right: context.wp(4),
+                  ),
                 ),
                 Divider(
                   thickness: context.hp(0.9),
@@ -314,7 +413,8 @@ class AccountPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    final AuthController authController = Get.find<AuthController>();
+                    final AuthController authController =
+                        Get.find<AuthController>();
                     authController.logout(context);
                   },
                   child: Container(

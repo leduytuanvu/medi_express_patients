@@ -14,6 +14,7 @@ import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor
 import 'package:medi_express_patients/features/doctor/presentation/controller/doctor_controller.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
+import 'package:medi_express_patients/features/home/domain/usecases/get_all_home_examination_package_usecase.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
@@ -42,6 +43,8 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<HomeController>(
             init: HomeController(
               getAllHealthRecordUsecase: Get.find<GetAllHealthRecordUsecase>(),
+              getAllHomeExaminationPackageUsecase:
+                  Get.find<GetAllHomeExaminationPackageUsecase>(),
               errorHandlingService: ErrorHandlingService(),
             ),
             builder: (controller) => HomePage(),

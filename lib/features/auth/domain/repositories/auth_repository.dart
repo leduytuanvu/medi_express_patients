@@ -21,6 +21,7 @@ abstract class AuthRepository {
     String phoneNumber,
     String name,
     String address,
+    String email,
     int wardId,
     int gender,
     String birthdate,

@@ -20,6 +20,7 @@ class RegisterUsecase implements UseCase<RegisterEntity, RegisterParams> {
         params.phoneNumber,
         params.name,
         params.address,
+        params.email,
         params.wardId,
         params.gender,
         params.birthdate,

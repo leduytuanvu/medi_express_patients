@@ -36,6 +36,7 @@ import 'package:medi_express_patients/features/home/data/datasources/remote/home
 import 'package:medi_express_patients/features/home/data/repositories/home_repository_impl.dart';
 import 'package:medi_express_patients/features/home/domain/repositories/home_repository.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
+import 'package:medi_express_patients/features/home/domain/usecases/get_all_home_examination_package_usecase.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/local/schedule_local_datasource.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/remote/schedule_api_service.dart';
@@ -161,4 +162,6 @@ Future<void> initDI(String environmentName) async {
         Get.find<HomeRemoteDatasource>(),
       ));
   Get.lazyPut(() => GetAllHealthRecordUsecase(Get.find<HomeRepository>()));
+  Get.lazyPut(
+      () => GetAllHomeExaminationPackageUsecase(Get.find<HomeRepository>()));
 }

@@ -8,4 +8,15 @@ class AccountState extends BaseState {
   var listAllCity = <CityEntity>[].obs;
   var listAllDistrict = <DistrictEntity>[].obs;
   var listAllWard = <WardEntity>[].obs;
+  var city = CityEntity(id: -1, name: '').obs;
+  var ward = WardEntity(
+    id: -1,
+    districtId: -1,
+    wardName: '',
+  ).obs;
+  var district = DistrictEntity(
+    id: -1,
+    cityId: -1,
+    districtName: '',
+  ).obs;
 }

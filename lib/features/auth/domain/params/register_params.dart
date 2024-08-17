@@ -4,6 +4,7 @@ class RegisterParams extends Equatable {
   final String phoneNumber;
   final String name;
   final String address;
+  final String email;
   final int wardId;
   final int gender;
   final String birthdate;
@@ -14,6 +15,7 @@ class RegisterParams extends Equatable {
     required this.phoneNumber,
     required this.name,
     required this.address,
+    required this.email,
     required this.wardId,
     required this.gender,
     required this.birthdate,
@@ -26,6 +28,7 @@ class RegisterParams extends Equatable {
         phoneNumber,
         name,
         address,
+        email,
         wardId,
         gender,
         birthdate,
