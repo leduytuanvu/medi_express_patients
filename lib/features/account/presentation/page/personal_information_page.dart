@@ -114,8 +114,10 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       displayItem: (city) => city.name,
                       selectedItem: accountController.accountState.city.value,
                       onChanged: (CityEntity? city) {
-                        authController.getDistrictByCity(city!.id);
-                        authController.cityController.text = city.name;
+                        accountController.accountState.district.value = null;
+                        accountController.getDistrictByCity(city!.id);
+                        accountController.accountState.city.value = city;
+                        // authController.cityController.text = city.name;
                       },
                       errorText: authController.authState.errorCity,
                     ),
@@ -128,9 +130,15 @@ class PersonalInformationPage extends BaseStatelessWidget {
                           accountController.accountState.district.value,
                       onChanged: (DistrictEntity? district) {
                         Log.info(district?.districtName ?? '');
-                        authController.getWardByDistrict(district!.id);
-                        authController.districtController.text =
-                            district.districtName;
+                        // Update selected district
+                        accountController.accountState.district.value =
+                            district;
+
+                        // Fetch wards based on selected district
+                        accountController.getWardByDistrict(district?.id ?? -1);
+                        // district;
+                        // authController.districtController.text =
+                        //     district.districtName;
                       },
                       errorText: authController.authState.errorDistrict,
                     ),
@@ -142,8 +150,8 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       selectedItem: accountController.accountState.ward.value,
                       onChanged: (WardEntity? ward) {
                         Log.info(ward?.wardName ?? '');
-                        authController.wardController.text = ward!.wardName;
-                        authController.authState.wardId.value = ward.id;
+                        // authController.wardController.text = ward!.wardName;
+                        // authController.authState.wardId.value = ward.id;
                       },
                       errorText: authController.authState.errorWard,
                     ),

@@ -3,6 +3,7 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
@@ -10,7 +11,9 @@ import 'package:medi_express_patients/features/auth/presentation/controller/auth
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 
 class AccountController extends BaseController {
+  final GetHealthMetrictsUsecase getHealthMetrictsUsecase;
   AccountController({
+    required this.getHealthMetrictsUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
@@ -60,6 +63,7 @@ class AccountController extends BaseController {
         authController.baseState.user.value.bhytCode ?? '';
     Log.info("++++++ ${authController.baseState.user.value.toString()}");
     super.onInit();
+    await getHealthMetricts();
     Log.info("init account controller");
   }
 
@@ -103,7 +107,7 @@ class AccountController extends BaseController {
             }
             final resultWard = await authController.getWardByDistrictUsecase(
               GetWardByDistrictParams(
-                  districtId: accountState.district.value.id),
+                  districtId: accountState.district.value!.id),
             );
             resultWard.fold(
               (failureWard) {
@@ -152,6 +156,78 @@ class AccountController extends BaseController {
         }
         Log.severe("$success");
         clearError();
+      },
+    );
+    hideLoading();
+  }
+
+  // Future<void> getDistrictByCity(int cityId) async {
+  //   authController.showLoading();
+  //   final result = await authController
+  //       .getDistrictByCityUsecase(GetDistrictByCityParams(cityId: cityId));
+  //   result.fold(
+  //     (failure) {
+  //       Log.severe("$failure");
+  //       authController.showError(
+  //         () => authController.clearError(),
+  //         failure.message,
+  //         'Quay lại',
+  //       );
+  //     },
+  //     (success) {
+  //       accountState.listAllDistrict.value = success;
+  //       Log.severe("$success");
+  //       authController.clearError();
+  //     },
+  //   );
+  //   authController.hideLoading();
+  // }
+  //
+  // Future<void> getWardByDistrict(int districtId) async {
+  //   authController.showLoading();
+  //   final result = await authController.getWardByDistrictUsecase(
+  //       GetWardByDistrictParams(districtId: districtId));
+  //   result.fold(
+  //     (failure) {
+  //       Log.severe("$failure");
+  //       authController.showError(
+  //         () => authController.clearError(),
+  //         failure.message,
+  //         'Quay lại',
+  //       );
+  //     },
+  //     (success) {
+  //       accountState.listAllWard.value = success;
+  //       Log.severe("$success");
+  //       authController.clearError();
+  //     },
+  //   );
+  //   authController.hideLoading();
+  // }
+
+  Future<void> getHealthMetricts() async {
+    showLoading();
+    final result = await getHealthMetrictsUsecase(
+        authController.baseState.user.value.id.toString());
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        showError(
+          () => clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        accountState.healthMetricts.value = success;
+        // accountState.listAllCity.value = success;
+        // for (var element in success) {
+        //   if (element.name == authController.baseState.user.value.city) {
+        //     accountState.city.value = element;
+        //   }
+        // }
+        Log.severe("$success");
+        // clearError();
       },
     );
     hideLoading();

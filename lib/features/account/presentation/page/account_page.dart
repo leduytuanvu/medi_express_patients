@@ -303,6 +303,7 @@ class AccountPage extends StatelessWidget {
                           title: Text(
                             "Chọn ngôn ngữ",
                             style: AppTextStyle.mediumBody(context),
+                            textAlign: TextAlign.center,
                           ).paddingOnly(bottom: context.wp(2)),
                           content: DropdownButtonFormField<String>(
                             value: selectedLanguage,
@@ -351,13 +352,31 @@ class AccountPage extends StatelessWidget {
                             items: languages.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(
-                                  value,
-                                  style: AppTextStyle.mediumBody(context),
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.zero, // Set custom padding
+                                  child: Text(
+                                    value,
+                                    style: AppTextStyle.mediumBody(context),
+                                  ),
                                 ),
                               );
                             }).toList(),
                             onChanged: (String? newValue) {
+                              switch (newValue) {
+                                case 'Tiếng Việt':
+                                  var locale = Locale('vi', 'VN');
+                                  Get.updateLocale(locale);
+                                  break;
+                                case 'English':
+                                  var locale = Locale('en', 'US');
+                                  Get.updateLocale(locale);
+                                  break;
+                                case 'French':
+                                  var locale = Locale('fr', 'FR');
+                                  Get.updateLocale(locale);
+                                  break;
+                              }
                               // Update the selected language
                               selectedLanguage = newValue!;
 
@@ -377,34 +396,37 @@ class AccountPage extends StatelessWidget {
                       },
                     );
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: context.wp(14),
-                        width: context.wp(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(context.rp(20)),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
+                          ),
+                          child: SvgPicture.asset(
+                            Assets.svg.language,
+                          ).paddingAll(
+                            context.wp(3.4),
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          Assets.svg.language,
-                        ).paddingAll(
-                          context.wp(3.4),
+                        context.wp(4).sbw,
+                        Text('Ngôn ngữ'),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
                         ),
-                      ),
-                      context.wp(4).sbw,
-                      Text('Ngôn ngữ'),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: context.wp(5),
-                      ),
-                    ],
-                  ).paddingOnly(
-                    bottom: context.hp(1.7),
-                    top: context.hp(0.4),
-                    left: context.wp(4),
-                    right: context.wp(4),
+                      ],
+                    ).paddingOnly(
+                      bottom: context.hp(1.7),
+                      top: context.hp(0.4),
+                      left: context.wp(4),
+                      right: context.wp(4),
+                    ),
                   ),
                 ),
                 Divider(

@@ -4,6 +4,12 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/network/api_client.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/storage/local_storage.dart';
+import 'package:medi_express_patients/features/account/data/datasource/local/account_local_datasource.dart';
+import 'package:medi_express_patients/features/account/data/datasource/remote/account_api_service.dart';
+import 'package:medi_express_patients/features/account/data/datasource/remote/account_remote_datasource.dart';
+import 'package:medi_express_patients/features/account/data/repositories/account_repository_impl.dart';
+import 'package:medi_express_patients/features/account/domain/repositories/account_repository.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_remote_datasource.dart';
@@ -164,4 +170,20 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => GetAllHealthRecordUsecase(Get.find<HomeRepository>()));
   Get.lazyPut(
       () => GetAllHomeExaminationPackageUsecase(Get.find<HomeRepository>()));
+
+  // Account
+  Get.lazyPut(() => AccountApiService(Get.find<ApiClient>().client));
+  Get.lazyPut<AccountLocalDatasource>(
+      () => AccountLocalDatasource(Get.find<LocalStorage>()));
+  Get.lazyPut<AccountRemoteDatasource>(
+      () => AccountRemoteDatasource(Get.find<AccountApiService>()));
+  Get.lazyPut(() => AccountRepositoryImpl(
+        Get.find<AccountLocalDatasource>(),
+        Get.find<AccountRemoteDatasource>(),
+      ));
+  Get.lazyPut<AccountRepository>(() => AccountRepositoryImpl(
+        Get.find<AccountLocalDatasource>(),
+        Get.find<AccountRemoteDatasource>(),
+      ));
+  Get.lazyPut(() => GetHealthMetrictsUsecase(Get.find<AccountRepository>()));
 }

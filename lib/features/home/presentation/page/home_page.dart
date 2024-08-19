@@ -47,12 +47,13 @@ class HomePage extends StatelessWidget {
                         if (authController
                             .baseState.user.value.name!.isNotEmpty) {
                           return Text(
-                            'Chào, ${authController.baseState.user.value.name}',
+                            'hi'.tr +
+                                ', ${authController.baseState.user.value.name}',
                             style: AppTextStyle.bigTitle(context),
                           );
                         } else {
                           return Text(
-                            'Chào, Ẩn danh',
+                            'hi'.tr + ', ' + 'anonymous'.tr,
                             style: AppTextStyle.bigTitle(context),
                           );
                         }

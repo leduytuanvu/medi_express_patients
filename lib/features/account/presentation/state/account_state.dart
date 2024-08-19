@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/account/domain/entities/health_metricts_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
@@ -14,9 +15,42 @@ class AccountState extends BaseState {
     districtId: -1,
     wardName: '',
   ).obs;
-  var district = DistrictEntity(
-    id: -1,
-    cityId: -1,
-    districtName: '',
+  // var district = DistrictEntity(
+  //   id: -1,
+  //   cityId: -1,
+  //   districtName: '',
+  // ).obs;
+  var district = Rxn<DistrictEntity>();
+
+  var healthMetricts = HealthMetricsEntity(
+    patientId: -1,
+    blood: null,
+    height: null,
+    weight: null,
+    acidUric: HealthMetricEntity(
+      createdAt: '',
+      value: '',
+    ),
+    bloodPressure: HealthMetricEntity(
+      value: '',
+      createdAt: '',
+    ),
+    bloodSugar: BloodSugarEntity(
+      createdAt: '',
+      bloodSugarAfterMeal: '',
+      bloodSugarBeforeMeal: '',
+    ),
+    heartRate: HealthMetricEntity(
+      createdAt: '',
+      value: '',
+    ),
+    spO2: HealthMetricEntity(
+      value: '',
+      createdAt: '',
+    ),
+    temperature: HealthMetricEntity(
+      createdAt: '',
+      value: '',
+    ),
   ).obs;
 }

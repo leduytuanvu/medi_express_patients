@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
@@ -75,8 +76,10 @@ class MainPage extends BaseStatelessWidget {
             builder: (controller) => ChatPage(),
           ),
           GetBuilder<AccountController>(
-            init:
-                AccountController(errorHandlingService: ErrorHandlingService()),
+            init: AccountController(
+              getHealthMetrictsUsecase: Get.find<GetHealthMetrictsUsecase>(),
+              errorHandlingService: ErrorHandlingService(),
+            ),
             builder: (controller) => AccountPage(),
           ),
         ],
@@ -100,7 +103,7 @@ class MainPage extends BaseStatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Trang chủ',
+              label: 'home'.tr,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -114,7 +117,7 @@ class MainPage extends BaseStatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Bác sĩ',
+              label: 'doctor'.tr,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -128,7 +131,7 @@ class MainPage extends BaseStatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Lịch khám',
+              label: 'schedule'.tr,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -142,7 +145,7 @@ class MainPage extends BaseStatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Tin nhắn',
+              label: 'chat'.tr,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -156,7 +159,7 @@ class MainPage extends BaseStatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Tài khoản',
+              label: 'account'.tr,
             ),
           ],
           backgroundColor: Colors.white,

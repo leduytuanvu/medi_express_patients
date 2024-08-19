@@ -2,21 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
-import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
-import 'package:medi_express_patients/core/presentation/widgets/custom_drop_down_box_widget.dart';
-import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
-import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
-import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
-import 'package:medi_express_patients/features/schedule/presentation/controller/schedule_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 class HealthIndexPage extends BaseStatelessWidget {
@@ -111,17 +101,33 @@ class HealthIndexPage extends BaseStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Chiều cao', style: AppTextStyle.smallItemTitle(context),),
+                          Text(
+                            'Chiều cao',
+                            style: AppTextStyle.smallItemTitle(context),
+                          ),
                           Row(
                             children: [
-                              Text('162cm', style: AppTextStyle.mediumBody(context),),
-                              Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                              Text(
+                                accountController
+                                    .accountState.healthMetricts.value.height,
+                                style: AppTextStyle.mediumBody(context),
+                              ),
+                              Text(
+                                '   |   ',
+                                style: AppTextStyle.mediumHint(context)
+                                    .copyWith(color: Color(0xFFE3E8EF)),
+                              ),
                               SvgPicture.asset(
                                 Assets.svg.alarm,
                                 height: context.wp(5),
                                 width: context.wp(5),
-                              ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                              Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                              ).paddingOnly(
+                                  bottom: context.hp(0.3),
+                                  right: context.wp(1.4)),
+                              Text(
+                                '08:30 23/09/2021',
+                                style: AppTextStyle.bigHint(context),
+                              ),
                             ],
                           ),
                         ],
@@ -159,17 +165,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Cân nặng', style: AppTextStyle.smallItemTitle(context),),
+                          Text(
+                            'Cân nặng',
+                            style: AppTextStyle.smallItemTitle(context),
+                          ),
                           Row(
                             children: [
-                              Text('162cm', style: AppTextStyle.mediumBody(context),),
-                              Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                              Text(
+                                '162cm',
+                                style: AppTextStyle.mediumBody(context),
+                              ),
+                              Text(
+                                '   |   ',
+                                style: AppTextStyle.mediumHint(context)
+                                    .copyWith(color: Color(0xFFE3E8EF)),
+                              ),
                               SvgPicture.asset(
                                 Assets.svg.alarm,
                                 height: context.wp(5),
                                 width: context.wp(5),
-                              ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                              Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                              ).paddingOnly(
+                                  bottom: context.hp(0.3),
+                                  right: context.wp(1.4)),
+                              Text(
+                                '08:30 23/09/2021',
+                                style: AppTextStyle.bigHint(context),
+                              ),
                             ],
                           ),
                         ],
@@ -210,17 +231,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Nhiệt độ', style: AppTextStyle.smallItemTitle(context),),
+                          Text(
+                            'Nhiệt độ',
+                            style: AppTextStyle.smallItemTitle(context),
+                          ),
                           Row(
                             children: [
-                              Text('162cm', style: AppTextStyle.mediumBody(context),),
-                              Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                              Text(
+                                '162cm',
+                                style: AppTextStyle.mediumBody(context),
+                              ),
+                              Text(
+                                '   |   ',
+                                style: AppTextStyle.mediumHint(context)
+                                    .copyWith(color: Color(0xFFE3E8EF)),
+                              ),
                               SvgPicture.asset(
                                 Assets.svg.alarm,
                                 height: context.wp(5),
                                 width: context.wp(5),
-                              ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                              Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                              ).paddingOnly(
+                                  bottom: context.hp(0.3),
+                                  right: context.wp(1.4)),
+                              Text(
+                                '08:30 23/09/2021',
+                                style: AppTextStyle.bigHint(context),
+                              ),
                             ],
                           ),
                         ],
@@ -263,17 +299,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Nhịp tim', style: AppTextStyle.smallItemTitle(context),),
+                          Text(
+                            'Nhịp tim',
+                            style: AppTextStyle.smallItemTitle(context),
+                          ),
                           Row(
                             children: [
-                              Text('162cm', style: AppTextStyle.mediumBody(context),),
-                              Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                              Text(
+                                '162cm',
+                                style: AppTextStyle.mediumBody(context),
+                              ),
+                              Text(
+                                '   |   ',
+                                style: AppTextStyle.mediumHint(context)
+                                    .copyWith(color: Color(0xFFE3E8EF)),
+                              ),
                               SvgPicture.asset(
                                 Assets.svg.alarm,
                                 height: context.wp(5),
                                 width: context.wp(5),
-                              ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                              Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                              ).paddingOnly(
+                                  bottom: context.hp(0.3),
+                                  right: context.wp(1.4)),
+                              Text(
+                                '08:30 23/09/2021',
+                                style: AppTextStyle.bigHint(context),
+                              ),
                             ],
                           ),
                         ],
@@ -312,17 +363,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Huyết áp', style: AppTextStyle.smallItemTitle(context),),
+                        Text(
+                          'Huyết áp',
+                          style: AppTextStyle.smallItemTitle(context),
+                        ),
                         Row(
                           children: [
-                            Text('162cm', style: AppTextStyle.mediumBody(context),),
-                            Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                            Text(
+                              '162cm',
+                              style: AppTextStyle.mediumBody(context),
+                            ),
+                            Text(
+                              '   |   ',
+                              style: AppTextStyle.mediumHint(context)
+                                  .copyWith(color: Color(0xFFE3E8EF)),
+                            ),
                             SvgPicture.asset(
                               Assets.svg.alarm,
                               height: context.wp(5),
                               width: context.wp(5),
-                            ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                            Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                            ).paddingOnly(
+                                bottom: context.hp(0.3),
+                                right: context.wp(1.4)),
+                            Text(
+                              '08:30 23/09/2021',
+                              style: AppTextStyle.bigHint(context),
+                            ),
                           ],
                         ),
                       ],
@@ -360,17 +426,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Chiều cao', style: AppTextStyle.smallItemTitle(context),),
+                        Text(
+                          'SpO2',
+                          style: AppTextStyle.smallItemTitle(context),
+                        ),
                         Row(
                           children: [
-                            Text('SpO2', style: AppTextStyle.mediumBody(context),),
-                            Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                            Text(
+                              'SpO2',
+                              style: AppTextStyle.mediumBody(context),
+                            ),
+                            Text(
+                              '   |   ',
+                              style: AppTextStyle.mediumHint(context)
+                                  .copyWith(color: Color(0xFFE3E8EF)),
+                            ),
                             SvgPicture.asset(
                               Assets.svg.alarm,
                               height: context.wp(5),
                               width: context.wp(5),
-                            ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                            Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                            ).paddingOnly(
+                                bottom: context.hp(0.3),
+                                right: context.wp(1.4)),
+                            Text(
+                              '08:30 23/09/2021',
+                              style: AppTextStyle.bigHint(context),
+                            ),
                           ],
                         ),
                       ],
@@ -408,17 +489,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Đường huyết', style: AppTextStyle.smallItemTitle(context),),
+                        Text(
+                          'Đường huyết',
+                          style: AppTextStyle.smallItemTitle(context),
+                        ),
                         Row(
                           children: [
-                            Text('162cm', style: AppTextStyle.mediumBody(context),),
-                            Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                            Text(
+                              '162cm',
+                              style: AppTextStyle.mediumBody(context),
+                            ),
+                            Text(
+                              '   |   ',
+                              style: AppTextStyle.mediumHint(context)
+                                  .copyWith(color: Color(0xFFE3E8EF)),
+                            ),
                             SvgPicture.asset(
                               Assets.svg.alarm,
                               height: context.wp(5),
                               width: context.wp(5),
-                            ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                            Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                            ).paddingOnly(
+                                bottom: context.hp(0.3),
+                                right: context.wp(1.4)),
+                            Text(
+                              '08:30 23/09/2021',
+                              style: AppTextStyle.bigHint(context),
+                            ),
                           ],
                         ),
                       ],
@@ -456,17 +552,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Chỉ số UA', style: AppTextStyle.smallItemTitle(context),),
+                        Text(
+                          'Chỉ số UA',
+                          style: AppTextStyle.smallItemTitle(context),
+                        ),
                         Row(
                           children: [
-                            Text('162cm', style: AppTextStyle.mediumBody(context),),
-                            Text('   |   ', style: AppTextStyle.mediumHint(context).copyWith(color: Color(0xFFE3E8EF)),),
+                            Text(
+                              '162cm',
+                              style: AppTextStyle.mediumBody(context),
+                            ),
+                            Text(
+                              '   |   ',
+                              style: AppTextStyle.mediumHint(context)
+                                  .copyWith(color: Color(0xFFE3E8EF)),
+                            ),
                             SvgPicture.asset(
                               Assets.svg.alarm,
                               height: context.wp(5),
                               width: context.wp(5),
-                            ).paddingOnly(bottom: context.hp(0.3), right: context.wp(1.4)),
-                            Text('08:30 23/09/2021', style: AppTextStyle.bigHint(context),),
+                            ).paddingOnly(
+                                bottom: context.hp(0.3),
+                                right: context.wp(1.4)),
+                            Text(
+                              '08:30 23/09/2021',
+                              style: AppTextStyle.bigHint(context),
+                            ),
                           ],
                         ),
                       ],
