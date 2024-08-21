@@ -21,4 +21,33 @@ class AccountRemoteDatasource {
       );
     }, 'AccountRemoteDatasource/getHealthMetrics');
   }
+
+  Future<ApiResponse<HealthMetricsDto>> updateUser(
+    String gender,
+    String phoneNumber,
+    String address,
+    String email,
+    int wardId,
+    String name,
+    String birthdate,
+    String bhytCode,
+  ) async {
+    Log.info("updateUser in AccountRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await accountApiService.updateUser(
+        gender,
+        phoneNumber,
+        address,
+        email,
+        wardId,
+        name,
+        birthdate,
+        bhytCode,
+      );
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => HealthMetricsDto.fromJson(data),
+      );
+    }, 'AccountRemoteDatasource/updateUser');
+  }
 }

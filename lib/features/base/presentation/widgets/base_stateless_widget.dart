@@ -53,9 +53,7 @@ abstract class BaseStatelessWidget extends StatelessWidget {
           }
         }),
         Obx(() {
-          Log.info("show confirm");
           if (authController.baseState.confirmMessage.value.isNotEmpty) {
-            Log.info("show confirm 1");
             return _buildDialogConfirm(
               context,
               titleButtonConfirm:

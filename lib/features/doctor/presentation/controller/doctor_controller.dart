@@ -53,9 +53,9 @@ class DoctorController extends BaseController {
           doctorState.listAllInformationDoctorSearch.where((doctor) {
         // Normalize the doctor's name, degree, and major
         final String normalizedName =
-            removeDiacritics(doctor.name.toLowerCase());
+            removeDiacritics(doctor.name!.toLowerCase());
         final String normalizedDegree =
-            removeDiacritics(doctor.degree.toLowerCase());
+            removeDiacritics(doctor.degree!.toLowerCase());
         final String normalizedMajor =
             removeDiacritics(doctor.major?.toLowerCase() ?? '');
 

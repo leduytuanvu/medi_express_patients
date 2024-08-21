@@ -5,17 +5,16 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
-import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
-import 'package:medi_express_patients/features/home/data/model/item_patient_model.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
-class ChatPage extends BaseStatelessWidget {
+class ChatPage extends StatelessWidget {
   final ChatController chatController = Get.find<ChatController>();
   ChatPage({super.key});
 
   @override
-  Widget buildContent(BuildContext context) {
+  Widget build(BuildContext context) {
+    chatController.getAllConversation();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -102,66 +101,85 @@ class ChatPage extends BaseStatelessWidget {
             top: context.wp(4),
             bottom: context.wp(4),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              itemCount: ItemPatientModel.list(context).length,
-              itemBuilder: (context, index) {
-                final item = ItemPatientModel.list(context)[index];
-                if (index == 0) {
-                  return context.hp(1).sbh;
-                }
-                return GestureDetector(
-                  onTap: () {
-                    Log.info("click");
-                    context.toNamedScreen(AppRoutes.chatDetail);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            Assets.png.avatar1,
-                            height: context.hp(7.6),
-                            fit: BoxFit.cover,
+          Obx(() {
+            Log.info(
+                "chatController.chatState.listConversation.length: ${chatController.chatState.listConversation.length}");
+            return Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                scrollDirection: Axis.vertical,
+                itemCount: chatController.chatState.listConversation.length,
+                itemBuilder: (context, index) {
+                  final item = chatController.chatState.listConversation[index];
+                  // if (index == 0) {
+                  //   return context.hp(1).sbh;
+                  // }
+                  return GestureDetector(
+                    onTap: () {
+                      Log.info("click");
+                      context.toNamedScreen(AppRoutes.chatDetail,
+                          arguments: {'conversation': item});
+                      // context.toNamedScreen(AppRoutes.scheduleDetail,
+                      //     arguments: {'schedule': item});
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          item.avatar!.isEmpty
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.asset(
+                                    Assets.png.avatar1,
+                                    height: context.hp(7.6),
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.asset(
+                                    Assets.png.avatar1,
+                                    height: context.hp(7.6),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                          context.wp(4).sbw,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Bs. ' + item.name,
+                                  style:
+                                      AppTextStyle.bigItemPatientTitle(context),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                context.hp(0.4).sbh,
+                                Text(
+                                  item.lastMessage ?? '',
+                                  style: AppTextStyle.mediumDateTime(context),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        context.wp(4).sbw,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Bs. Hà Ngọc Cường',
-                                style:
-                                    AppTextStyle.bigItemPatientTitle(context),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              context.hp(0.4).sbh,
-                              Text(
-                                'Chào bác sĩ',
-                                style: AppTextStyle.mediumDateTime(context),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text('3 giờ trước'),
-                      ],
-                    ).paddingOnly(bottom: context.hp(2)),
-                  ),
-                );
-              },
-            ).paddingSymmetric(
-              horizontal: context.wp(4),
-            ),
-          ),
+                          Text('3 giờ trước'),
+                        ],
+                      ).paddingOnly(
+                        bottom: context.hp(2),
+                        top: index == 0 ? context.hp(1) : 0,
+                      ),
+                    ),
+                  );
+                },
+              ).paddingSymmetric(
+                horizontal: context.wp(4),
+              ),
+            );
+          }),
         ],
       ),
     );

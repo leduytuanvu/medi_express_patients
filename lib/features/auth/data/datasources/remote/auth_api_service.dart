@@ -27,6 +27,7 @@ class AuthApiService {
     int wardId,
     int gender,
     String birthdate,
+    String bhytCode,
     String password,
     String role,
   ) async {
@@ -41,6 +42,7 @@ class AuthApiService {
         'Gender': gender,
         'BirthDate': birthdate,
         'Password': password,
+        'BHYTCode': bhytCode,
         'Role': role,
       },
     );

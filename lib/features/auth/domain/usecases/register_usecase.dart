@@ -24,6 +24,7 @@ class RegisterUsecase implements UseCase<RegisterEntity, RegisterParams> {
         params.wardId,
         params.gender,
         params.birthdate,
+        params.bhytCode,
         params.password,
       );
       Log.info('auth: $auth');

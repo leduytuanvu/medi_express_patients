@@ -7,6 +7,10 @@ import 'package:medi_express_patients/features/account/domain/usecases/get_healt
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/create_conversation_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/create_message_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/get_all_conversation_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/get_all_message_usecase.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
@@ -72,7 +76,14 @@ class MainPage extends BaseStatelessWidget {
             builder: (controller) => SchedulePage(),
           ),
           GetBuilder<ChatController>(
-            init: ChatController(errorHandlingService: ErrorHandlingService()),
+            init: ChatController(
+                getAllConversationUsecase:
+                    Get.find<GetAllConversationUsecase>(),
+                getAllMessageUsecase: Get.find<GetAllMessageUsecase>(),
+                createMessageUsecase: Get.find<CreateMessageUsecase>(),
+                createConversationUsecase:
+                    Get.find<CreateConversationUsecase>(),
+                errorHandlingService: ErrorHandlingService()),
             builder: (controller) => ChatPage(),
           ),
           GetBuilder<AccountController>(

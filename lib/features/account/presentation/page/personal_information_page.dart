@@ -93,68 +93,83 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       type: TextFieldType.dateTime,
                       errorText: authController.authState.errorBirthdate,
                     ),
-                    CustomDropDownBoxWidget<String>(
-                      labelText: 'Giới tính',
-                      borderRadius: 8.0,
-                      items: authController.authState.listGender,
-                      displayItem: (gender) => gender,
-                      selectedItem: authController.genderController.text,
-                      onChanged: (String? gender) {
-                        Log.info(gender ?? '');
-                        authController.genderController.text = gender ?? '';
-                        authController.authState.genderId.value =
-                            gender == 'Nam' ? 1 : 0;
-                      },
-                      errorText: authController.authState.errorGender,
-                    ),
-                    CustomDropDownBoxWidget<CityEntity>(
-                      labelText: 'Tỉnh/thành phố',
-                      borderRadius: 8.0,
-                      items: accountController.accountState.listAllCity,
-                      displayItem: (city) => city.name,
-                      selectedItem: accountController.accountState.city.value,
-                      onChanged: (CityEntity? city) {
-                        accountController.accountState.district.value = null;
-                        accountController.getDistrictByCity(city!.id);
-                        accountController.accountState.city.value = city;
-                        // authController.cityController.text = city.name;
-                      },
-                      errorText: authController.authState.errorCity,
-                    ),
-                    CustomDropDownBoxWidget<DistrictEntity>(
-                      labelText: 'Quận/huyện',
-                      borderRadius: 8.0,
-                      items: accountController.accountState.listAllDistrict,
-                      displayItem: (district) => district.districtName,
-                      selectedItem:
-                          accountController.accountState.district.value,
-                      onChanged: (DistrictEntity? district) {
-                        Log.info(district?.districtName ?? '');
-                        // Update selected district
-                        accountController.accountState.district.value =
-                            district;
-
-                        // Fetch wards based on selected district
-                        accountController.getWardByDistrict(district?.id ?? -1);
-                        // district;
-                        // authController.districtController.text =
-                        //     district.districtName;
-                      },
-                      errorText: authController.authState.errorDistrict,
-                    ),
-                    CustomDropDownBoxWidget<WardEntity>(
-                      labelText: 'Phường/xã',
-                      borderRadius: 8.0,
-                      items: accountController.accountState.listAllWard,
-                      displayItem: (ward) => ward.wardName,
-                      selectedItem: accountController.accountState.ward.value,
-                      onChanged: (WardEntity? ward) {
-                        Log.info(ward?.wardName ?? '');
-                        // authController.wardController.text = ward!.wardName;
-                        // authController.authState.wardId.value = ward.id;
-                      },
-                      errorText: authController.authState.errorWard,
-                    ),
+                    Obx(() {
+                      return CustomDropDownBoxWidget<String>(
+                        labelText: 'Giới tính',
+                        borderRadius: 8.0,
+                        items: authController.authState.listGender,
+                        displayItem: (gender) => gender,
+                        selectedItem: accountController
+                                .accountState.selectedGender.value.isEmpty
+                            ? null
+                            : accountController
+                                .accountState.selectedGender.value,
+                        onChanged: (String? gender) {
+                          if (gender != null) {
+                            Log.info(gender);
+                            accountController
+                                .accountState.selectedGender.value = gender;
+                            authController.genderController.text = gender;
+                            authController.authState.genderId.value =
+                                gender == 'Nam' ? 1 : 0;
+                          }
+                        },
+                        errorText: authController.authState.errorGender,
+                      );
+                    }),
+                    Obx(() {
+                      return CustomDropDownBoxWidget<CityEntity>(
+                        labelText: 'Tỉnh/thành phố',
+                        borderRadius: 8.0,
+                        items: accountController.accountState.listAllCity,
+                        displayItem: (city) => city.name,
+                        selectedItem: accountController.accountState.city.value,
+                        onChanged: (CityEntity? city) {
+                          accountController.accountState.city.value = city;
+                          accountController.accountState.district.value = null;
+                          accountController.accountState.ward.value = null;
+                          accountController.accountState.listAllWard.value = [];
+                          accountController.getDistrictByCity(city!.id);
+                          authController.cityController.text = city.name;
+                        },
+                        errorText: authController.authState.errorCity,
+                      );
+                    }),
+                    Obx(() {
+                      return CustomDropDownBoxWidget<DistrictEntity>(
+                        labelText: 'Quận/huyện',
+                        borderRadius: 8.0,
+                        items: accountController.accountState.listAllDistrict,
+                        displayItem: (district) => district.districtName,
+                        selectedItem:
+                            accountController.accountState.district.value,
+                        onChanged: (DistrictEntity? district) {
+                          Log.info(district?.districtName ?? '');
+                          accountController.accountState.district.value =
+                              district;
+                          accountController.getWardByDistrict(district!.id);
+                          authController.districtController.text =
+                              district.districtName;
+                        },
+                        errorText: authController.authState.errorDistrict,
+                      );
+                    }),
+                    Obx(() {
+                      return CustomDropDownBoxWidget<WardEntity>(
+                        labelText: 'Phường/xã',
+                        borderRadius: 8.0,
+                        items: accountController.accountState.listAllWard,
+                        displayItem: (ward) => ward.wardName,
+                        selectedItem: accountController.accountState.ward.value,
+                        onChanged: (WardEntity? ward) {
+                          Log.info(ward?.wardName ?? '');
+                          accountController.accountState.ward.value = ward;
+                          authController.wardController.text = ward!.wardName;
+                          authController.authState.wardId.value = ward.id;
+                        },
+                        errorText: authController.authState.errorWard,
+                      );
+                    }),
                     CustomTextFieldWidget(
                       labelText: 'Địa chỉ cụ thể',
                       controller: authController.addressController,
@@ -172,7 +187,8 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       onPressed: () async {
                         // Handle button press
                         FocusScope.of(context).unfocus();
-                        authController.enterInformation(context);
+                        // authController.enterInformation(context);
+                        accountController.updateInformation();
                       },
                       color: const Color(0xffCF4375),
                       titleSize: context.sp(14),

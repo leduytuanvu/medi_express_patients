@@ -8,6 +8,7 @@ class RegisterParams extends Equatable {
   final int wardId;
   final int gender;
   final String birthdate;
+  final String bhytCode;
   final String password;
   final String role;
 
@@ -20,6 +21,7 @@ class RegisterParams extends Equatable {
     required this.gender,
     required this.birthdate,
     required this.password,
+    required this.bhytCode,
     required this.role,
   });
 
@@ -33,6 +35,7 @@ class RegisterParams extends Equatable {
         gender,
         birthdate,
         password,
+        bhytCode,
         role,
       ];
 }

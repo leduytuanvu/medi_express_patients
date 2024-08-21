@@ -66,6 +66,7 @@ class _Svg {
   final String language = '${path}language.svg';
   final String logout = '${path}logout.svg';
   final String alarm = '${path}alarm.svg';
+  final String edit = '${path}edit.svg';
 
   final String height = '${path}height.svg';
   final String weight = '${path}weight.svg';

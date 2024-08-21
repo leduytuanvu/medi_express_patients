@@ -84,61 +84,75 @@ class HealthIndexPage extends BaseStatelessWidget {
                   onTap: () {
                     // context.toNamedScreen(AppRoutes.healthIndex);
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: context.wp(14),
-                        width: context.wp(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(context.rp(20)),
-                        ),
-                        child: SvgPicture.asset(Assets.svg.height).paddingAll(
-                          context.wp(3.4),
-                        ),
-                      ),
-                      context.wp(4).sbw,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Chiều cao',
-                            style: AppTextStyle.smallItemTitle(context),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                accountController
-                                    .accountState.healthMetricts.value.height,
-                                style: AppTextStyle.mediumBody(context),
-                              ),
-                              Text(
-                                '   |   ',
-                                style: AppTextStyle.mediumHint(context)
-                                    .copyWith(color: Color(0xFFE3E8EF)),
-                              ),
-                              SvgPicture.asset(
-                                Assets.svg.alarm,
-                                height: context.wp(5),
-                                width: context.wp(5),
-                              ).paddingOnly(
-                                  bottom: context.hp(0.3),
-                                  right: context.wp(1.4)),
-                              Text(
-                                '08:30 23/09/2021',
-                                style: AppTextStyle.bigHint(context),
-                              ),
-                            ],
+                          child: SvgPicture.asset(Assets.svg.height).paddingAll(
+                            context.wp(3.4),
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: context.wp(5),
-                      ),
-                    ],
-                  ).paddingSymmetric(vertical: context.hp(1.7)),
+                        ),
+                        context.wp(4).sbw,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Chiều cao',
+                              style: AppTextStyle.smallItemTitle(context),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  accountController.accountState.healthMetricts
+                                              .value.height !=
+                                          null
+                                      ? accountController.accountState
+                                              .healthMetricts.value.height +
+                                          ' cm'
+                                      : '0 cm',
+                                  style: AppTextStyle.mediumBody(context),
+                                ),
+                                Text(
+                                  '   |   ',
+                                  style: AppTextStyle.mediumHint(context)
+                                      .copyWith(color: Color(0xFFE3E8EF)),
+                                ),
+                                SvgPicture.asset(
+                                  Assets.svg.alarm,
+                                  height: context.wp(5),
+                                  width: context.wp(5),
+                                ).paddingOnly(
+                                    bottom: context.hp(0.3),
+                                    right: context.wp(1.4)),
+                                Text(
+                                  accountController.accountState.healthMetricts
+                                              .value.height !=
+                                          null
+                                      ? accountController.accountState
+                                              .healthMetricts.value.height +
+                                          ' cm'
+                                      : '0 cm',
+                                  style: AppTextStyle.bigHint(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingSymmetric(vertical: context.hp(1.7)),
+                  ),
                 ),
                 Divider(
                   thickness: context.hp(0.1),
@@ -148,60 +162,69 @@ class HealthIndexPage extends BaseStatelessWidget {
                   onTap: () {
                     // context.toNamedScreen(AppRoutes.healthIndex);
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: context.wp(14),
-                        width: context.wp(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(context.rp(20)),
-                        ),
-                        child: SvgPicture.asset(Assets.svg.weight).paddingAll(
-                          context.wp(3.4),
-                        ),
-                      ),
-                      context.wp(4).sbw,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Cân nặng',
-                            style: AppTextStyle.smallItemTitle(context),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '162cm',
-                                style: AppTextStyle.mediumBody(context),
-                              ),
-                              Text(
-                                '   |   ',
-                                style: AppTextStyle.mediumHint(context)
-                                    .copyWith(color: Color(0xFFE3E8EF)),
-                              ),
-                              SvgPicture.asset(
-                                Assets.svg.alarm,
-                                height: context.wp(5),
-                                width: context.wp(5),
-                              ).paddingOnly(
-                                  bottom: context.hp(0.3),
-                                  right: context.wp(1.4)),
-                              Text(
-                                '08:30 23/09/2021',
-                                style: AppTextStyle.bigHint(context),
-                              ),
-                            ],
+                          child: SvgPicture.asset(Assets.svg.weight).paddingAll(
+                            context.wp(3.4),
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: context.wp(5),
-                      ),
-                    ],
-                  ).paddingSymmetric(vertical: context.hp(1.7)),
+                        ),
+                        context.wp(4).sbw,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Cân nặng',
+                              style: AppTextStyle.smallItemTitle(context),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  accountController.accountState.healthMetricts
+                                              .value.weight !=
+                                          null
+                                      ? accountController.accountState
+                                              .healthMetricts.value.weight +
+                                          ' kg'
+                                      : '0 kg',
+                                  style: AppTextStyle.mediumBody(context),
+                                ),
+                                Text(
+                                  '   |   ',
+                                  style: AppTextStyle.mediumHint(context)
+                                      .copyWith(color: Color(0xFFE3E8EF)),
+                                ),
+                                SvgPicture.asset(
+                                  Assets.svg.alarm,
+                                  height: context.wp(5),
+                                  width: context.wp(5),
+                                ).paddingOnly(
+                                    bottom: context.hp(0.3),
+                                    right: context.wp(1.4)),
+                                Text(
+                                  '08:30 23/09/2021',
+                                  style: AppTextStyle.bigHint(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingSymmetric(vertical: context.hp(1.7)),
+                  ),
                 ),
                 Divider(
                   thickness: context.hp(0.1),
@@ -212,64 +235,75 @@ class HealthIndexPage extends BaseStatelessWidget {
                     Log.info('click');
                     // context.toNamedScreen(AppRoutes.personalInformation);
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: context.wp(14),
-                        width: context.wp(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(context.rp(20)),
-                        ),
-                        child: SvgPicture.asset(
-                          Assets.svg.temp,
-                        ).paddingAll(
-                          context.wp(3.4),
-                        ),
-                      ),
-                      context.wp(4).sbw,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nhiệt độ',
-                            style: AppTextStyle.smallItemTitle(context),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '162cm',
-                                style: AppTextStyle.mediumBody(context),
-                              ),
-                              Text(
-                                '   |   ',
-                                style: AppTextStyle.mediumHint(context)
-                                    .copyWith(color: Color(0xFFE3E8EF)),
-                              ),
-                              SvgPicture.asset(
-                                Assets.svg.alarm,
-                                height: context.wp(5),
-                                width: context.wp(5),
-                              ).paddingOnly(
-                                  bottom: context.hp(0.3),
-                                  right: context.wp(1.4)),
-                              Text(
-                                '08:30 23/09/2021',
-                                style: AppTextStyle.bigHint(context),
-                              ),
-                            ],
+                          child: SvgPicture.asset(
+                            Assets.svg.temp,
+                          ).paddingAll(
+                            context.wp(3.4),
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: context.wp(5),
-                      ),
-                    ],
-                  ).paddingOnly(
-                    top: context.hp(1.7),
-                    bottom: context.hp(1.7),
+                        ),
+                        context.wp(4).sbw,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Nhiệt độ',
+                              style: AppTextStyle.smallItemTitle(context),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  accountController.accountState.healthMetricts
+                                          .value.temperature!.value.isNotEmpty
+                                      ? accountController
+                                          .accountState
+                                          .healthMetricts
+                                          .value
+                                          .temperature!
+                                          .value
+                                      : '0',
+                                  style: AppTextStyle.mediumBody(context),
+                                ),
+                                Text(
+                                  '   |   ',
+                                  style: AppTextStyle.mediumHint(context)
+                                      .copyWith(color: Color(0xFFE3E8EF)),
+                                ),
+                                SvgPicture.asset(
+                                  Assets.svg.alarm,
+                                  height: context.wp(5),
+                                  width: context.wp(5),
+                                ).paddingOnly(
+                                    bottom: context.hp(0.3),
+                                    right: context.wp(1.4)),
+                                Text(
+                                  '08:30 23/09/2021',
+                                  style: AppTextStyle.bigHint(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingOnly(
+                      top: context.hp(1.7),
+                      bottom: context.hp(1.7),
+                    ),
                   ),
                 ),
                 Divider(
@@ -280,64 +314,76 @@ class HealthIndexPage extends BaseStatelessWidget {
                   onTap: () {
                     context.toNamedScreen(AppRoutes.heartbeat);
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: context.wp(14),
-                        width: context.wp(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(context.rp(20)),
-                        ),
-                        child: SvgPicture.asset(
-                          Assets.svg.heartbeat,
-                        ).paddingAll(
-                          context.wp(3.4),
-                        ),
-                      ),
-                      context.wp(4).sbw,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nhịp tim',
-                            style: AppTextStyle.smallItemTitle(context),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '162cm',
-                                style: AppTextStyle.mediumBody(context),
-                              ),
-                              Text(
-                                '   |   ',
-                                style: AppTextStyle.mediumHint(context)
-                                    .copyWith(color: Color(0xFFE3E8EF)),
-                              ),
-                              SvgPicture.asset(
-                                Assets.svg.alarm,
-                                height: context.wp(5),
-                                width: context.wp(5),
-                              ).paddingOnly(
-                                  bottom: context.hp(0.3),
-                                  right: context.wp(1.4)),
-                              Text(
-                                '08:30 23/09/2021',
-                                style: AppTextStyle.bigHint(context),
-                              ),
-                            ],
+                          child: SvgPicture.asset(
+                            Assets.svg.heartbeat,
+                          ).paddingAll(
+                            context.wp(3.4),
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: context.wp(5),
-                      ),
-                    ],
-                  ).paddingOnly(
-                    bottom: context.hp(1.7),
-                    top: context.hp(1.7),
+                        ),
+                        context.wp(4).sbw,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Nhịp tim',
+                              style: AppTextStyle.smallItemTitle(context),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  accountController.accountState.healthMetricts
+                                          .value.heartRate!.value.isNotEmpty
+                                      ? accountController
+                                              .accountState
+                                              .healthMetricts
+                                              .value
+                                              .heartRate!
+                                              .value +
+                                          ' BPM'
+                                      : '0 BPM',
+                                  style: AppTextStyle.mediumBody(context),
+                                ),
+                                Text(
+                                  '   |   ',
+                                  style: AppTextStyle.mediumHint(context)
+                                      .copyWith(color: Color(0xFFE3E8EF)),
+                                ),
+                                SvgPicture.asset(
+                                  Assets.svg.alarm,
+                                  height: context.wp(5),
+                                  width: context.wp(5),
+                                ).paddingOnly(
+                                    bottom: context.hp(0.3),
+                                    right: context.wp(1.4)),
+                                Text(
+                                  '08:30 23/09/2021',
+                                  style: AppTextStyle.bigHint(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingOnly(
+                      bottom: context.hp(1.7),
+                      top: context.hp(1.7),
+                    ),
                   ),
                 ),
                 Divider(
@@ -370,7 +416,16 @@ class HealthIndexPage extends BaseStatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '162cm',
+                              accountController.accountState.healthMetricts
+                                      .value.bloodPressure!.value.isNotEmpty
+                                  ? accountController
+                                          .accountState
+                                          .healthMetricts
+                                          .value
+                                          .bloodPressure!
+                                          .value +
+                                      ' mmHg'
+                                  : '0 mmHg',
                               style: AppTextStyle.mediumBody(context),
                             ),
                             Text(
@@ -433,7 +488,12 @@ class HealthIndexPage extends BaseStatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'SpO2',
+                              accountController.accountState.healthMetricts
+                                      .value.spO2!.value.isNotEmpty
+                                  ? accountController.accountState
+                                          .healthMetricts.value.spO2!.value +
+                                      ' %'
+                                  : '0 %',
                               style: AppTextStyle.mediumBody(context),
                             ),
                             Text(
@@ -496,7 +556,21 @@ class HealthIndexPage extends BaseStatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '162cm',
+                              accountController
+                                      .accountState
+                                      .healthMetricts
+                                      .value
+                                      .bloodSugar!
+                                      .bloodSugarAfterMeal
+                                      .isNotEmpty
+                                  ? accountController
+                                          .accountState
+                                          .healthMetricts
+                                          .value
+                                          .bloodSugar!
+                                          .bloodSugarAfterMeal +
+                                      ' mmol/l'
+                                  : '0 mmol/l',
                               style: AppTextStyle.mediumBody(context),
                             ),
                             Text(
@@ -559,7 +633,16 @@ class HealthIndexPage extends BaseStatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '162cm',
+                              accountController.accountState.healthMetricts
+                                      .value.acidUric!.value.isNotEmpty
+                                  ? accountController
+                                          .accountState
+                                          .healthMetricts
+                                          .value
+                                          .acidUric!
+                                          .value +
+                                      ' umol/l'
+                                  : '0 umol/l',
                               style: AppTextStyle.mediumBody(context),
                             ),
                             Text(

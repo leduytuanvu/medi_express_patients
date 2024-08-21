@@ -34,6 +34,7 @@ import 'package:medi_express_patients/features/auth/domain/usecases/register_use
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -145,6 +146,9 @@ class AuthController extends BaseController {
               (successGetUserFromServer) async {
                 setUser(successGetUserFromServer);
                 setAuth(success);
+                final ChatController chatController =
+                    Get.find<ChatController>();
+                chatController.connectSocket();
               },
             );
           } else {
@@ -800,6 +804,7 @@ class AuthController extends BaseController {
         wardId: authState.wardId.value,
         gender: authState.genderId.value,
         birthdate: birthdateController.text,
+        bhytCode: bhytController.text,
         password: passwordRegisterController.text,
         role: 'Patient',
       ),

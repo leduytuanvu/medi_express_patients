@@ -28,6 +28,16 @@ import 'package:medi_express_patients/features/auth/domain/usecases/login_usecas
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
+import 'package:medi_express_patients/features/chat/data/datasource/local/chat_local_datasource.dart';
+import 'package:medi_express_patients/features/chat/data/datasource/remote/chat_api_service.dart';
+import 'package:medi_express_patients/features/chat/data/datasource/remote/chat_remote_datasource.dart';
+import 'package:medi_express_patients/features/chat/data/repositories/chat_repositoty_impl.dart';
+import 'package:medi_express_patients/features/chat/domain/repositories/chat_repository.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/create_conversation_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/create_message_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/get_all_conversation_usecase.dart';
+import 'package:medi_express_patients/features/chat/domain/usecases/get_all_message_usecase.dart';
+import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/local/doctor_local_datasource.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_api_service.dart';
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_remote_datasource.dart';
@@ -107,6 +117,33 @@ Future<void> initDI(String environmentName) async {
       getUserInformationUsecase: Get.find<GetUserInformationUsecase>(),
     ),
   );
+
+  /// Chat
+  Get.lazyPut(() => ChatApiService(Get.find<ApiClient>().client));
+  Get.lazyPut<ChatLocalDatasource>(
+      () => ChatLocalDatasource(Get.find<LocalStorage>()));
+  Get.lazyPut<ChatRemoteDatasource>(
+      () => ChatRemoteDatasource(Get.find<ChatApiService>()));
+  Get.lazyPut(() => ChatRepositoryImpl(
+        Get.find<ChatLocalDatasource>(),
+        Get.find<ChatRemoteDatasource>(),
+      ));
+  Get.lazyPut<ChatRepository>(() => ChatRepositoryImpl(
+        Get.find<ChatLocalDatasource>(),
+        Get.find<ChatRemoteDatasource>(),
+      ));
+  Get.lazyPut(() => GetAllMessageUsecase(Get.find<ChatRepository>()));
+  Get.lazyPut(() => GetAllConversationUsecase(Get.find<ChatRepository>()));
+  Get.lazyPut(() => CreateConversationUsecase(Get.find<ChatRepository>()));
+  Get.lazyPut(() => CreateMessageUsecase(Get.find<ChatRepository>()));
+  Get.put<ChatController>(ChatController(
+    getAllConversationUsecase: Get.find<GetAllConversationUsecase>(),
+    getAllMessageUsecase: Get.find<GetAllMessageUsecase>(),
+    createMessageUsecase: Get.find<CreateMessageUsecase>(),
+    createConversationUsecase: Get.find<CreateConversationUsecase>(),
+    errorHandlingService: Get.find<ErrorHandlingService>(),
+    // Add other necessary dependencies here if required
+  ));
 
   /// Main
   Get.put(

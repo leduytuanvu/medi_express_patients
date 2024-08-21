@@ -42,6 +42,7 @@ class AuthRemoteDatasource {
     int wardId,
     int gender,
     String birthdate,
+    String bhytCode,
     String password,
   ) async {
     Log.info("register in AuthRemoteDatasource");
@@ -54,6 +55,7 @@ class AuthRemoteDatasource {
         wardId,
         gender,
         birthdate,
+        bhytCode,
         password,
         'Patient',
       );

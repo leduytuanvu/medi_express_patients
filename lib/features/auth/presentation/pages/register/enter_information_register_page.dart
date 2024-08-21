@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
@@ -79,59 +78,76 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                   type: TextFieldType.dateTime,
                   errorText: authController.authState.errorBirthdate,
                 ),
-                CustomDropDownBoxWidget<String>(
-                  labelText: 'Giới tính',
-                  borderRadius: 8.0,
-                  items: authController.authState.listGender,
-                  displayItem: (gender) => gender,
-                  selectedItem: null,
-                  onChanged: (String? gender) {
-                    Log.info(gender ?? '');
-                    authController.genderController.text = gender ?? '';
-                    authController.authState.genderId.value =
-                        gender == 'Nam' ? 1 : 0;
-                  },
-                  errorText: authController.authState.errorGender,
-                ),
-                CustomDropDownBoxWidget<CityEntity>(
-                  labelText: 'Tỉnh/thành phố',
-                  borderRadius: 8.0,
-                  items: authController.authState.listAllCity,
-                  displayItem: (city) => city.name,
-                  selectedItem: null,
-                  onChanged: (CityEntity? city) {
-                    authController.getDistrictByCity(city!.id);
-                    authController.cityController.text = city.name;
-                  },
-                  errorText: authController.authState.errorCity,
-                ),
-                CustomDropDownBoxWidget<DistrictEntity>(
-                  labelText: 'Quận/huyện',
-                  borderRadius: 8.0,
-                  items: authController.authState.listAllDistrict,
-                  displayItem: (district) => district.districtName,
-                  selectedItem: null,
-                  onChanged: (DistrictEntity? district) {
-                    Log.info(district?.districtName ?? '');
-                    authController.getWardByDistrict(district!.id);
-                    authController.districtController.text =
-                        district.districtName;
-                  },
-                  errorText: authController.authState.errorDistrict,
-                ),
-                CustomDropDownBoxWidget<WardEntity>(
-                  labelText: 'Phường/xã',
-                  borderRadius: 8.0,
-                  items: authController.authState.listAllWard,
-                  displayItem: (ward) => ward.wardName,
-                  selectedItem: null,
-                  onChanged: (WardEntity? ward) {
-                    Log.info(ward?.wardName ?? '');
-                    authController.wardController.text = ward!.wardName;
-                    authController.authState.wardId.value = ward.id;
-                  },
-                  errorText: authController.authState.errorWard,
-                ),
+                Obx(() {
+                  return CustomDropDownBoxWidget<String>(
+                    labelText: 'Giới tính',
+                    borderRadius: 8.0,
+                    items: authController.authState.listGender,
+                    displayItem: (gender) => gender,
+                    selectedItem:
+                        authController.authState.selectedGender.value.isEmpty
+                            ? null
+                            : authController.authState.selectedGender.value,
+                    onChanged: (String? gender) {
+                      if (gender != null) {
+                        Log.info(gender);
+                        authController.authState.selectedGender.value = gender;
+                        authController.genderController.text = gender;
+                        authController.authState.genderId.value =
+                            gender == 'Nam' ? 1 : 0;
+                      }
+                    },
+                    errorText: authController.authState.errorGender,
+                  );
+                }),
+                Obx(() {
+                  return CustomDropDownBoxWidget<CityEntity>(
+                    labelText: 'Tỉnh/thành phố',
+                    borderRadius: 8.0,
+                    items: authController.authState.listAllCity,
+                    displayItem: (city) => city.name,
+                    selectedItem: authController.authState.city.value,
+                    onChanged: (CityEntity? city) {
+                      authController.authState.city.value = city;
+                      authController.getDistrictByCity(city!.id);
+                      authController.cityController.text = city.name;
+                    },
+                    errorText: authController.authState.errorCity,
+                  );
+                }),
+                Obx(() {
+                  return CustomDropDownBoxWidget<DistrictEntity>(
+                    labelText: 'Quận/huyện',
+                    borderRadius: 8.0,
+                    items: authController.authState.listAllDistrict,
+                    displayItem: (district) => district.districtName,
+                    selectedItem: authController.authState.district.value,
+                    onChanged: (DistrictEntity? district) {
+                      Log.info(district?.districtName ?? '');
+                      authController.authState.district.value = district;
+                      authController.getWardByDistrict(district!.id);
+                      authController.districtController.text =
+                          district.districtName;
+                    },
+                    errorText: authController.authState.errorDistrict,
+                  );
+                }),
+                Obx(() {
+                  return CustomDropDownBoxWidget<WardEntity>(
+                    labelText: 'Phường/xã',
+                    borderRadius: 8.0,
+                    items: authController.authState.listAllWard,
+                    displayItem: (ward) => ward.wardName,
+                    selectedItem: authController.authState.ward.value,
+                    onChanged: (WardEntity? ward) {
+                      Log.info(ward?.wardName ?? '');
+                      authController.authState.ward.value = ward;
+                      authController.wardController.text = ward!.wardName;
+                      authController.authState.wardId.value = ward.id;
+                    },
+                    errorText: authController.authState.errorWard,
+                  );
+                }),
                 CustomTextFieldWidget(
                   labelText: 'Địa chỉ cụ thể',
                   controller: authController.addressController,

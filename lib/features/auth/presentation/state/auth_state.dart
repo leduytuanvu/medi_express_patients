@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
@@ -37,6 +36,10 @@ class AuthState extends BaseState {
   var listAllWard = <WardEntity>[].obs;
   var listGender = <String>['Nữ', 'Nam'].obs;
 
+  var city = Rxn<CityEntity>();
+  var district = Rxn<DistrictEntity>();
+  var ward = Rxn<WardEntity>();
+
   var hypertension = false.obs;
   var diabetes = false.obs;
   var heartDisease = false.obs;
@@ -49,5 +52,6 @@ class AuthState extends BaseState {
   var timeoutConfirmVerifyCode = 30.obs;
   var wardId = 0.obs;
   var genderId = 0.obs;
+  var selectedGender = ''.obs;
   var verifyCode = 0.obs;
 }

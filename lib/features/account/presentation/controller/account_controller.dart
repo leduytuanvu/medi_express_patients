@@ -3,6 +3,7 @@ import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
+import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
@@ -51,6 +52,8 @@ class AccountController extends BaseController {
         authController.baseState.user.value.birthDate!.toFormattedDate() ?? '';
     authController.genderController.text =
         authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
+    accountState.selectedGender.value =
+        authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
     authController.cityController.text =
         authController.baseState.user.value.city ?? '';
     authController.districtController.text =
@@ -87,7 +90,7 @@ class AccountController extends BaseController {
           }
         }
         final resultDistrict = await authController.getDistrictByCityUsecase(
-            GetDistrictByCityParams(cityId: accountState.city.value.id));
+            GetDistrictByCityParams(cityId: accountState.city.value!.id));
         resultDistrict.fold(
           (failureDistrict) {
             showError(
@@ -253,6 +256,89 @@ class AccountController extends BaseController {
       },
     );
     hideLoading();
+  }
+
+  Future<void> updateInformation() async {
+    authController.showLoading();
+    var check = true;
+    if (authController.fullNameController.value.text.trim().isEmpty) {
+      check = false;
+      authController.authState.errorFullName.value =
+          "Họ tên không được để trống";
+    } else {
+      authController.authState.errorFullName.value = "";
+    }
+    if (authController.emailController.text.trim().isEmpty) {
+      check = false;
+      authController.authState.errorEmail.value = "Email không đươc để trống";
+    } else if (!EmailValidator.validate(
+        authController.emailController.text.trim())) {
+      check = false;
+      authController.authState.errorEmail.value =
+          "Định dạng email không hợp lệ";
+    } else {
+      authController.authState.errorEmail.value = "";
+    }
+    if (authController.birthdateController.text.trim().isEmpty) {
+      check = false;
+      authController.authState.errorBirthdate.value =
+          "Ngày sinh không đươc để trống";
+    } else {
+      authController.authState.errorBirthdate.value = "";
+    }
+    if (authController.birthdateController.text.trim().isEmpty) {
+      check = false;
+      authController.authState.errorBirthdate.value =
+          "Ngày sinh không đươc để trống";
+    } else {
+      authController.authState.errorBirthdate.value = "";
+    }
+    if (accountState.city.value!.name.isEmpty) {
+      check = false;
+      authController.authState.errorCity.value =
+          "Tỉnh/thành phố không được để trống";
+    } else {
+      authController.authState.errorCity.value = "";
+    }
+    if (accountState.district.value == null) {
+      check = false;
+      authController.authState.errorDistrict.value =
+          "Quận/huyện không được để trống";
+    } else if (accountState.district.value!.districtName.isEmpty) {
+      check = false;
+      authController.authState.errorDistrict.value =
+          "Quận/huyện không được để trống";
+    } else {
+      authController.authState.errorDistrict.value = "";
+    }
+    if (accountState.ward.value == null) {
+      check = false;
+      authController.authState.errorWard.value =
+          "Phường/xã không được để trống";
+    } else if (accountState.ward.value!.wardName.isEmpty) {
+      check = false;
+      authController.authState.errorWard.value =
+          "Phường/xã không được để trống";
+    } else {
+      authController.authState.errorWard.value = "";
+    }
+    if (authController.addressController.text.isEmpty) {
+      check = false;
+      authController.authState.errorAddress.value =
+          "Địa chỉ cụ thể không được để trống";
+    } else {
+      authController.authState.errorAddress.value = "";
+    }
+    if (authController.bhytController.text.isEmpty) {
+      check = false;
+      authController.authState.errorBhyt.value = "Sổ BHYT không được để trống";
+    } else {
+      authController.authState.errorBhyt.value = "";
+    }
+    if (check) {
+      Log.info("======== OKOK");
+    }
+    authController.hideLoading();
   }
 
   Future<void> getWardByDistrict(int districtId) async {

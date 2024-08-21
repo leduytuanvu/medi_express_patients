@@ -25,6 +25,7 @@ abstract class AuthRepository {
     int wardId,
     int gender,
     String birthdate,
+    String bhytCode,
     String password,
   );
 

@@ -85,6 +85,7 @@ class AuthRepositoryImpl implements AuthRepository {
     int wardId,
     int gender,
     String birthdate,
+    String bhytCode,
     String password,
   ) async {
     Log.info("register in AuthRepositoryImpl");
@@ -97,6 +98,7 @@ class AuthRepositoryImpl implements AuthRepository {
         wardId,
         gender,
         birthdate,
+        bhytCode,
         password,
       );
       if (apiResponse.code == 1) {
