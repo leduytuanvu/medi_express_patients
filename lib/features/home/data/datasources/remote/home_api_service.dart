@@ -36,4 +36,29 @@ class HomeApiService {
     final response = await dio.post<Map<String, dynamic>>(url, data: formData);
     return response;
   }
+
+  Future<Response<Map<String, dynamic>>> uploadPatient(
+    File file,
+    String nameHealthRecord,
+    String description,
+    String createDate,
+  ) async {
+    FormData formData = FormData.fromMap({
+      'NameHealthRecord': nameHealthRecord,
+      'FilePath':
+          await MultipartFile.fromFile(file.path, filename: 'patient.png'),
+      'Description': description,
+      'CreateDate': createDate,
+    });
+    final response = await dio.post<Map<String, dynamic>>(
+      '/mediexpress/medical/healthrecord/',
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
+    return response;
+  }
 }

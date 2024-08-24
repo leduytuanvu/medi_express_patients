@@ -10,6 +10,7 @@ import 'package:medi_express_patients/features/account/data/datasource/remote/ac
 import 'package:medi_express_patients/features/account/data/repositories/account_repository_impl.dart';
 import 'package:medi_express_patients/features/account/domain/repositories/account_repository.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_remote_datasource.dart';
@@ -53,6 +54,7 @@ import 'package:medi_express_patients/features/home/data/repositories/home_repos
 import 'package:medi_express_patients/features/home/domain/repositories/home_repository.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_home_examination_package_usecase.dart';
+import 'package:medi_express_patients/features/home/domain/usecases/upload_patient_usecase.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/local/schedule_local_datasource.dart';
 import 'package:medi_express_patients/features/schedule/data/datasources/remote/schedule_api_service.dart';
@@ -205,6 +207,7 @@ Future<void> initDI(String environmentName) async {
         Get.find<HomeRemoteDatasource>(),
       ));
   Get.lazyPut(() => GetAllHealthRecordUsecase(Get.find<HomeRepository>()));
+  Get.lazyPut(() => UploadPatientUsecase(Get.find<HomeRepository>()));
   Get.lazyPut(
       () => GetAllHomeExaminationPackageUsecase(Get.find<HomeRepository>()));
 
@@ -223,4 +226,5 @@ Future<void> initDI(String environmentName) async {
         Get.find<AccountRemoteDatasource>(),
       ));
   Get.lazyPut(() => GetHealthMetrictsUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => UploadAvatarUsecase(Get.find<AccountRepository>()));
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/domain/entities/health_metricts_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
@@ -14,6 +16,8 @@ class AccountState extends BaseState {
   var district = Rxn<DistrictEntity>();
   var ward = Rxn<WardEntity>();
   var selectedGender = ''.obs;
+
+  var imageFile = Rx<File?>(null);
 
   var healthMetricts = HealthMetricsEntity(
     patientId: -1,

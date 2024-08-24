@@ -19,6 +19,22 @@ abstract class BaseStatelessWidget extends StatelessWidget {
       children: [
         buildContent(context),
         Obx(() {
+          if (authController.baseState.isShowDialogCustom.value) {
+            return _buildDialogCustom(
+              context,
+              authController.baseState.widgetDialogCustom.value ??
+                  const SizedBox.shrink(),
+              titleButtonConfirm:
+                  authController.baseState.confirmTitleButton.value,
+              message: authController.baseState.confirmMessage.value,
+              onConfirm:
+                  authController.baseState.confirmFunction.value ?? () {},
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }),
+        Obx(() {
           if (authController.baseState.isLoading.value) {
             return const Stack(
               children: [
@@ -264,6 +280,63 @@ abstract class BaseStatelessWidget extends StatelessWidget {
                   vertical: context.wp(2),
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDialogCustom(
+    BuildContext context,
+    Widget widget, {
+    required String titleButtonConfirm,
+    required String message,
+    required VoidCallback onConfirm,
+  }) {
+    return Positioned.fill(
+      child: GestureDetector(
+        onTap: () {
+          authController
+              .clearCustomDialog(); // Close the dialog when tapping outside
+        },
+        child: Container(
+          color: Colors.black.withOpacity(0.5),
+          child: Center(
+            child: GestureDetector(
+              onTap:
+                  () {}, // Prevents the tap event from closing the dialog when tapping inside
+              child: AlertDialog(
+                backgroundColor: Colors.white,
+                elevation: 24,
+                contentPadding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(color: Colors.black, width: 0.2),
+                ),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () => authController.clearCustomDialog(),
+                          child: SvgPicture.asset(
+                            Assets.svg.close,
+                            height: context.wp(9),
+                            width: context.wp(9),
+                          ).paddingOnly(
+                            top: context.wp(1.5),
+                            right: context.wp(1.5),
+                          ),
+                        ),
+                      ),
+                      widget,
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ),

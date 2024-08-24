@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/account/data/datasource/remote/account_api_service.dart';
 import 'package:medi_express_patients/features/account/data/dto/health_metricts_dto.dart';
+import 'package:medi_express_patients/features/account/data/dto/upload_avatar_dto.dart';
 
 class AccountRemoteDatasource {
   final AccountApiService accountApiService;
@@ -20,6 +23,17 @@ class AccountRemoteDatasource {
         (data) => HealthMetricsDto.fromJson(data),
       );
     }, 'AccountRemoteDatasource/getHealthMetrics');
+  }
+
+  Future<ApiResponse<UploadAvatarDto>> uploadAvatar(File file) async {
+    Log.info("uploadAvatar in AccountRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await accountApiService.uploadAvatar(file);
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => UploadAvatarDto.fromJson(data),
+      );
+    }, 'AccountRemoteDatasource/uploadAvatar');
   }
 
   Future<ApiResponse<HealthMetricsDto>> updateUser(

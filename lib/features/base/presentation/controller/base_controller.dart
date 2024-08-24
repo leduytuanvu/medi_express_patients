@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
+import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/auth_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/user_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
-import 'package:medi_express_patients/core/service/error_handling_service.dart';
 
 abstract class BaseController extends GetxController {
   final BaseState baseState = BaseState();
@@ -45,10 +45,10 @@ abstract class BaseController extends GetxController {
   }
 
   void showConfirm(
-      VoidCallback callback,
-      String confirmMessage,
-      String titleButtonConfirm,
-      ) {
+    VoidCallback callback,
+    String confirmMessage,
+    String titleButtonConfirm,
+  ) {
     Log.info("confirm: $confirmMessage");
     baseState.confirmTitleButton.value = titleButtonConfirm;
     baseState.confirmFunction.value = callback;
@@ -60,6 +60,16 @@ abstract class BaseController extends GetxController {
     baseState.confirmMessage.value = '';
     baseState.confirmFunction.value = () {};
     baseState.confirmMessage.value = '';
+  }
+
+  void showCustomDialog(widget) {
+    baseState.isShowDialogCustom.value = true;
+    baseState.widgetDialogCustom.value = widget;
+  }
+
+  void clearCustomDialog() {
+    baseState.isShowDialogCustom.value = false;
+    baseState.widgetDialogCustom.value = null;
   }
 
   void showWarning(

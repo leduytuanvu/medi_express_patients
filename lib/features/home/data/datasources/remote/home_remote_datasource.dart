@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_api_service.dart';
 import 'package:medi_express_patients/features/home/data/dto/create_health_record_dto.dart';
 import 'package:medi_express_patients/features/home/data/dto/health_record_dto.dart';
+import 'package:medi_express_patients/features/home/data/dto/upload_patient_dto.dart';
 
 import '../../dto/home_examination_package_dto.dart';
 
@@ -48,5 +51,26 @@ class HomeRemoteDatasource {
         (data) => CreateHealthRecordDto.fromJson(data),
       );
     }, 'HomeRemoteDatasource/createHealthRecord');
+  }
+
+  Future<ApiResponse<UploadPatientDto>> uploadPatient(
+    File file,
+    String nameHealthRecord,
+    String description,
+    String createDate,
+  ) async {
+    Log.info("uploadPatient in AccountRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await apiService.uploadPatient(
+        file,
+        nameHealthRecord,
+        description,
+        createDate,
+      );
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => UploadPatientDto.fromJson(data),
+      );
+    }, 'AccountRemoteDatasource/uploadPatient');
   }
 }

@@ -23,8 +23,9 @@ import 'package:medi_express_patients/features/doctor/presentation/binding/docto
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_detail_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
-import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/health_record_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/notification_page.dart';
 import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
 import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
@@ -32,6 +33,7 @@ import 'package:medi_express_patients/features/schedule/presentation/page/book_s
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_detail_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/page/schedule_page.dart';
 import 'package:medi_express_patients/routes/route_guard.dart';
+
 import 'app_routes.dart';
 
 class AppPages {
@@ -63,6 +65,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => HomePage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.notification,
+      page: () => NotificationPage(),
       binding: HomeBinding(),
       middlewares: [RouteGuard()],
     ),

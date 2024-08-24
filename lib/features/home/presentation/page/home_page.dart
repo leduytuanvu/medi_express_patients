@@ -11,6 +11,7 @@ import 'package:medi_express_patients/features/auth/presentation/controller/auth
 import 'package:medi_express_patients/features/home/data/model/item_news_model.dart';
 import 'package:medi_express_patients/features/home/data/model/item_utilities_model.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 class HomePage extends StatelessWidget {
@@ -59,10 +60,15 @@ class HomePage extends StatelessWidget {
                         }
                       }),
                       const Spacer(),
-                      SvgPicture.asset(
-                        Assets.svg.bell,
-                        height: context.wp(7),
-                        width: context.wp(7),
+                      GestureDetector(
+                        onTap: () {
+                          context.toNamedScreen(AppRoutes.notification);
+                        },
+                        child: SvgPicture.asset(
+                          Assets.svg.bell,
+                          height: context.wp(7),
+                          width: context.wp(7),
+                        ),
                       ),
                     ],
                   ).paddingSymmetric(horizontal: context.wp(4)),
@@ -119,9 +125,7 @@ class HomePage extends StatelessWidget {
                     // context.toNamedScreen(AppRoutes.patientPage);
                     switch (item.title) {
                       case "Chỉ số sức khỏe":
-                        () {
-                          Log.info("chỉ số sức khỏe");
-                        };
+                        context.toNamedScreen(AppRoutes.healthIndex);
                       case "Đơn thuốc":
                         () {
                           Log.info("đơn thuốc");
@@ -131,9 +135,9 @@ class HomePage extends StatelessWidget {
                           Log.info("tiêm chủng");
                         };
                       case "Lịch khám":
-                        () {
-                          Log.info("lịch khám");
-                        };
+                        final MainController mainController =
+                            Get.find<MainController>();
+                        mainController.changePage(2);
                       case "Xét nghiệm":
                         () {
                           Log.info("xét nghiệm");

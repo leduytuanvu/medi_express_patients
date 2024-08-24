@@ -5,7 +5,6 @@ import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:medi_express_patients/features/chat/domain/entities/conversation_entity.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 
 class ChatDetailPage extends BaseStatelessWidget {
@@ -16,9 +15,10 @@ class ChatDetailPage extends BaseStatelessWidget {
   @override
   Widget buildContent(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>;
-    final ConversationEntity conversation =
-        arguments['conversation'] as ConversationEntity;
+    final int conversation = arguments['conversationId'] as int;
 
+    // chatController.joinRoom(conversation.conversationID);
+    // chatController.connectSocket(conversation.conversationID);
     chatController.getAllMessage(conversation);
 
     // Dummy data for demonstration
@@ -254,8 +254,9 @@ class ChatDetailPage extends BaseStatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 8),
                                 decoration: BoxDecoration(
-                                  color:
-                                      isUser ? Colors.blue : Colors.grey[200],
+                                  color: isUser
+                                      ? Color(0xFF005495)
+                                      : Color(0xFFF5F6F9),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
@@ -267,7 +268,7 @@ class ChatDetailPage extends BaseStatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                item.createdAt,
+                                item.createdAt.toAdjustedHourMinute(),
                                 style: TextStyle(
                                   fontSize: 10,
                                   color: Colors.grey,

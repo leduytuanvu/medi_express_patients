@@ -5,6 +5,8 @@ import 'package:medi_express_patients/features/home/data/datasources/local/home_
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_remote_datasource.dart';
 import 'package:medi_express_patients/features/home/domain/entities/health_record_entity.dart';
 import 'package:medi_express_patients/features/home/domain/entities/home_examination_package_entity.dart';
+import 'package:medi_express_patients/features/home/domain/entities/upload_patient_entity.dart';
+import 'package:medi_express_patients/features/home/domain/params/upload_patient_params.dart';
 import 'package:medi_express_patients/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -45,5 +47,26 @@ class HomeRepositoryImpl implements HomeRepository {
         );
       }
     }, 'HomeRepositoryImpl/getListHomeExaminationPackage');
+  }
+
+  @override
+  Future<UploadPatientEntity> uploadPatient(UploadPatientParams params) async {
+    Log.info("uploadPatient in HomeRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.uploadPatient(
+        params.file,
+        params.nameHealthRecord,
+        params.description,
+        params.createDate,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.toEntity();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in HomeRepositoryImpl/uploadPatient',
+        );
+      }
+    }, 'HomeRepositoryImpl/uploadPatient');
   }
 }

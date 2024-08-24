@@ -31,6 +31,13 @@ extension StringExtension on String {
     return dateFormat.format(dateTime);
   }
 
+  // Extract and return the time in "HH:mm" format after adding 7 hours
+  String toAdjustedHourMinute() {
+    DateTime dateTime = DateTime.parse(this).toUtc().add(Duration(hours: 7));
+    DateFormat timeFormat = DateFormat('HH:mm');
+    return timeFormat.format(dateTime);
+  }
+
   // Extract and return the time in "HH:mm" format from the string
   String toHourMinute() {
     return substring(11, 16);
@@ -59,5 +66,26 @@ extension StringExtension on String {
 
     // Append the currency symbol
     return '$formattedValueđ';
+  }
+
+  String toRelativeTime() {
+    // Parse the ISO 8601 date string to a DateTime object
+    DateTime dateTime = DateTime.parse(this).toLocal();
+
+    // Get the current time
+    DateTime now = DateTime.now();
+
+    // Calculate the difference in hours between now and the given time
+    Duration difference = now.difference(dateTime);
+
+    if (difference.inMinutes < 1) {
+      return 'Vừa xong';
+    } else if (difference.inHours < 1) {
+      return '${difference.inMinutes} phút trước';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} giờ trước';
+    } else {
+      return DateFormat('dd/MM/yyyy').format(dateTime);
+    }
   }
 }

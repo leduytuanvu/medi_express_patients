@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_ward_by_district_params.dart';
@@ -13,8 +17,10 @@ import 'package:medi_express_patients/features/base/presentation/controller/base
 
 class AccountController extends BaseController {
   final GetHealthMetrictsUsecase getHealthMetrictsUsecase;
+  final UploadAvatarUsecase uploadAvatarUsecase;
   AccountController({
     required this.getHealthMetrictsUsecase,
+    required this.uploadAvatarUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
@@ -38,6 +44,81 @@ class AccountController extends BaseController {
   // final addressController = TextEditingController();
   // final bhytController = TextEditingController();
   // final anotherController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> pickImage() async {
+    try {
+      final XFile? pickedFile =
+          await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        accountState.imageFile.value = File(pickedFile.path);
+        Log.info("OKOKOKOKOK");
+        final result = await uploadAvatarUsecase(File(pickedFile.path));
+        result.fold(
+          (failure) {
+            Log.severe("$failure");
+            authController.showError(
+              () => authController.clearError(),
+              failure.message,
+              'Quay lại',
+            );
+          },
+          (success) async {
+            Log.severe("$success");
+            final resultGetUserInformation =
+                await authController.getUserInformationUsecase(NoParams());
+            resultGetUserInformation.fold(
+              (failureGetUserFromServer) {
+                authController.showError(
+                  () => authController.clearError(),
+                  failureGetUserFromServer.message,
+                  'Quay lại',
+                );
+              },
+              (successGetUserFromServer) async {
+                Log.info(
+                    "successGetUserFromServer: ${successGetUserFromServer}");
+                authController.setUser(successGetUserFromServer);
+              },
+            );
+            clearError();
+          },
+        );
+        // await uploadImage(File(pickedFile.path));
+      }
+    } catch (e) {
+      Log.info("e: ${e}");
+      // Handle any errors that occur during image selection
+      Get.snackbar('Error', 'Failed to pick image: $e');
+    }
+  }
+
+  // Future<void> uploadImage(File file) async {
+  //   try {
+  //     Dio dio = Dio();
+  //
+  //     FormData formData = FormData.fromMap({
+  //       "file": await MultipartFile.fromFile(file.path, filename: "upload.jpg"),
+  //     });
+  //
+  //     Response response = await dio.post(
+  //       "https://example.com/api/upload", // Replace with your upload URL
+  //       data: formData,
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       // Handle successful upload
+  //       Get.snackbar('Success', 'Image uploaded successfully');
+  //     } else {
+  //       // Handle failed upload
+  //       Get.snackbar('Error', 'Image upload failed: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     // Handle any errors that occur during the upload
+  //     Get.snackbar('Error', 'Image upload error: $e');
+  //   }
+  // }
 
   @override
   void onInit() async {

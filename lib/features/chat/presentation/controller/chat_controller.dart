@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
+import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/features/chat/data/dto/message_dto.dart';
 import 'package:medi_express_patients/features/chat/domain/entities/conversation_entity.dart';
+import 'package:medi_express_patients/features/chat/domain/entities/message_entity.dart';
 import 'package:medi_express_patients/features/chat/domain/params/create_conversation_params.dart';
 import 'package:medi_express_patients/features/chat/domain/params/create_message_params.dart';
 import 'package:medi_express_patients/features/chat/domain/usecases/create_conversation_usecase.dart';
@@ -12,6 +15,8 @@ import 'package:medi_express_patients/features/chat/domain/usecases/create_messa
 import 'package:medi_express_patients/features/chat/domain/usecases/get_all_conversation_usecase.dart';
 import 'package:medi_express_patients/features/chat/domain/usecases/get_all_message_usecase.dart';
 import 'package:medi_express_patients/features/chat/presentation/state/chat_state.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/routes/app_routes.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatController extends BaseController {
@@ -41,114 +46,6 @@ class ChatController extends BaseController {
     // connectSocket();
   }
 
-  // void connectSocket() {
-  //   socket = IO.io(
-  //       'http://api-stg.combros.tech:10110?token=${authController.baseState.auth.value.accessToken}',
-  //       IO.OptionBuilder()
-  //           .setTransports(['websocket']) // Enable WebSocket transport
-  //           .disableAutoConnect() // Disable auto-connect
-  //           // .setAuth({'token': authController.baseState.auth.value.accessToken})
-  //           .build());
-  //
-  //   // Connect to the socket server
-  //   socket?.connect();
-  //
-  //   // Listen for connection success
-  //   socket?.onConnect((_) {
-  //     Log.info('Connected to the server');
-  //   });
-  //
-  //   // Listen for connection errors
-  //   socket?.onConnectError((error) {
-  //     Log.info('Connection error: $error');
-  //   });
-  //
-  //   // Listen for disconnection
-  //   socket?.onDisconnect((_) {
-  //     Log.info('Disconnected from the server');
-  //   });
-  //
-  //   // Listen for incoming messages
-  //   socket?.on('message', (data) {
-  //     Log.info("|||||||||||||||||||||||||||||||||||||| message ${data}");
-  //     chatState.messages.add(data); // Add the incoming message to the list
-  //   });
-  //
-  //   // Listen for incoming messages
-  //   socket?.on('newMessage', (data) {
-  //     Log.info("|||||||||||||||||||||||||||||||||||||| new message ${data}");
-  //     chatState.messages.add(data); // Add the incoming message to the list
-  //   });
-  //
-  //   // Listen for incoming messages
-  //   socket?.on('sendMessage', (data) {
-  //     Log.info("|||||||||||||||||||||||||||||||||||||| send message ${data}");
-  //     chatState.messages.add(data); // Add the incoming message to the list
-  //   });
-  //
-  //   // Listen for incoming messages
-  //   socket?.on('ping', (data) {
-  //     Log.info("|||||||||||||||||||||||||||||||||||||| ping ${data}");
-  //     chatState.messages.add(data); // Add the incoming message to the list
-  //   });
-  // }
-
-  // void connectSocket() {
-  //   socket = IO.io(
-  //     'http://api-stg.combros.tech:10110?token=${authController.baseState.auth.value.accessToken}',
-  //     IO.OptionBuilder()
-  //         .setTransports(['websocket']) // Enable WebSocket transport
-  //         .enableReconnection() // Enable automatic reconnection
-  //         .disableAutoConnect() // Disable auto-connect
-  //         .build(),
-  //   );
-  //
-  //   socket?.connect();
-  //
-  //   socket?.onConnect((_) {
-  //     Log.info(
-  //         '|||||||||||||||||||||||||||||||||||||| Connected to the server');
-  //   });
-  //
-  //   socket?.on('connect_error', (error) {
-  //     Log.info(
-  //         '|||||||||||||||||||||||||||||||||||||| Connection error: $error');
-  //     // Add additional error handling logic here if needed
-  //   });
-  //
-  //   socket?.onDisconnect((_) {
-  //     Log.info(
-  //         '|||||||||||||||||||||||||||||||||||||| Disconnected from the server');
-  //   });
-  //
-  //   // socket?.on('message', (data) {
-  //   //   Log.info(
-  //   //       "|||||||||||||||||||||||||||||||||||||| Received message: $data");
-  //   //   chatState.messages.add(data);
-  //   // });
-  //
-  //   socket?.on('newMessage', (data) {
-  //     Log.info(
-  //         "|||||||||||||||||||||||||||||||||||||| Received new message: $data");
-  //     chatState.messages.add(data);
-  //   });
-  //
-  //   // socket?.on('sendMessage', (data) {
-  //   //   Log.info("|||||||||||||||||||||||||||||||||||||| Message sent: $data");
-  //   //   chatState.messages.add(data);
-  //   // });
-  //   //
-  //   // socket?.on('ping', (data) {
-  //   //   Log.info("|||||||||||||||||||||||||||||||||||||| Ping received: $data");
-  //   //   chatState.messages.add(data);
-  //   // });
-  //   //
-  //   // socket?.on('receiveMessage', (data) {
-  //   //   Log.info("|||||||||||||||||||||||||||||||||||||| Ping received: $data");
-  //   //   chatState.messages.add(data);
-  //   // });
-  // }
-
   void connectSocket() {
     socket = IO.io(
       'http://api-stg.combros.tech:10110?token=${authController.baseState.auth.value.accessToken}',
@@ -164,44 +61,72 @@ class ChatController extends BaseController {
 
     // Listen for connection success
     socket?.onConnect((_) {
-      Log.info('Connected to the server');
+      Log.info('-------------------------- Connected to the server');
     });
 
     // Listen for connection errors
     socket?.onConnectError((error) {
-      Log.info('Connection error: $error');
+      Log.info('-------------------------- Connection error: $error');
     });
 
     // Listen for disconnection
     socket?.onDisconnect((_) {
-      Log.info('Disconnected from the server');
+      Log.info('-------------------------- Disconnected from the server');
     });
 
     // Listen for the 'newMessage' event from the server
     socket?.on('newMessage', (data) {
-      Log.info("Received new message: $data");
+      Log.info("-------------------------- Received new newMessage: $data");
       chatState.messages.add(data); // Add the incoming message to the list
     });
 
-    // Listen for 'receiveMessage' event which might be emitted when a message is sent to a room
+    // Listen for 'receiveMessage' event
     socket?.on('receiveMessage', (data) {
-      Log.info("Received message from room: $data");
-      chatState.messages.add(data); // Add the incoming message to the list
+      Log.info("-------------------------- receiveMessage");
+      _handleSocketMessage(data);
+    });
+
+    // Listen for 'message' event
+    socket?.on('message', (data) {
+      Log.info("-------------------------- message");
+      _handleSocketMessage(data);
     });
   }
 
-  // Send a message to the server
-  // void sendMessage(String message) {
-  //   if (message.isNotEmpty) {
-  //     socket?.emit('message', message);
-  //     Log.info("|||||||||||||||||||||||||||||||||||||| message ${message}");
-  //     chatState.messageTextController.value = ''; // Clear the input field
-  //   }
-  // }
+  void _handleSocketMessage(dynamic data) async {
+    try {
+      Log.info(
+          "-------------------------- Received unexpected data format: $data");
+      // Proceed with converting the Map to MessageDto and then to MessageEntity
+      MessageDto messageDto = MessageDto.fromJson(data);
+      MessageEntity messageEntity = messageDto.toEntity();
+
+      Log.info(
+        "-------------------------- messageEntity: ${messageEntity.messageText}",
+      );
+
+      // Add the messageEntity to your chatState or other data structures as needed
+      // chatState.listMessage.add(messageEntity);
+      chatState.listMessage.insert(0, messageEntity);
+      final result = await getAllConversationUsecase(
+          authController.baseState.user.value.id);
+      result.fold(
+        (failure) {},
+        (success) {
+          chatState.listConversation.value = success;
+          Log.severe("list conversation 2: ${chatState.listConversation}");
+          authController.clearError();
+        },
+      );
+    } catch (e) {
+      Log.info("-------------------------- Error handling socket message: $e");
+    }
+  }
 
   void joinRoom(int roomID) {
-    socket?.emit('joinRoom', roomID);
-    Log.info("Joined room: $roomID");
+    Log.info("Joined room 1: ${roomID.runtimeType}");
+    socket?.emit('joinRoom', roomID.toString());
+    Log.info("Joined room 2: $roomID");
   }
 
   void sendMessage(String message, int roomID) {
@@ -219,11 +144,10 @@ class ChatController extends BaseController {
     super.onClose();
   }
 
-  Future<void> createMessage(ConversationEntity conversation) async {
-    authController.showLoading();
+  Future<void> createMessage(int conversationId) async {
     final result = await createMessageUsecase(
       CreateMessageParams(
-        conversationID: conversation.conversationID,
+        conversationID: conversationId,
         senderID: authController.baseState.user.value.id,
         messageText: searchController.text.trim(),
       ),
@@ -243,10 +167,9 @@ class ChatController extends BaseController {
         authController.clearError();
       },
     );
-    authController.hideLoading();
   }
 
-  Future<void> createConversation(int doctorId) async {
+  Future<void> createConversation(int doctorId, BuildContext context) async {
     authController.showLoading();
     final result = await createConversationUsecase(
       CreateConversationParams(
@@ -265,13 +188,15 @@ class ChatController extends BaseController {
       },
       (success) {
         Log.severe("create conversion true: $success");
+        context.toNamedScreen(AppRoutes.chatDetail,
+            arguments: {'conversationId': success.conversationID});
         authController.clearError();
       },
     );
     authController.hideLoading();
   }
 
-  Future<void> getAllConversation() async {
+  Future<void> getAllConversation(BuildContext context) async {
     authController.showLoading();
     final result =
         await getAllConversationUsecase(authController.baseState.user.value.id);
@@ -287,15 +212,34 @@ class ChatController extends BaseController {
       (success) {
         chatState.listConversation.value = success;
         Log.severe("list conversation 2: ${chatState.listConversation}");
+        final MainController mainController = Get.find<MainController>();
+        if (mainController.mainState.doctorInformation.value != null) {
+          Log.info("!= nulllllllllllllll");
+          var tmpConversation = ConversationEntity(
+              conversationID: -1, idUser: -1, name: '', role: '');
+          for (var tmpItem in success) {
+            if (tmpItem.idUser ==
+                mainController.mainState.doctorInformation.value!.doctorId) {
+              tmpConversation = tmpItem;
+            }
+          }
+          Log.info("tmpConversation: ${tmpConversation.toString()}");
+          if (tmpConversation.conversationID != -1) {
+            context.toNamedScreen(AppRoutes.chatDetail,
+                arguments: {'conversationId': tmpConversation.conversationID});
+          } else {}
+        } else {
+          Log.info("nulllllllllllllll");
+        }
         authController.clearError();
       },
     );
     authController.hideLoading();
   }
 
-  Future<void> getAllMessage(ConversationEntity conversation) async {
+  Future<void> getAllMessage(int conversationId) async {
     authController.showLoading();
-    final result = await getAllMessageUsecase(conversation.conversationID);
+    final result = await getAllMessageUsecase(conversationId);
     result.fold(
       (failure) {
         Log.severe("$failure");

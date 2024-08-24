@@ -5,6 +5,8 @@ import 'package:medi_express_patients/features/auth/domain/entities/user_entity.
 
 class BaseState {
   var isLoading = false.obs;
+  var isShowDialogCustom = false.obs;
+  var widgetDialogCustom = Rxn<Widget>();
 
   var warningTitleButton = ''.obs;
   var warningMessage = ''.obs;

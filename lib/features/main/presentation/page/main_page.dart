@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
@@ -20,6 +21,7 @@ import 'package:medi_express_patients/features/doctor/presentation/controller/do
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_home_examination_package_usecase.dart';
+import 'package:medi_express_patients/features/home/domain/usecases/upload_patient_usecase.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
@@ -48,6 +50,7 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<HomeController>(
             init: HomeController(
               getAllHealthRecordUsecase: Get.find<GetAllHealthRecordUsecase>(),
+              uploadPatientUsecase: Get.find<UploadPatientUsecase>(),
               getAllHomeExaminationPackageUsecase:
                   Get.find<GetAllHomeExaminationPackageUsecase>(),
               errorHandlingService: ErrorHandlingService(),
@@ -89,6 +92,7 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<AccountController>(
             init: AccountController(
               getHealthMetrictsUsecase: Get.find<GetHealthMetrictsUsecase>(),
+              uploadAvatarUsecase: Get.find<UploadAvatarUsecase>(),
               errorHandlingService: ErrorHandlingService(),
             ),
             builder: (controller) => AccountPage(),

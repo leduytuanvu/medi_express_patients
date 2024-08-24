@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 class AccountApiService {
@@ -15,6 +17,22 @@ class AccountApiService {
         'phoneNumber': phoneNumber,
         'password': password,
       },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> uploadAvatar(File file) async {
+    FormData formData = FormData.fromMap({
+      'Avatar': await MultipartFile.fromFile(file.path, filename: 'avatar.png'),
+    });
+    final response = await dio.put<Map<String, dynamic>>(
+      '/mediexpress/user/uploadAvatars',
+      data: formData,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
     );
     return response;
   }

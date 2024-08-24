@@ -7,8 +7,8 @@ import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/doctor/domain/entities/information_doctor_entity.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 import 'package:medi_express_patients/routes/app_routes.dart';
 
 import '../controller/doctor_controller.dart';
@@ -16,6 +16,7 @@ import '../controller/doctor_controller.dart';
 class DoctorPage extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
   final DoctorController doctorController = Get.find<DoctorController>();
+  final MainController mainController = Get.find<MainController>();
   DoctorPage({super.key});
 
   @override
@@ -240,9 +241,11 @@ class DoctorPage extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    final ChatController chatController =
-                        Get.find<ChatController>();
-                    chatController.createConversation(item.doctorId);
+                    // final ChatController chatController =
+                    //     Get.find<ChatController>();
+                    // chatController.createConversation(item.doctorId);
+                    mainController.mainState.doctorInformation.value = item;
+                    mainController.changePage(3);
                   },
                   child: Container(
                     decoration: BoxDecoration(

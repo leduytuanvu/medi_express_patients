@@ -13,6 +13,7 @@ class AppRoutes {
   static const enterInformationRegister = '/enter_information_register';
   static const enterAnamnesisRegister = '/enter_anamnesis_register';
   static const home = '/home';
+  static const notification = '/notification';
   static const doctor = '/doctor';
   static const doctorDetail = '/doctor_detail';
   static const schedule = '/schedule';

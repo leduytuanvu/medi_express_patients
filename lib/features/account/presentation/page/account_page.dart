@@ -28,12 +28,28 @@ class AccountPage extends StatelessWidget {
             height: context.hp(12),
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    Assets.png.avatar1,
-                    width: context.wp(16),
-                    height: context.wp(16),
+                GestureDetector(
+                  onTap: () {
+                    Log.info("TAP");
+                    accountController.pickImage();
+                  },
+                  // child: CachedNetworkImage(
+                  //   imageUrl: authController.baseState.user.value.name,
+                  //   placeholder: (context, url) =>
+                  //       CircularProgressIndicator(
+                  //         color: Colors.grey,
+                  //         strokeWidth: 2,
+                  //       ),
+                  //   errorWidget: (context, url, error) =>
+                  //       Icon(Icons.error),
+                  // )
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      Assets.png.avatar1,
+                      width: context.wp(16),
+                      height: context.wp(16),
+                    ),
                   ),
                 ),
                 context.wp(4).sbw,
