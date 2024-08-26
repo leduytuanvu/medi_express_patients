@@ -136,13 +136,13 @@ class AccountController extends BaseController {
     accountState.selectedGender.value =
         authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
     authController.cityController.text =
-        authController.baseState.user.value.city ?? '';
+        authController.baseState.user.value.fullAddress!.city ?? '';
     authController.districtController.text =
-        authController.baseState.user.value.district ?? '';
+        authController.baseState.user.value.fullAddress!.district ?? '';
     authController.wardController.text =
-        authController.baseState.user.value.ward ?? '';
+        authController.baseState.user.value.fullAddress!.ward ?? '';
     authController.addressController.text =
-        authController.baseState.user.value.street ?? '';
+        authController.baseState.user.value.fullAddress!.address ?? '';
     authController.bhytController.text =
         authController.baseState.user.value.bhytCode ?? '';
     Log.info("++++++ ${authController.baseState.user.value.toString()}");
@@ -156,7 +156,7 @@ class AccountController extends BaseController {
     final resultCity = await authController.getAllCityUsecase(NoParams());
     resultCity.fold(
       (failureCity) {
-        Log.severe("$failureCity");
+        Log.severe("1 $failureCity");
         showError(
           () => clearError(),
           failureCity.message,
@@ -166,7 +166,8 @@ class AccountController extends BaseController {
       (successCity) async {
         accountState.listAllCity.value = successCity;
         for (var elementCity in successCity) {
-          if (elementCity.name == authController.baseState.user.value.city) {
+          if (elementCity.name ==
+              authController.baseState.user.value.fullAddress!.district) {
             accountState.city.value = elementCity;
           }
         }
@@ -174,6 +175,7 @@ class AccountController extends BaseController {
             GetDistrictByCityParams(cityId: accountState.city.value!.id));
         resultDistrict.fold(
           (failureDistrict) {
+            Log.severe("2 $failureDistrict");
             showError(
               () => clearError(),
               failureDistrict.message,
@@ -185,7 +187,7 @@ class AccountController extends BaseController {
             accountState.listAllDistrict.value = successDistrict;
             for (var elementDistrict in successDistrict) {
               if (elementDistrict.districtName ==
-                  authController.baseState.user.value.district) {
+                  authController.baseState.user.value.fullAddress!.city) {
                 accountState.district.value = elementDistrict;
               }
             }
@@ -195,6 +197,7 @@ class AccountController extends BaseController {
             );
             resultWard.fold(
               (failureWard) {
+                Log.severe("3 $failureWard");
                 showError(
                   () => clearError(),
                   failureWard.message,
@@ -206,7 +209,7 @@ class AccountController extends BaseController {
                 accountState.listAllWard.value = successWard;
                 for (var elementWard in successWard) {
                   if (elementWard.wardName ==
-                      authController.baseState.user.value.ward) {
+                      authController.baseState.user.value.fullAddress!.ward) {
                     accountState.ward.value = elementWard;
                   }
                 }
@@ -234,7 +237,8 @@ class AccountController extends BaseController {
       (success) {
         accountState.listAllCity.value = success;
         for (var element in success) {
-          if (element.name == authController.baseState.user.value.city) {
+          if (element.name ==
+              authController.baseState.user.value.fullAddress!.city) {
             accountState.city.value = element;
           }
         }
@@ -295,7 +299,7 @@ class AccountController extends BaseController {
         authController.baseState.user.value.id.toString());
     result.fold(
       (failure) {
-        Log.severe("$failure");
+        Log.severe("-1-1-1 $failure");
         showError(
           () => clearError(),
           failure.message,
@@ -310,7 +314,7 @@ class AccountController extends BaseController {
         //     accountState.city.value = element;
         //   }
         // }
-        Log.severe("$success");
+        Log.severe("111 ${success.toString()}");
         // clearError();
       },
     );
@@ -444,37 +448,37 @@ class AccountController extends BaseController {
     hideLoading();
   }
 
-  Future<void> initial() async {
-    var user = authController.baseState.user.value;
-    if (user.name!.isNotEmpty) {
-      authController.fullNameController.text = user.name!;
-    }
-    if (user.email!.isNotEmpty) {
-      authController.emailController.text = user.email!;
-    }
-    if (user.birthDate!.isNotEmpty) {
-      authController.birthdateController.text = user.birthDate!;
-    }
-    if (user.birthDate!.isNotEmpty) {
-      authController.birthdateController.text = user.birthDate!;
-    }
-    authController.genderController.text = user.gender.toString()!;
-    if (user.city!.isNotEmpty) {
-      authController.cityController.text = user.city!;
-    }
-    if (user.district!.isNotEmpty) {
-      authController.districtController.text = user.district!;
-    }
-    if (user.ward!.isNotEmpty) {
-      authController.wardController.text = user.ward!;
-    }
-    if (user.street!.isNotEmpty) {
-      authController.addressController.text = user.street!;
-    }
-    if (user.bhytCode!.isNotEmpty) {
-      authController.bhytController.text = user.bhytCode!;
-    }
-  }
+  // Future<void> initial() async {
+  //   var user = authController.baseState.user.value;
+  //   if (user.name!.isNotEmpty) {
+  //     authController.fullNameController.text = user.name!;
+  //   }
+  //   if (user.email!.isNotEmpty) {
+  //     authController.emailController.text = user.email!;
+  //   }
+  //   if (user.birthDate!.isNotEmpty) {
+  //     authController.birthdateController.text = user.birthDate!;
+  //   }
+  //   if (user.birthDate!.isNotEmpty) {
+  //     authController.birthdateController.text = user.birthDate!;
+  //   }
+  //   authController.genderController.text = user.gender.toString()!;
+  //   if (user.city!.isNotEmpty) {
+  //     authController.cityController.text = user.city!;
+  //   }
+  //   if (user.district!.isNotEmpty) {
+  //     authController.districtController.text = user.district!;
+  //   }
+  //   if (user.ward!.isNotEmpty) {
+  //     authController.wardController.text = user.ward!;
+  //   }
+  //   if (user.street!.isNotEmpty) {
+  //     authController.addressController.text = user.street!;
+  //   }
+  //   if (user.bhytCode!.isNotEmpty) {
+  //     authController.bhytController.text = user.bhytCode!;
+  //   }
+  // }
 
   // Future<void> changePassword() async {
   //   WidgetsBinding.instance.addPostFrameCallback((_) async {

@@ -88,4 +88,24 @@ extension StringExtension on String {
       return DateFormat('dd/MM/yyyy').format(dateTime);
     }
   }
+
+  String get address {
+    final parts = this.split(',');
+    return parts.length > 0 ? parts[0].trim() : '';
+  }
+
+  String get ward {
+    final parts = this.split(',');
+    return parts.length > 1 ? parts[1].trim() : '';
+  }
+
+  String get city {
+    final parts = this.split(',');
+    return parts.length > 2 ? parts[2].trim() : '';
+  }
+
+  String get district {
+    final parts = this.split(',');
+    return parts.length > 3 ? parts[3].trim() : '';
+  }
 }

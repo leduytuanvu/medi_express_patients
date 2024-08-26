@@ -27,4 +27,8 @@ class AppRoutes {
   static const personalInformation = '/personal_information';
   static const changePassword = '/change_password';
   static const healthRecord = '/health_record';
+  static const measuringDeviceLink = '/measuring_device_link';
+  static const healthRecordDetail = '/health_record_detail';
+  static const healthIndexMeasurement = '/health_index_measurement';
+  static const measurementResults = '/measurement_results';
 }

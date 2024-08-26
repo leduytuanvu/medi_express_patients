@@ -68,6 +68,11 @@ class _Svg {
   final String alarm = '${path}alarm.svg';
   final String edit = '${path}edit.svg';
 
+  final String graphDownNew = '${path}graph_down_new.svg';
+  final String bacteria = '${path}bacteria.svg';
+  final String tuningSquare = '${path}tuning_square.svg';
+  final String illustration = '${path}illustration.svg';
+
   final String height = '${path}height.svg';
   final String weight = '${path}weight.svg';
   final String temp = '${path}temp.svg';

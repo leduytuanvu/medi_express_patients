@@ -270,6 +270,14 @@ class AppTextStyle {
         color: Colors.black,
       );
 
+  static TextStyle mediumBodyWithColor(BuildContext context, Color color) =>
+      bepro(
+        context: context,
+        fontSize: context.sp(14),
+        fontWeight: FontWeight.w500,
+        color: color,
+      );
+
   static TextStyle bigBody(BuildContext context) => bepro(
         context: context,
         fontSize: context.sp(16),

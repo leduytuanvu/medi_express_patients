@@ -11,10 +11,8 @@ class UserDto {
   String? healthStatus;
   String? role;
   String? active;
-  String? street;
-  String? ward;
-  String? district;
-  String? city;
+  String? avatar;
+  String? fullAddress;
 
   UserDto({
     this.id,
@@ -27,10 +25,8 @@ class UserDto {
     this.healthStatus,
     this.role,
     this.active,
-    this.street,
-    this.ward,
-    this.district,
-    this.city,
+    this.avatar,
+    this.fullAddress,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
@@ -45,10 +41,8 @@ class UserDto {
       healthStatus: json['HealthStatus'],
       role: json['Role'],
       active: json['Active'],
-      street: json['street'],
-      ward: json['ward'],
-      district: json['district'],
-      city: json['city'],
+      avatar: json['Avatar'],
+      fullAddress: json['fullAddress'],
     );
   }
 
@@ -64,10 +58,8 @@ class UserDto {
       'HealthStatus': healthStatus,
       'Role': role,
       'Active': active,
-      'street': street,
-      'ward': ward,
-      'district': district,
-      'city': city,
+      'fullAddress': fullAddress,
+      'avatar': avatar,
     };
   }
 
@@ -83,10 +75,8 @@ class UserDto {
       healthStatus: healthStatus ?? '',
       role: role ?? '',
       active: active ?? '',
-      street: street ?? '',
-      ward: ward ?? '',
-      district: district ?? '',
-      city: city ?? '',
+      avatar: avatar ?? '',
+      fullAddress: fullAddress ?? '',
     );
   }
 }

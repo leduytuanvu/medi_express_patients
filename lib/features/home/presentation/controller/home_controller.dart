@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
+import 'package:medi_express_patients/features/home/domain/entities/health_record_entity.dart';
 import 'package:medi_express_patients/features/home/domain/params/upload_patient_params.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_home_examination_package_usecase.dart';
@@ -90,6 +92,40 @@ class HomeController extends BaseController {
     }
   }
 
+  void filterHealthRecords(String query) {
+    Log.info("value search: $query");
+    if (query.isEmpty) {
+      Log.info("empty");
+      // Reset to the original unfiltered list when the query is empty
+      homeState.listAllHealthRecord.value = homeState.listAllHealthRecordSearch;
+    } else {
+      Log.info("not empty");
+      // Normalize the search query by removing diacritics
+      final String normalizedQuery = removeDiacritics(query.toLowerCase());
+
+      // Always filter from the original list
+      final List<HealthRecordEntity> filteredList =
+          homeState.listAllHealthRecordSearch.where((record) {
+        // Normalize the record's name and description
+        final String normalizedName =
+            removeDiacritics(record.nameHealthRecord.toLowerCase());
+        final String normalizedDescription =
+            removeDiacritics(record.description.toLowerCase());
+        final String normalizedDatetime =
+            removeDiacritics(record.createdAt.toLowerCase());
+
+        return normalizedName.contains(normalizedQuery) ||
+            normalizedDescription.contains(normalizedQuery) ||
+            normalizedDatetime.contains(normalizedQuery);
+      }).toList();
+
+      Log.info("list size: ${filteredList.length}");
+
+      // Update the filtered list
+      homeState.listAllHealthRecord.value = filteredList;
+    }
+  }
+
   Future<void> uploadPatient(BuildContext context) async {
     authController.showLoading();
     Log.info("Loading initial data...");
@@ -126,6 +162,7 @@ class HomeController extends BaseController {
         Log.info(failure.description.toString());
       },
       (success) async {
+        homeState.listAllHealthRecordSearch.value = success;
         homeState.listAllHealthRecord.value = success;
       },
     );

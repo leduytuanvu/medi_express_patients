@@ -5,9 +5,9 @@ import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/home/presentation/controller/home_controller.dart';
 
-class NotificationPage extends BaseStatelessWidget {
+class HealthRecordDetailPage extends BaseStatelessWidget {
   final HomeController homeController = Get.find<HomeController>();
-  NotificationPage({super.key});
+  HealthRecordDetailPage({super.key});
 
   @override
   Widget buildContent(BuildContext context) {
@@ -15,6 +15,7 @@ class NotificationPage extends BaseStatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: context.hp(12),
@@ -47,7 +48,7 @@ class NotificationPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Thông báo',
+                    'Chi tiết bệnh án',
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -64,58 +65,12 @@ class NotificationPage extends BaseStatelessWidget {
               ),
             ).paddingOnly(top: context.hp(4)),
           ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: homeController.getAllHealthRecord,
-              color: Colors.grey,
-              backgroundColor: Colors.white,
-              child: Obx(() {
-                if (homeController.homeState.listNotification.isNotEmpty) {
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.vertical,
-                    itemCount: homeController.homeState.listNotification.length,
-                    itemBuilder: (context, index) {
-                      final item =
-                          homeController.homeState.listNotification[index];
-                      return Column(
-                        children: [
-                          if (index == 0) ...{
-                            context.hp(2).sbh,
-                          },
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(width: context.wp(100)),
-                              Text(
-                                'Chưa có UI',
-                                style: AppTextStyle.mediumBody(context),
-                              ),
-                              Text(
-                                '',
-                                style: AppTextStyle.smallBody(context),
-                              ),
-                              SizedBox(height: context.wp(3)),
-                            ],
-                          )
-                        ],
-                      ).paddingOnly(
-                        left: context.wp(4),
-                        right: context.wp(4),
-                      );
-                    },
-                  );
-                } else {
-                  return Center(
-                    child: Text('Bạn chưa có thông báo nào.').paddingOnly(
-                      bottom: context.hp(12),
-                    ),
-                  );
-                }
-              }),
-            ),
-          ),
+          Column(
+            children: [
+              SizedBox(height: context.hp(1.6)),
+              Text('Chưa có UI'),
+            ],
+          ).paddingSymmetric(horizontal: context.wp(4)),
         ],
       ),
     );

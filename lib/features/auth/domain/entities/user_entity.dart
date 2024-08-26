@@ -9,11 +9,8 @@ class UserEntity {
   String? healthStatus;
   String? role;
   String? active;
-  String? street;
-  String? ward;
-  String? district;
-  String? city;
-
+  String? fullAddress;
+  String? avatar;
 
   UserEntity({
     this.id = -1,
@@ -26,14 +23,12 @@ class UserEntity {
     this.healthStatus = '',
     this.role = '',
     this.active = '',
-    this.street = '',
-    this.ward = '',
-    this.district = '',
-    this.city = '',
+    this.fullAddress = '',
+    this.avatar = '',
   });
 
   @override
   String toString() {
-    return '========= $id, $phoneNumber, $name, $birthDate, $gender, $email, $bhytCode, $healthStatus, $role, $active, $street, $ward, $district, $ward';
+    return '========= $id, $phoneNumber, $avatar, $name, $birthDate, $gender, $email, $bhytCode, $healthStatus, $role, $active, $fullAddress';
   }
 }

@@ -6,14 +6,16 @@ import 'package:medi_express_patients/features/home/domain/entities/health_recor
 import 'package:medi_express_patients/features/home/domain/entities/home_examination_package_entity.dart';
 
 class HomeState extends BaseState {
+  var search = ''.obs;
   var listAllHealthRecord = <HealthRecordEntity>[].obs;
+  var listAllHealthRecordSearch = <HealthRecordEntity>[].obs;
   var listNotification = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
+    'Notification 1 (Chưa có UI)',
+    'Notification 2 (Chưa có UI)',
+    'Notification 3 (Chưa có UI)',
+    'Notification 4 (Chưa có UI)',
+    'Notification 5 (Chưa có UI)',
+    'Notification 6 (Chưa có UI)',
   ].obs;
   var listAllHomeExaminationPackage = <HomeExaminationPackageEntity>[].obs;
   var imageFile = Rx<File?>(null);

@@ -151,6 +151,7 @@ class HomePage extends StatelessWidget {
                           Log.info("dịch vụ y tế");
                         };
                       case "Bệnh án":
+                        homeController.searchController.text = '';
                         context.toNamedScreen(AppRoutes.healthRecord);
                     }
                   },

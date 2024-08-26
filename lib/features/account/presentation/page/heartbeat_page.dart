@@ -123,7 +123,11 @@ class HeartbeatPage extends BaseStatelessWidget {
             ).paddingSymmetric(horizontal: context.wp(4)),
             Divider(),
             Column(
-              children: [Text('Biểu đồ nhịp tim')],
+              children: [
+                Text('Biểu đồ nhịp tim').paddingSymmetric(
+                  horizontal: context.wp(4),
+                ),
+              ],
             ),
             context.hp(6).sbh,
           ],

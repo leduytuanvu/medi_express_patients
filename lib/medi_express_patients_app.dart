@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/enviroment.dart';
 import 'package:medi_express_patients/core/config/log.dart';
+import 'package:medi_express_patients/core/service/mqtt_service.dart';
 import 'package:medi_express_patients/core/utils/translations/app_translations.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
@@ -14,7 +15,14 @@ import 'package:medi_express_patients/routes/app_pages.dart';
 class MediExpressPatientsApp extends StatelessWidget {
   final Environment environment;
 
-  const MediExpressPatientsApp(this.environment, {super.key});
+  final MqttService mqttService = MqttService(
+    broker: 'your_broker_address',
+    clientId: 'your_client_id',
+    username: 'your_username',
+    password: 'your_password',
+  );
+
+  MediExpressPatientsApp(this.environment, {super.key});
 
   @override
   Widget build(BuildContext context) {

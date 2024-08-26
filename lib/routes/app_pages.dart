@@ -2,8 +2,11 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/change_password_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/health_index_measurement_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/health_index_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/heartbeat_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/measurement_results_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/measuring_device_link_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/personal_information_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
@@ -23,6 +26,7 @@ import 'package:medi_express_patients/features/doctor/presentation/binding/docto
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_detail_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
+import 'package:medi_express_patients/features/home/presentation/page/health_record_detail_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/health_record_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/notification_page.dart';
@@ -65,6 +69,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => HomePage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.healthRecordDetail,
+      page: () => HealthRecordDetailPage(),
       binding: HomeBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -123,6 +133,12 @@ class AppPages {
       middlewares: [RouteGuard()],
     ),
     GetPage(
+      name: AppRoutes.measuringDeviceLink,
+      page: () => MeasuringDeviceLinkPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
       name: AppRoutes.heartbeat,
       page: () => HeartbeatPage(),
       binding: AccountBinding(),
@@ -131,6 +147,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.healthIndex,
       page: () => HealthIndexPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.healthIndexMeasurement,
+      page: () => HealthIndexMeasurementPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -198,6 +220,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.changePassword,
       page: () => ChangePasswordPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.measurementResults,
+      page: () => MeasurementResultsPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),

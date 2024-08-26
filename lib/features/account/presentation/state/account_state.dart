@@ -7,6 +7,12 @@ import 'package:medi_express_patients/features/auth/domain/entities/district_ent
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
 import 'package:medi_express_patients/features/base/presentation/state/base_state.dart';
 
+enum TypeMeasuringDeviceLink {
+  homeKit6In1,
+  skinTest,
+  lungMeasurement,
+}
+
 class AccountState extends BaseState {
   var listAllCity = <CityEntity>[].obs;
   var listAllDistrict = <DistrictEntity>[].obs;
@@ -17,6 +23,8 @@ class AccountState extends BaseState {
   var ward = Rxn<WardEntity>();
   var selectedGender = ''.obs;
 
+  var selectedTypeMeasuringDeviceLink = TypeMeasuringDeviceLink.homeKit6In1.obs;
+
   var imageFile = Rx<File?>(null);
 
   var healthMetricts = HealthMetricsEntity(
@@ -24,12 +32,13 @@ class AccountState extends BaseState {
     blood: null,
     height: null,
     weight: null,
-    acidUric: HealthMetricEntity(
+    acidUric: AcidUricEntity(
       createdAt: '',
-      value: '',
+      acidUric: '',
     ),
-    bloodPressure: HealthMetricEntity(
-      value: '',
+    bloodPressure: BloodPressureEntity(
+      dystolicBloodPressure: '',
+      systolicBloodPressure: '',
       createdAt: '',
     ),
     bloodSugar: BloodSugarEntity(
@@ -37,15 +46,15 @@ class AccountState extends BaseState {
       bloodSugarAfterMeal: '',
       bloodSugarBeforeMeal: '',
     ),
-    heartRate: HealthMetricEntity(
+    heartRate: HeartRateEntity(
       createdAt: '',
       value: '',
     ),
-    spO2: HealthMetricEntity(
+    spO2: Spo2Entity(
       value: '',
       createdAt: '',
     ),
-    temperature: HealthMetricEntity(
+    temperature: TemperatureEntity(
       createdAt: '',
       value: '',
     ),

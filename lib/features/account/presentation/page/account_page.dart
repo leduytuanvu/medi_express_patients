@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -33,24 +34,31 @@ class AccountPage extends StatelessWidget {
                     Log.info("TAP");
                     accountController.pickImage();
                   },
-                  // child: CachedNetworkImage(
-                  //   imageUrl: authController.baseState.user.value.name,
-                  //   placeholder: (context, url) =>
-                  //       CircularProgressIndicator(
-                  //         color: Colors.grey,
-                  //         strokeWidth: 2,
-                  //       ),
-                  //   errorWidget: (context, url, error) =>
-                  //       Icon(Icons.error),
-                  // )
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      Assets.png.avatar1,
-                      width: context.wp(16),
-                      height: context.wp(16),
-                    ),
-                  ),
+                  child: Obx(() {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: authController
+                              .baseState.user.value.avatar!.isNotEmpty
+                          ? CachedNetworkImage(
+                              width: context.wp(16),
+                              height: context.wp(16),
+                              imageUrl:
+                                  authController.baseState.user.value.avatar!,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(
+                                color: Colors.grey,
+                                strokeWidth: 2,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
+                          : Image.asset(
+                              Assets.png.avatar1,
+                              width: context.wp(16),
+                              height: context.wp(16),
+                            ),
+                    );
+                  }),
                 ),
                 context.wp(4).sbw,
                 Column(
