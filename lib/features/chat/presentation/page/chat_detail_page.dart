@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,8 @@ class ChatDetailPage extends BaseStatelessWidget {
   Widget buildContent(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>;
     final int conversation = arguments['conversationId'] as int;
+    final String nameDoctor = arguments['nameDoctor'] as String;
+    final String avatarDoctor = arguments['avatarDoctor'] as String;
 
     chatController.getAllMessage(conversation);
 
@@ -54,17 +57,31 @@ class ChatDetailPage extends BaseStatelessWidget {
                     ),
                   ),
                   context.wp(1).sbw,
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      Assets.png.avatar1,
-                      height: context.hp(4),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  avatarDoctor.isEmpty
+                      ? Image.asset(
+                          Assets.png.user,
+                          height: context.hp(4),
+                          fit: BoxFit.cover,
+                          color: Colors.white,
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            width: context.hp(4),
+                            height: context.hp(4),
+                            imageUrl: avatarDoctor,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(
+                              color: Colors.grey[200],
+                              strokeWidth: 2,
+                            ).paddingAll(context.wp(4)),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
                   context.wp(2).sbw,
                   Text(
-                    'Bs. Hà Ngọc Cường',
+                    nameDoctor,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

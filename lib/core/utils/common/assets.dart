@@ -39,6 +39,7 @@ class _Png {
   final String logo2x = '${path}logo_2x.png';
   final String logo3x = '${path}logo_3x.png';
   final String logo4x = '${path}logo_4x.png';
+  final String user = '${path}user.png';
 
   final String backgroundTop1x = '${path}background_top_1x.png';
   final String backgroundTop2x = '${path}background_top_2x.png';

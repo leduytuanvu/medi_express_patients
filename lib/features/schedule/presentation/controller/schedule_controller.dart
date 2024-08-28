@@ -28,9 +28,9 @@ class ScheduleController extends BaseController {
 
   final GetAllScheduleUsecase getAllScheduleUsecase;
   final CreateAppointmentUsecase createAppointmentUsecase;
-  final GetScheduleResultUsecase getScheduleResultUsecase;
   final GetTypeCreateAppointmentServiceUsecase
       getTypeCreateAppointmentServiceUsecase;
+  final GetScheduleResultUsecase getScheduleResultUsecase;
 
   @override
   void onInit() async {
@@ -88,7 +88,7 @@ class ScheduleController extends BaseController {
     if (scheduleState.typeExamAtHome.value) {
       typeService = 1;
     } else {
-      typeService = 0;
+      typeService = 2;
     }
 
     var check = true;
@@ -118,13 +118,13 @@ class ScheduleController extends BaseController {
       List<String> times = scheduleState.timeChoose.value.split(' - ');
       var dateChoose =
           '${scheduleState.yearChoose}-${scheduleState.monthChoose}-${scheduleState.dateChoose.value}';
-      Log.info("============= date choose:$dateChoose");
+      Log.info(
+          "============= date choose:$dateChoose, tmp service: $typeService");
       final result = await createAppointmentUsecase(
         CreateAppointmentParams(
           patientID: authController.baseState.user.value.id,
-          serviceID: typeService,
-          serviceTypeID:
-              scheduleState.typeCreateAppointmentService.value.id ?? 0,
+          serviceID: scheduleState.typeCreateAppointmentService.value.id ?? 0,
+          serviceTypeID: typeService,
           appointmentDate: dateChoose,
           startTime: times[0],
           endTime: times[1],
@@ -142,15 +142,23 @@ class ScheduleController extends BaseController {
           Log.info(failure.description.toString());
         },
         (success) async {
-          authController.showWarning(
-            () {
-              Log.info("create success");
-              authController.clearWarning();
-              context.backScreen();
-            },
-            'Đặt lịch khám thành công',
-            'Xác nhận',
-          );
+          if (success.id == -1) {
+            authController.showError(
+              () => authController.clearError(),
+              'Lịch hẹn trùng thời gian',
+              'Quay lại',
+            );
+          } else {
+            authController.showWarning(
+              () {
+                Log.info("create success");
+                authController.clearWarning();
+                context.backScreen();
+              },
+              'Đặt lịch khám thành công',
+              'Xác nhận',
+            );
+          }
         },
       );
     }

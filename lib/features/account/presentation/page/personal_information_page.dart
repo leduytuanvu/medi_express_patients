@@ -147,6 +147,8 @@ class PersonalInformationPage extends BaseStatelessWidget {
                           Log.info(district?.districtName ?? '');
                           accountController.accountState.district.value =
                               district;
+                          accountController.accountState.ward.value = null;
+                          accountController.accountState.listAllWard.value = [];
                           accountController.getWardByDistrict(district!.id);
                           authController.districtController.text =
                               district.districtName;

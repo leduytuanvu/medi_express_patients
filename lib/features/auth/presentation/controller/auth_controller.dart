@@ -553,6 +553,8 @@ class AuthController extends BaseController {
               setUser(successGetUserInformation);
               successLogin.firstTimeOpenApp = "false";
               setAuth(successLogin);
+              final ChatController chatController = Get.find<ChatController>();
+              chatController.connectSocket();
             },
           );
         },

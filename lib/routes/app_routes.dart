@@ -16,6 +16,7 @@ class AppRoutes {
   static const notification = '/notification';
   static const doctor = '/doctor';
   static const doctorDetail = '/doctor_detail';
+  static const bookScheduleId = '/book_schedule_id';
   static const schedule = '/schedule';
   static const scheduleDetail = '/schedule_detail';
   static const bookSchedule = '/book_schedule';
@@ -31,4 +32,7 @@ class AppRoutes {
   static const healthRecordDetail = '/health_record_detail';
   static const healthIndexMeasurement = '/health_index_measurement';
   static const measurementResults = '/measurement_results';
+  static const updateHeightPage = '/update_height';
+  static const updateWeightPage = '/update_weight';
+  static const bloodSugar = '/blood_sugar';
 }

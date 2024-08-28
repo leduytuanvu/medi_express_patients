@@ -1,13 +1,20 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
+import 'package:medi_express_patients/features/account/domain/params/update_height_params.dart';
+import 'package:medi_express_patients/features/account/domain/params/update_user_params.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/state/account_state.dart';
 import 'package:medi_express_patients/features/auth/domain/params/get_district_by_city_params.dart';
@@ -18,16 +25,23 @@ import 'package:medi_express_patients/features/base/presentation/controller/base
 class AccountController extends BaseController {
   final GetHealthMetrictsUsecase getHealthMetrictsUsecase;
   final UploadAvatarUsecase uploadAvatarUsecase;
+  final UpdateUserUsecase updateUserUsecase;
+  final UpdateHeightUsecase updateHeightUsecase;
+  final UpdateWeightUsecase updateWeightUsecase;
   AccountController({
     required this.getHealthMetrictsUsecase,
     required this.uploadAvatarUsecase,
+    required this.updateUserUsecase,
+    required this.updateHeightUsecase,
+    required this.updateWeightUsecase,
     required ErrorHandlingService errorHandlingService,
   }) : super(errorHandlingService);
 
   final AccountState accountState = AccountState();
   final AuthController authController = Get.find<AuthController>();
 
-  // final phoneController = TextEditingController();
+  final valueTextFieldController = TextEditingController();
+  final dateTextFieldController = TextEditingController();
   // final verifyCodeController = TextEditingController();
   // final passwordLoginController = TextEditingController();
   // final passwordRegisterController = TextEditingController();
@@ -52,8 +66,8 @@ class AccountController extends BaseController {
       final XFile? pickedFile =
           await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
+        authController.showLoading();
         accountState.imageFile.value = File(pickedFile.path);
-        Log.info("OKOKOKOKOK");
         final result = await uploadAvatarUsecase(File(pickedFile.path));
         result.fold(
           (failure) {
@@ -85,6 +99,7 @@ class AccountController extends BaseController {
             clearError();
           },
         );
+        authController.hideLoading();
         // await uploadImage(File(pickedFile.path));
       }
     } catch (e) {
@@ -247,6 +262,104 @@ class AccountController extends BaseController {
       },
     );
     hideLoading();
+  }
+
+  Future<void> updateHeight() async {
+    var check = true;
+    if (dateTextFieldController.text.trim().isEmpty) {
+      check = false;
+      accountState.errorDateInput.value = 'Ngày đo không được để trống';
+    } else {
+      accountState.errorDateInput.value = '';
+    }
+    if (valueTextFieldController.text.trim().isEmpty) {
+      check = false;
+      accountState.errorValueInput.value = 'Chiều cao không được để trống';
+    } else {
+      accountState.errorValueInput.value = '';
+    }
+    if (check) {
+      authController.showLoading();
+      Log.info("date time: ${dateTextFieldController.text}");
+      DateFormat originalFormat = DateFormat('dd/MM/yyyy');
+      DateFormat targetFormat = DateFormat('yyyy-MM-dd');
+
+      DateTime dateTime = originalFormat.parse(dateTextFieldController.text);
+
+      String formattedDate = targetFormat.format(dateTime);
+      Log.info("message");
+      final result = await updateHeightUsecase(
+        UpdateHeightParams(
+          patientId: authController.baseState.user.value.id,
+          height: double.parse(valueTextFieldController.text),
+          createAt: formattedDate,
+        ),
+      );
+      result.fold(
+        (failure) {
+          Log.severe("$failure");
+          authController.showError(
+            () => authController.clearError(),
+            failure.message,
+            'Quay lại',
+          );
+        },
+        (success) {
+          Log.severe("$success");
+          authController.clearError();
+        },
+      );
+      authController.hideLoading();
+    }
+  }
+
+  Future<void> updateWeight() async {
+    var check = true;
+    if (dateTextFieldController.text.trim().isEmpty) {
+      check = false;
+      accountState.errorDateInput.value = 'Ngày đo không được để trống';
+    } else {
+      accountState.errorDateInput.value = '';
+    }
+    if (valueTextFieldController.text.trim().isEmpty) {
+      check = false;
+      accountState.errorValueInput.value = 'Cân nặng không được để trống';
+    } else {
+      accountState.errorValueInput.value = '';
+    }
+    if (check) {
+      authController.showLoading();
+      Log.info("date time: ${dateTextFieldController.text}");
+      DateFormat originalFormat = DateFormat('dd/MM/yyyy');
+      DateFormat targetFormat = DateFormat('yyyy-MM-dd');
+
+      DateTime dateTime = originalFormat.parse(dateTextFieldController.text);
+
+      String formattedDate = targetFormat.format(dateTime);
+      Log.info("message");
+      final result = await updateWeightUsecase(
+        UpdateHeightParams(
+          patientId: authController.baseState.user.value.id,
+          height: double.parse(valueTextFieldController.text),
+          createAt: formattedDate,
+        ),
+      );
+      result.fold(
+        (failure) {
+          Log.severe("$failure");
+          authController.showError(
+            () => authController.clearError(),
+            failure.message,
+            'Quay lại',
+          );
+        },
+        (success) {
+          Log.severe("$success");
+          authController.clearError();
+        },
+      );
+      authController.hideLoading();
+    }
   }
 
   // Future<void> getDistrictByCity(int cityId) async {
@@ -421,7 +534,134 @@ class AccountController extends BaseController {
       authController.authState.errorBhyt.value = "";
     }
     if (check) {
-      Log.info("======== OKOK");
+      Log.info("birthday: ${authController.birthdateController.text}");
+      Log.info("address: ${authController.addressController.text}");
+      var gender = accountState.selectedGender.value == "Nam" ? 1 : 0;
+      final result = await updateUserUsecase(
+        UpdateUserParams(
+          gender: gender,
+          address: authController.addressController.text,
+          email: authController.emailController.text,
+          wardId: accountState.ward.value!.id,
+          name: authController.fullNameController.text,
+          birthdate: authController.birthdateController.text.toIsoFormat(),
+          bhytCode: authController.bhytController.text,
+        ),
+      );
+      result.fold(
+        (failure) {
+          Log.severe("??????????????  $failure");
+          showError(
+            () => clearError(),
+            failure.message,
+            'Quay lại',
+          );
+        },
+        (success) async {
+          final resultCity = await authController.getAllCityUsecase(NoParams());
+          resultCity.fold(
+            (failureCity) {
+              Log.severe("1 $failureCity");
+              showError(
+                () => clearError(),
+                failureCity.message,
+                'Quay lại',
+              );
+            },
+            (successCity) async {
+              accountState.listAllCity.value = successCity;
+              for (var elementCity in successCity) {
+                if (elementCity.name == accountState.city.value!.name) {
+                  accountState.city.value = elementCity;
+                }
+              }
+              Log.info(
+                  "cituuuuuuuuuuuuuuuuuuuuuuuu: ${accountState.city.value!.name}");
+              final resultDistrict = await authController
+                  .getDistrictByCityUsecase(GetDistrictByCityParams(
+                      cityId: accountState.city.value!.id));
+              resultDistrict.fold(
+                (failureDistrict) {
+                  Log.severe("2 $failureDistrict");
+                  showError(
+                    () => clearError(),
+                    failureDistrict.message,
+                    'Quay lại',
+                  );
+                },
+                (successDistrict) async {
+                  Log.info(successDistrict.toString());
+                  accountState.listAllDistrict.value = successDistrict;
+                  for (var elementDistrict in successDistrict) {
+                    if (elementDistrict.districtName ==
+                        accountState.district.value!.districtName) {
+                      accountState.district.value = elementDistrict;
+                    }
+                  }
+                  final resultWard =
+                      await authController.getWardByDistrictUsecase(
+                    GetWardByDistrictParams(
+                        districtId: accountState.district.value!.id),
+                  );
+                  resultWard.fold(
+                    (failureWard) {
+                      Log.severe("3 $failureWard");
+                      showError(
+                        () => clearError(),
+                        failureWard.message,
+                        'Quay lại',
+                      );
+                    },
+                    (successWard) async {
+                      Log.info(successWard.toString());
+                      accountState.listAllWard.value = successWard;
+                      for (var elementWard in successWard) {
+                        if (elementWard.wardName ==
+                            accountState.ward.value!.wardName) {
+                          accountState.ward.value = elementWard;
+                        }
+                      }
+                    },
+                  );
+                },
+              );
+            },
+          );
+
+          Log.severe("?????????????? $success");
+          authController.fullNameController.text = success.name;
+          authController.emailController.text = success.email;
+          authController.birthdateController.text =
+              success.birthDate.toFormattedDate();
+          authController.genderController.text = success.gender ? 'Nam' : 'Nữ';
+          authController.addressController.text = success.address;
+          authController.bhytController.text = success.bhytCode;
+
+          // authController.baseState.user.value.name = success.name;
+          // authController.baseState.user.value.email = success.email;
+          // authController.baseState.user.value.birthDate = success.birthDate;
+          // authController.baseState.user.value.gender = success.gender;
+          // authController.baseState.user.value.fullAddress = success.name;
+          // authController.baseState.user.value.bhytCode = success.bhytCode;
+
+          authController.baseState.user.update((user) {
+            if (user != null) {
+              user.name = success.name;
+              user.email = success.email;
+              user.birthDate = success.birthDate;
+              user.gender = success.gender;
+              user.fullAddress =
+                  "${success.address}, ${accountState.ward.value!.wardName}, ${accountState.district.value!.districtName}, ${accountState.city.value!.name}";
+              user.bhytCode = success.bhytCode;
+            }
+          });
+
+          Log.info(
+              "city: ${accountState.city.value!.name}, district: ${accountState.district.value!.districtName}, ward: ${accountState.ward.value!.wardName}, ");
+
+          clearError();
+        },
+      );
     }
     authController.hideLoading();
   }

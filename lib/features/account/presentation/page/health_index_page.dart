@@ -85,7 +85,13 @@ class HealthIndexPage extends BaseStatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // context.toNamedScreen(AppRoutes.healthIndex);
+                        accountController.accountState.errorDateInput.value =
+                            '';
+                        accountController.accountState.errorValueInput.value =
+                            '';
+                        accountController.dateTextFieldController.text = '';
+                        accountController.valueTextFieldController.text = '';
+                        context.toNamedScreen(AppRoutes.updateHeightPage);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -179,7 +185,13 @@ class HealthIndexPage extends BaseStatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // context.toNamedScreen(AppRoutes.healthIndex);
+                        accountController.accountState.errorDateInput.value =
+                            '';
+                        accountController.accountState.errorValueInput.value =
+                            '';
+                        accountController.dateTextFieldController.text = '';
+                        accountController.valueTextFieldController.text = '';
+                        context.toNamedScreen(AppRoutes.updateWeightPage);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -579,78 +591,87 @@ class HealthIndexPage extends BaseStatelessWidget {
                       thickness: context.hp(0.1),
                       color: Color(0xFFF4F5F7),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: context.wp(14),
-                          width: context.wp(14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF5F6F9),
-                            borderRadius: BorderRadius.circular(context.rp(20)),
-                          ),
-                          child: SvgPicture.asset(
-                            Assets.svg.bloodSugar,
-                          ).paddingAll(
-                            context.wp(3.4),
-                          ),
-                        ),
-                        context.wp(4).sbw,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    GestureDetector(
+                      onTap: () {
+                        context.toNamedScreen(AppRoutes.bloodSugar);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
                           children: [
-                            Text(
-                              'Đường huyết',
-                              style: AppTextStyle.smallItemTitle(context),
+                            Container(
+                              height: context.wp(14),
+                              width: context.wp(14),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F6F9),
+                                borderRadius:
+                                    BorderRadius.circular(context.rp(20)),
+                              ),
+                              child: SvgPicture.asset(
+                                Assets.svg.bloodSugar,
+                              ).paddingAll(
+                                context.wp(3.4),
+                              ),
                             ),
-                            Row(
+                            context.wp(4).sbw,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  accountController
-                                          .accountState
-                                          .healthMetricts
-                                          .value
-                                          .bloodSugar!
-                                          .bloodSugarAfterMeal
-                                          .isNotEmpty
-                                      ? accountController
+                                  'Đường huyết',
+                                  style: AppTextStyle.smallItemTitle(context),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      accountController
                                               .accountState
                                               .healthMetricts
                                               .value
                                               .bloodSugar!
-                                              .bloodSugarAfterMeal +
-                                          ' mmol/l'
-                                      : '0 mmol/l',
-                                  style: AppTextStyle.mediumBody(context),
-                                ),
-                                Text(
-                                  '   |   ',
-                                  style: AppTextStyle.mediumHint(context)
-                                      .copyWith(color: Color(0xFFE3E8EF)),
-                                ),
-                                SvgPicture.asset(
-                                  Assets.svg.alarm,
-                                  height: context.wp(5),
-                                  width: context.wp(5),
-                                ).paddingOnly(
-                                    bottom: context.hp(0.3),
-                                    right: context.wp(1.4)),
-                                Text(
-                                  '08:30 23/09/2021',
-                                  style: AppTextStyle.bigHint(context),
+                                              .bloodSugarAfterMeal
+                                              .isNotEmpty
+                                          ? accountController
+                                                  .accountState
+                                                  .healthMetricts
+                                                  .value
+                                                  .bloodSugar!
+                                                  .bloodSugarAfterMeal +
+                                              ' mmol/l'
+                                          : '0 mmol/l',
+                                      style: AppTextStyle.mediumBody(context),
+                                    ),
+                                    Text(
+                                      '   |   ',
+                                      style: AppTextStyle.mediumHint(context)
+                                          .copyWith(color: Color(0xFFE3E8EF)),
+                                    ),
+                                    SvgPicture.asset(
+                                      Assets.svg.alarm,
+                                      height: context.wp(5),
+                                      width: context.wp(5),
+                                    ).paddingOnly(
+                                        bottom: context.hp(0.3),
+                                        right: context.wp(1.4)),
+                                    Text(
+                                      '08:30 23/09/2021',
+                                      style: AppTextStyle.bigHint(context),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: context.wp(5),
+                            ),
                           ],
+                        ).paddingOnly(
+                          bottom: context.hp(1.7),
+                          top: context.hp(1.7),
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: context.wp(5),
-                        ),
-                      ],
-                    ).paddingOnly(
-                      bottom: context.hp(1.7),
-                      top: context.hp(1.7),
+                      ),
                     ),
                     Divider(
                       thickness: context.hp(0.1),

@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/account/presentation/controller/account_controller.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
@@ -14,9 +17,11 @@ import 'package:medi_express_patients/features/chat/domain/usecases/get_all_conv
 import 'package:medi_express_patients/features/chat/domain/usecases/get_all_message_usecase.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/create_appointment_id_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_type_create_appointment_service_usecase.dart';
 import 'package:medi_express_patients/features/doctor/presentation/controller/doctor_controller.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/domain/usecases/get_all_health_record_usecase.dart';
@@ -64,6 +69,9 @@ class MainPage extends BaseStatelessWidget {
               getDoctorByNameUsecase: Get.find<GetDoctorByNameUsecase>(),
               getDoctorInformationDetailUsecase:
                   Get.find<GetDoctorInformationDetailUsecase>(),
+              getTypeCreateAppointmentServiceUsecase:
+                  Get.find<GetTypeCreateAppointmentServiceIdUsecase>(),
+              createAppointmentUsecase: Get.find<CreateAppointmentIdUsecase>(),
               errorHandlingService: ErrorHandlingService(),
             ),
             builder: (controller) => DoctorPage(),
@@ -93,6 +101,9 @@ class MainPage extends BaseStatelessWidget {
             init: AccountController(
               getHealthMetrictsUsecase: Get.find<GetHealthMetrictsUsecase>(),
               uploadAvatarUsecase: Get.find<UploadAvatarUsecase>(),
+              updateUserUsecase: Get.find<UpdateUserUsecase>(),
+              updateWeightUsecase: Get.find<UpdateWeightUsecase>(),
+              updateHeightUsecase: Get.find<UpdateHeightUsecase>(),
               errorHandlingService: ErrorHandlingService(),
             ),
             builder: (controller) => AccountPage(),

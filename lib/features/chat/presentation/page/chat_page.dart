@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -126,8 +127,11 @@ class ChatPage extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         Log.info("click");
-                        context.toNamedScreen(AppRoutes.chatDetail,
-                            arguments: {'conversationId': item.conversationID});
+                        context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+                          'conversationId': item.conversationID,
+                          'nameDoctor': item.name,
+                          'avatarDoctor': item.avatar,
+                        });
                         // context.toNamedScreen(AppRoutes.scheduleDetail,
                         //     arguments: {'schedule': item});
                       },
@@ -138,21 +142,21 @@ class ChatPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             item.avatar!.isEmpty
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.asset(
-                                      Assets.png.avatar1,
-                                      height: context.hp(7.6),
-                                      fit: BoxFit.cover,
-                                    ),
+                                ? Image.asset(
+                                    Assets.png.user,
+                                    height: context.hp(7.6),
                                   )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.asset(
-                                      Assets.png.avatar1,
-                                      height: context.hp(7.6),
-                                      fit: BoxFit.cover,
-                                    ),
+                                : CachedNetworkImage(
+                                    width: context.hp(7.6),
+                                    height: context.hp(7.6),
+                                    imageUrl: item.avatar!,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(
+                                      color: Colors.grey[200],
+                                      strokeWidth: 2,
+                                    ).paddingAll(context.wp(4)),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                             context.wp(4).sbw,
                             Expanded(
@@ -175,8 +179,10 @@ class ChatPage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Text(item.lastMessageTime == null
-                                ? ''
+                            Text(item.lastMessageTime!.isEmpty
+                                ? chatController
+                                    .getCurrentLastMessageDate()
+                                    .toRelativeTime()
                                 : item.lastMessageTime!.toRelativeTime()),
                           ],
                         ).paddingOnly(

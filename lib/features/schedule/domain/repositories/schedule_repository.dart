@@ -8,12 +8,11 @@ import 'package:medi_express_patients/features/schedule/domain/params/create_app
 abstract class ScheduleRepository {
   Future<List<ScheduleEntity>> getAllSchedule(String status, int patientId);
 
+  Future<ScheduleResultEntity> getScheduleResult(String id);
   Future<List<TypeCreateAppointmentServiceEntity>>
       getTypeCreateAppointmentService();
 
   Future<List<ServiceTypeEntity>> getServiceType();
-
-  Future<ScheduleResultEntity> getScheduleResult(String id);
 
   Future<CreateAppointmentEntity> createAppointment(
       CreateAppointmentParams params);

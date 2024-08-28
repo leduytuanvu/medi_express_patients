@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
@@ -91,6 +92,13 @@ class ChatController extends BaseController {
       Log.info("-------------------------- message");
       _handleSocketMessage(data);
     });
+  }
+
+  String getCurrentLastMessageDate() {
+    DateTime now = DateTime.now().toUtc(); // Get current date and time in UTC
+    String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
+    return formattedDate;
   }
 
   void _handleSocketMessage(dynamic data) async {
@@ -209,7 +217,7 @@ class ChatController extends BaseController {
           'Quay lại',
         );
       },
-      (success) {
+      (success) async {
         chatState.listConversation.value = success;
         Log.severe("list conversation 2: ${chatState.listConversation}");
         final MainController mainController = Get.find<MainController>();
@@ -223,11 +231,76 @@ class ChatController extends BaseController {
               tmpConversation = tmpItem;
             }
           }
-          Log.info("tmpConversation: ${tmpConversation.toString()}");
+          Log.info(
+              "tmpConversation: ${tmpConversation.toString()}, doctorId: ${mainController.mainState.doctorInformation.value!.doctorId}");
           if (tmpConversation.conversationID != -1) {
-            context.toNamedScreen(AppRoutes.chatDetail,
-                arguments: {'conversationId': tmpConversation.conversationID});
-          } else {}
+            context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+              'conversationId': tmpConversation.conversationID,
+              'avatarDoctor': tmpConversation.avatar,
+              'nameDoctor': tmpConversation.name,
+            });
+          } else {
+            final resultCreate = await createConversationUsecase(
+              CreateConversationParams(
+                participantOneID: authController.baseState.user.value.id,
+                participantTwoID:
+                    mainController.mainState.doctorInformation.value!.doctorId,
+              ),
+            );
+            resultCreate.fold(
+              (failureCreate) {
+                Log.severe("create conversion fail: $failureCreate");
+                authController.showError(
+                  () => authController.clearError(),
+                  failureCreate.message,
+                  'Quay lại',
+                );
+              },
+              (successCreate) async {
+                final resultGetAgain = await getAllConversationUsecase(
+                    authController.baseState.user.value.id);
+                resultGetAgain.fold((failureGetAgain) {
+                  Log.severe("$failureGetAgain");
+                  authController.showError(
+                    () => authController.clearError(),
+                    failureGetAgain.message,
+                    'Quay lại',
+                  );
+                }, (successAgain) async {
+                  tmpConversation = ConversationEntity(
+                      conversationID: -1, idUser: -1, name: '', role: '');
+                  for (var tmpItem in successAgain) {
+                    if (tmpItem.idUser ==
+                        mainController
+                            .mainState.doctorInformation.value!.doctorId) {
+                      tmpConversation = tmpItem;
+                    }
+                  }
+                  if (tmpConversation.conversationID != -1) {
+                    context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+                      'conversationId': tmpConversation.conversationID,
+                      'avatarDoctor': tmpConversation.avatar,
+                      'nameDoctor': tmpConversation.name,
+                    });
+                    authController.clearError();
+                  } else {
+                    authController.showError(
+                      () => authController.clearError(),
+                      "Không tìm thấy tin nhắn",
+                      'Quay lại',
+                    );
+                  }
+                });
+                // Log.severe("create conversion true: $success");
+                // context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+                //   'conversationId': successCreate.conversationID,
+                //   'avatarDoctor': successCreate.ava,
+                //   'nameDoctor': successCreate.conversationID,
+                // });
+                // authController.clearError();
+              },
+            );
+          }
         } else {
           Log.info("nulllllllllllllll");
         }

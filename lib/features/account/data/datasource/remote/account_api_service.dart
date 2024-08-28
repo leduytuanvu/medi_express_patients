@@ -21,6 +21,38 @@ class AccountApiService {
     return response;
   }
 
+  Future<Response<Map<String, dynamic>>> updateHeight(
+    int patientId,
+    double height,
+    String createAt,
+  ) async {
+    final response = await dio.put<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/height',
+      data: {
+        'PatientID': patientId,
+        'Height': height,
+        'createdAt': createAt,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> updateWeight(
+    int patientId,
+    double weight,
+    String createAt,
+  ) async {
+    final response = await dio.put<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/weight',
+      data: {
+        'PatientID': patientId,
+        'Weight': weight,
+        'createdAt': createAt,
+      },
+    );
+    return response;
+  }
+
   Future<Response<Map<String, dynamic>>> uploadAvatar(File file) async {
     FormData formData = FormData.fromMap({
       'Avatar': await MultipartFile.fromFile(file.path, filename: 'avatar.png'),
@@ -38,8 +70,7 @@ class AccountApiService {
   }
 
   Future<Response<Map<String, dynamic>>> updateUser(
-    String gender,
-    String phoneNumber,
+    int gender,
     String address,
     String email,
     int wardId,
@@ -48,16 +79,15 @@ class AccountApiService {
     String bhytCode,
   ) async {
     final response = await dio.put<Map<String, dynamic>>(
-      '/mediexpress/user',
+      'mediexpress/user/editPersonal',
       data: {
         'Gender': gender,
-        'PhoneNumber': phoneNumber,
         'Addressed': address,
         'Email': email,
         'WardID': wardId,
         'Name': name,
-        'BirthDate': birthdate,
         'BHYTCode': bhytCode,
+        'BirthDate': birthdate,
       },
     );
     return response;

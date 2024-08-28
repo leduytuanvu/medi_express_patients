@@ -10,6 +10,9 @@ import 'package:medi_express_patients/features/account/data/datasource/remote/ac
 import 'package:medi_express_patients/features/account/data/repositories/account_repository_impl.dart';
 import 'package:medi_express_patients/features/account/domain/repositories/account_repository.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
@@ -44,9 +47,11 @@ import 'package:medi_express_patients/features/doctor/data/datasources/remote/do
 import 'package:medi_express_patients/features/doctor/data/datasources/remote/doctor_remote_datasource.dart';
 import 'package:medi_express_patients/features/doctor/data/repositories/doctor_repository_impl.dart';
 import 'package:medi_express_patients/features/doctor/domain/repositories/doctor_repository.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/create_appointment_id_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_type_create_appointment_service_usecase.dart';
 import 'package:medi_express_patients/features/home/data/datasources/local/home_local_datasource.dart';
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_api_service.dart';
 import 'package:medi_express_patients/features/home/data/datasources/remote/home_remote_datasource.dart';
@@ -149,7 +154,9 @@ Future<void> initDI(String environmentName) async {
 
   /// Main
   Get.put(
-    MainController(errorHandlingService: Get.find<ErrorHandlingService>()),
+    MainController(
+      errorHandlingService: Get.find<ErrorHandlingService>(),
+    ),
   );
 
   /// Doctor
@@ -171,6 +178,9 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(
       () => GetDoctorInformationDetailUsecase(Get.find<DoctorRepository>()));
   Get.lazyPut(() => GetDoctorByNameUsecase(Get.find<DoctorRepository>()));
+  Get.lazyPut(() => CreateAppointmentIdUsecase(Get.find<DoctorRepository>()));
+  Get.lazyPut(() =>
+      GetTypeCreateAppointmentServiceIdUsecase(Get.find<ScheduleRepository>()));
 
   /// Schedule
   Get.lazyPut(() => ScheduleApiService(Get.find<ApiClient>().client));
@@ -191,6 +201,15 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => CreateAppointmentUsecase(Get.find<ScheduleRepository>()));
   Get.lazyPut(() =>
       GetTypeCreateAppointmentServiceUsecase(Get.find<ScheduleRepository>()));
+
+  // Get.put(() => ScheduleController(
+  //       getAllScheduleUsecase: Get.find<GetAllScheduleUsecase>(),
+  //       getScheduleResultUsecase: Get.find<GetScheduleResultUsecase>(),
+  //       createAppointmentUsecase: Get.find<CreateAppointmentUsecase>(),
+  //       getTypeCreateAppointmentServiceUsecase:
+  //           Get.find<GetTypeCreateAppointmentServiceUsecase>(),
+  //       errorHandlingService: Get.find<ErrorHandlingService>(),
+  //     ));
 
   // Home
   Get.lazyPut(() => HomeApiService(Get.find<ApiClient>().client));
@@ -227,4 +246,7 @@ Future<void> initDI(String environmentName) async {
       ));
   Get.lazyPut(() => GetHealthMetrictsUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => UploadAvatarUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => UpdateUserUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => UpdateHeightUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => UpdateWeightUsecase(Get.find<AccountRepository>()));
 }

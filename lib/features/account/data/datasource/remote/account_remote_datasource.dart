@@ -5,6 +5,7 @@ import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/account/data/datasource/remote/account_api_service.dart';
 import 'package:medi_express_patients/features/account/data/dto/health_metricts_dto.dart';
+import 'package:medi_express_patients/features/account/data/dto/update_user_dto.dart';
 import 'package:medi_express_patients/features/account/data/dto/upload_avatar_dto.dart';
 
 class AccountRemoteDatasource {
@@ -25,6 +26,44 @@ class AccountRemoteDatasource {
     }, 'AccountRemoteDatasource/getHealthMetrics');
   }
 
+  Future<ApiResponse<dynamic>> updateHeight(
+    int patientId,
+    double height,
+    String createAt,
+  ) async {
+    Log.info("updateHeight in AccountRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await accountApiService.updateHeight(
+        patientId,
+        height,
+        createAt,
+      );
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => data,
+      );
+    }, 'AccountRemoteDatasource/updateHeight');
+  }
+
+  Future<ApiResponse<dynamic>> updateWeight(
+    int patientId,
+    double weight,
+    String createAt,
+  ) async {
+    Log.info("updateWeight in AccountRemoteDatasource");
+    return executeWithHandling(() async {
+      final response = await accountApiService.updateHeight(
+        patientId,
+        weight,
+        createAt,
+      );
+      return ApiResponse.fromJson(
+        response.data!,
+        (data) => data,
+      );
+    }, 'AccountRemoteDatasource/updateWeight');
+  }
+
   Future<ApiResponse<UploadAvatarDto>> uploadAvatar(File file) async {
     Log.info("uploadAvatar in AccountRemoteDatasource");
     return executeWithHandling(() async {
@@ -36,9 +75,8 @@ class AccountRemoteDatasource {
     }, 'AccountRemoteDatasource/uploadAvatar');
   }
 
-  Future<ApiResponse<HealthMetricsDto>> updateUser(
-    String gender,
-    String phoneNumber,
+  Future<ApiResponse<UpdateUserDto>> updateUser(
+    int gender,
     String address,
     String email,
     int wardId,
@@ -50,7 +88,6 @@ class AccountRemoteDatasource {
     return executeWithHandling(() async {
       final response = await accountApiService.updateUser(
         gender,
-        phoneNumber,
         address,
         email,
         wardId,
@@ -60,7 +97,7 @@ class AccountRemoteDatasource {
       );
       return ApiResponse.fromJson(
         response.data!,
-        (data) => HealthMetricsDto.fromJson(data),
+        (data) => UpdateUserDto.fromJson(data),
       );
     }, 'AccountRemoteDatasource/updateUser');
   }

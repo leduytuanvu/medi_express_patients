@@ -116,7 +116,7 @@ class DoctorPage extends StatelessWidget {
                       .doctorState.listAllInformationDoctor[index];
                   return GestureDetector(
                     onTap: () {
-                      Log.info('click');
+                      Log.info('click: ');
                       // context.toNamedScreen(AppRoutes.doctorDetail);
                       context.toNamedScreen(AppRoutes.doctorDetail,
                           arguments: {'doctorInformation': item});
@@ -146,7 +146,7 @@ class DoctorPage extends StatelessWidget {
             children: [
               (item.avatar == null || item.avatar!.isEmpty)
                   ? Image.asset(
-                      Assets.png.avatarDoctor1x,
+                      Assets.png.user,
                       height: context.hp(15),
                     )
                   :
@@ -162,7 +162,7 @@ class DoctorPage extends StatelessWidget {
                           imageUrl: item.avatar!,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(
-                            color: Colors.grey,
+                            color: Colors.grey[200],
                             strokeWidth: 2,
                           ),
                           errorWidget: (context, url, error) =>
@@ -273,27 +273,45 @@ class DoctorPage extends StatelessWidget {
               ),
               context.wp(2).sbw,
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8FAFF),
-                    borderRadius: BorderRadius.circular(context.rp(4)),
+                child: GestureDetector(
+                  onTap: () {
+                    // context.backScreen();
+
+                    doctorController.doctorState.dateChoose.value = '';
+                    doctorController.doctorState.timeChoose.value = '';
+                    doctorController.doctorState.typeExamAtHome.value = true;
+                    doctorController.doctorState.dateChoose.value =
+                        '${DateTime.now().day}';
+                    doctorController.doctorState.yearChoose.value =
+                        '${DateTime.now().year}';
+                    doctorController.doctorState.monthChoose.value =
+                        '${DateTime.now().month}';
+                    Log.info("ididididid: ${item.doctorId}");
+                    doctorController.doctorState.doctorId = item.doctorId;
+                    context.toNamedScreen(AppRoutes.bookScheduleId);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8FAFF),
+                      borderRadius: BorderRadius.circular(context.rp(4)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.addCircleBlue,
+                          height: context.wp(4.6),
+                          width: context.wp(4.6),
+                        ),
+                        context.wp(2).sbw,
+                        Text(
+                          'Đặt khám',
+                          style: AppTextStyle.link(context),
+                        )
+                      ],
+                    ).paddingSymmetric(vertical: context.hp(1.2)),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        Assets.svg.addCircleBlue,
-                        height: context.wp(4.6),
-                        width: context.wp(4.6),
-                      ),
-                      context.wp(2).sbw,
-                      Text(
-                        'Đặt khám',
-                        style: AppTextStyle.link(context),
-                      )
-                    ],
-                  ).paddingSymmetric(vertical: context.hp(1.2)),
                 ),
               ),
             ],

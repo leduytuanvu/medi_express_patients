@@ -108,4 +108,19 @@ extension StringExtension on String {
     final parts = this.split(',');
     return parts.length > 3 ? parts[3].trim() : '';
   }
+
+  String toIsoFormat() {
+    // Split the input string into day, month, and year
+    final parts = this.split('/');
+    if (parts.length != 3) {
+      throw FormatException('Invalid date format');
+    }
+
+    final day = parts[0].padLeft(2, '0');
+    final month = parts[1].padLeft(2, '0');
+    final year = parts[2];
+
+    // Return the new format
+    return '$year-$month-$day';
+  }
 }

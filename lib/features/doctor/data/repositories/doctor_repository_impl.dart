@@ -7,7 +7,11 @@ import 'package:medi_express_patients/features/doctor/domain/entities/doctor_by_
 import 'package:medi_express_patients/features/doctor/domain/entities/doctor_entity.dart';
 import 'package:medi_express_patients/features/doctor/domain/entities/doctor_information_detail_entity.dart';
 import 'package:medi_express_patients/features/doctor/domain/entities/information_doctor_entity.dart';
+import 'package:medi_express_patients/features/doctor/domain/params/create_apointment_id_params.dart';
 import 'package:medi_express_patients/features/doctor/domain/repositories/doctor_repository.dart';
+import 'package:medi_express_patients/features/schedule/domain/entities/create_appointment_entity.dart';
+import 'package:medi_express_patients/features/schedule/domain/entities/service_type_entity.dart';
+import 'package:medi_express_patients/features/schedule/domain/entities/type_create_appointment_service_entity.dart';
 
 class DoctorRepositoryImpl implements DoctorRepository {
   final DoctorLocalDatasource localDatasource;
@@ -79,5 +83,66 @@ class DoctorRepositoryImpl implements DoctorRepository {
         );
       }
     }, 'DoctorRepositoryImpl/getDoctorInformationDetail');
+  }
+
+  @override
+  Future<List<TypeCreateAppointmentServiceEntity>>
+      getTypeCreateAppointmentService() async {
+    Log.info("getTypeCreateAppointmentService in ScheduleRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse =
+          await remoteDatasource.getTypeCreateAppointmentService();
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList() ?? [];
+      } else if (apiResponse.code == 0) {
+        return [];
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in ScheduleRepositoryImpl/getTypeCreateAppointmentService',
+        );
+      }
+    }, 'ScheduleRepositoryImpl/getTypeCreateAppointmentService');
+  }
+
+  @override
+  Future<List<ServiceTypeEntity>> getServiceType() async {
+    Log.info("getServiceType in ScheduleRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getServiceType();
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList() ?? [];
+      } else if (apiResponse.code == 0) {
+        return [];
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in ScheduleRepositoryImpl/getServiceType',
+        );
+      }
+    }, 'ScheduleRepositoryImpl/getServiceType');
+  }
+
+  @override
+  Future<CreateAppointmentEntity> createAppointment(
+      CreateAppointmentIdParams params) async {
+    Log.info("createAppointment in ScheduleRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.createAppointment(params);
+      Log.info(
+          "apiResponse: ${apiResponse.message}, ${apiResponse.code}, ${apiResponse.data}");
+      if (apiResponse.data == null) {
+        return CreateAppointmentEntity();
+      } else {
+        if (apiResponse.code == 1) {
+          return apiResponse.data!.toEntity();
+        } else {
+          throw ApiErrorException(
+            apiResponse.message,
+            '${apiResponse.message} in ScheduleRepositoryImpl/createAppointment',
+          );
+        }
+      }
+    }, 'ScheduleRepositoryImpl/createAppointment');
   }
 }

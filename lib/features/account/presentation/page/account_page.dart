@@ -22,6 +22,38 @@ class AccountPage extends StatelessWidget {
         context.hp(5).sbh,
         GestureDetector(
           onTap: () {
+            authController.authState.errorFullName.value = "";
+            authController.authState.errorEmail.value = "";
+            authController.authState.errorBirthdate.value = "";
+            authController.authState.errorBirthdate.value = "";
+            authController.authState.errorCity.value = "";
+            authController.authState.errorDistrict.value = "";
+            authController.authState.errorWard.value = "";
+            authController.authState.errorAddress.value = "";
+            authController.authState.errorBhyt.value = "";
+
+            authController.fullNameController.text =
+                authController.baseState.user.value.name ?? '';
+            authController.emailController.text =
+                authController.baseState.user.value.email ?? '';
+            authController.birthdateController.text = authController
+                    .baseState.user.value.birthDate!
+                    .toFormattedDate() ??
+                '';
+            authController.genderController.text =
+                authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
+            accountController.accountState.selectedGender.value =
+                authController.baseState.user.value.gender! ? 'Nam' : 'Nữ';
+            authController.cityController.text =
+                authController.baseState.user.value.fullAddress!.city ?? '';
+            authController.districtController.text =
+                authController.baseState.user.value.fullAddress!.district ?? '';
+            authController.wardController.text =
+                authController.baseState.user.value.fullAddress!.ward ?? '';
+            authController.addressController.text =
+                authController.baseState.user.value.fullAddress!.address ?? '';
+            authController.bhytController.text =
+                authController.baseState.user.value.bhytCode ?? '';
             context.toNamedScreen(AppRoutes.personalInformation);
           },
           child: Container(
@@ -46,14 +78,14 @@ class AccountPage extends StatelessWidget {
                                   authController.baseState.user.value.avatar!,
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(
-                                color: Colors.grey,
+                                color: Colors.grey[200],
                                 strokeWidth: 2,
-                              ),
+                              ).paddingAll(context.wp(4)),
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
                             )
                           : Image.asset(
-                              Assets.png.avatar1,
+                              Assets.png.user,
                               width: context.wp(16),
                               height: context.wp(16),
                             ),
@@ -156,7 +188,46 @@ class AccountPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Log.info('click');
+                    authController.authState.errorFullName.value = "";
+                    authController.authState.errorEmail.value = "";
+                    authController.authState.errorBirthdate.value = "";
+                    authController.authState.errorBirthdate.value = "";
+                    authController.authState.errorCity.value = "";
+                    authController.authState.errorDistrict.value = "";
+                    authController.authState.errorWard.value = "";
+                    authController.authState.errorAddress.value = "";
+                    authController.authState.errorBhyt.value = "";
+
+                    authController.fullNameController.text =
+                        authController.baseState.user.value.name ?? '';
+                    authController.emailController.text =
+                        authController.baseState.user.value.email ?? '';
+                    authController.birthdateController.text = authController
+                            .baseState.user.value.birthDate!
+                            .toFormattedDate() ??
+                        '';
+                    authController.genderController.text =
+                        authController.baseState.user.value.gender!
+                            ? 'Nam'
+                            : 'Nữ';
+                    accountController.accountState.selectedGender.value =
+                        authController.baseState.user.value.gender!
+                            ? 'Nam'
+                            : 'Nữ';
+                    authController.cityController.text =
+                        authController.baseState.user.value.fullAddress!.city ??
+                            '';
+                    authController.districtController.text = authController
+                            .baseState.user.value.fullAddress!.district ??
+                        '';
+                    authController.wardController.text =
+                        authController.baseState.user.value.fullAddress!.ward ??
+                            '';
+                    authController.addressController.text = authController
+                            .baseState.user.value.fullAddress!.address ??
+                        '';
+                    authController.bhytController.text =
+                        authController.baseState.user.value.bhytCode ?? '';
                     context.toNamedScreen(AppRoutes.personalInformation);
                   },
                   child: Container(

@@ -109,6 +109,11 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                     selectedItem: authController.authState.city.value,
                     onChanged: (CityEntity? city) {
                       authController.authState.city.value = city;
+                      authController.authState.district.value = null;
+                      authController.authState.ward.value = null;
+                      authController.districtController.text = '';
+                      authController.wardController.text = '';
+                      authController.authState.listAllWard.value = [];
                       authController.getDistrictByCity(city!.id);
                       authController.cityController.text = city.name;
                     },
@@ -125,6 +130,9 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                     onChanged: (DistrictEntity? district) {
                       Log.info(district?.districtName ?? '');
                       authController.authState.district.value = district;
+                      authController.authState.ward.value = null;
+                      authController.authState.listAllWard.value = [];
+                      authController.wardController.text = '';
                       authController.getWardByDistrict(district!.id);
                       authController.districtController.text =
                           district.districtName;

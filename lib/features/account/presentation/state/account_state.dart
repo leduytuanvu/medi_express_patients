@@ -23,6 +23,9 @@ class AccountState extends BaseState {
   var ward = Rxn<WardEntity>();
   var selectedGender = ''.obs;
 
+  var errorDateInput = ''.obs;
+  var errorValueInput = ''.obs;
+
   var selectedTypeMeasuringDeviceLink = TypeMeasuringDeviceLink.homeKit6In1.obs;
 
   var imageFile = Rx<File?>(null);

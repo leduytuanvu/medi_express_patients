@@ -299,7 +299,7 @@ class HomePage extends StatelessWidget {
                                           imageUrl: item.filePath,
                                           placeholder: (context, url) =>
                                               CircularProgressIndicator(
-                                            color: Colors.grey,
+                                            color: Colors.grey[200],
                                             strokeWidth: 2,
                                           ),
                                           errorWidget: (context, url, error) =>

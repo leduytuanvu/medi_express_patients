@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -8,9 +9,13 @@ import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/doctor/domain/entities/information_doctor_entity.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/create_appointment_id_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_all_information_doctor_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_by_name_usecase.dart';
 import 'package:medi_express_patients/features/doctor/domain/usecases/get_doctor_information_detail_usecase.dart';
+import 'package:medi_express_patients/features/doctor/domain/usecases/get_type_create_appointment_service_usecase.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
+import 'package:medi_express_patients/routes/app_routes.dart';
 
 import '../controller/doctor_controller.dart';
 
@@ -23,6 +28,7 @@ class DoctorDetailPage extends BaseStatelessWidget {
     final arguments = Get.arguments as Map<String, dynamic>;
     final InformationDoctorEntity doctorInformation =
         arguments['doctorInformation'] as InformationDoctorEntity;
+    Log.info("doctorInformation: $doctorInformation");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -34,6 +40,9 @@ class DoctorDetailPage extends BaseStatelessWidget {
           getDoctorByNameUsecase: Get.find<GetDoctorByNameUsecase>(),
           getDoctorInformationDetailUsecase:
               Get.find<GetDoctorInformationDetailUsecase>(),
+          getTypeCreateAppointmentServiceUsecase:
+              Get.find<GetTypeCreateAppointmentServiceIdUsecase>(),
+          createAppointmentUsecase: Get.find<CreateAppointmentIdUsecase>(),
           errorHandlingService: Get.find<ErrorHandlingService>(),
         ),
         initState: (_) {
@@ -63,12 +72,28 @@ class DoctorDetailPage extends BaseStatelessWidget {
           alignment: Alignment.topCenter,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
-              Assets.png.avatarDoctor1x,
-              height: context.wp(20),
-              width: context.wp(20),
-              fit: BoxFit.cover,
-            ),
+            child: doctorInformation.avatar!.isEmpty
+                ? Image.asset(
+                    Assets.png.avatarDoctor1x,
+                    height: context.wp(20),
+                    width: context.wp(20),
+                    fit: BoxFit.cover,
+                  )
+                : SizedBox(
+                    height: context.wp(20),
+                    width: context.wp(20),
+                    child: Center(
+                      child: CachedNetworkImage(
+                        imageUrl: doctorInformation.avatar!,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(
+                          color: Colors.grey[200],
+                          strokeWidth: 2,
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                  ),
           ),
         ).paddingOnly(top: context.hp(12))
       ],
@@ -120,52 +145,79 @@ class DoctorDetailPage extends BaseStatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8FAFF),
-                      borderRadius: BorderRadius.circular(context.rp(4)),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.backScreen();
+                      final MainController mainController =
+                          Get.find<MainController>();
+                      mainController.mainState.doctorInformation.value =
+                          doctorInformation;
+                      mainController.changePage(3);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8FAFF),
+                        borderRadius: BorderRadius.circular(context.rp(4)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.svg.record,
+                            height: context.wp(4.6),
+                            width: context.wp(4.6),
+                          ),
+                          context.wp(2).sbw,
+                          Text(
+                            'Tư vấn từ xa',
+                            style: AppTextStyle.link(context),
+                          )
+                        ],
+                      ).paddingSymmetric(vertical: context.hp(1.2)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.record,
-                          height: context.wp(4.6),
-                          width: context.wp(4.6),
-                        ),
-                        context.wp(2).sbw,
-                        Text(
-                          'Tư vấn từ xa',
-                          style: AppTextStyle.link(context),
-                        )
-                      ],
-                    ).paddingSymmetric(vertical: context.hp(1.2)),
                   ),
                 ),
                 context.wp(2).sbw,
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8FAFF),
-                      borderRadius: BorderRadius.circular(context.rp(4)),
+                  child: GestureDetector(
+                    onTap: () {
+                      doctorController.doctorState.dateChoose.value = '';
+                      doctorController.doctorState.timeChoose.value = '';
+                      doctorController.doctorState.typeExamAtHome.value = true;
+                      doctorController.doctorState.dateChoose.value =
+                          '${DateTime.now().day}';
+                      doctorController.doctorState.yearChoose.value =
+                          '${DateTime.now().year}';
+                      doctorController.doctorState.monthChoose.value =
+                          '${DateTime.now().month}';
+                      Log.info("ididididid: ${doctorInformation.doctorId}");
+                      doctorController.doctorState.doctorId =
+                          doctorInformation.doctorId;
+                      context.toNamedScreen(AppRoutes.bookScheduleId);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8FAFF),
+                        borderRadius: BorderRadius.circular(context.rp(4)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.svg.addCircleBlue,
+                            height: context.wp(4.6),
+                            width: context.wp(4.6),
+                          ),
+                          context.wp(2).sbw,
+                          Text(
+                            'Đặt khám',
+                            style: AppTextStyle.link(context),
+                          )
+                        ],
+                      ).paddingSymmetric(vertical: context.hp(1.2)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.addCircleBlue,
-                          height: context.wp(4.6),
-                          width: context.wp(4.6),
-                        ),
-                        context.wp(2).sbw,
-                        Text(
-                          'Đặt khám',
-                          style: AppTextStyle.link(context),
-                        )
-                      ],
-                    ).paddingSymmetric(vertical: context.hp(1.2)),
                   ),
                 ),
               ],

@@ -9,7 +9,7 @@ import 'package:medi_express_patients/features/chat/presentation/controller/chat
 class ChatBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ChatController(
+    Get.put(() => ChatController(
           getAllConversationUsecase: Get.find<GetAllConversationUsecase>(),
           getAllMessageUsecase: Get.find<GetAllMessageUsecase>(),
           createMessageUsecase: Get.find<CreateMessageUsecase>(),

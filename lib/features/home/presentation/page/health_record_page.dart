@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
+import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
@@ -56,7 +58,75 @@ class HealthRecordPage extends BaseStatelessWidget {
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
-                      // Handle adding new record
+                      // context.backScreen();
+                      homeController.patientController.text = '';
+                      homeController.descriptionController.text = '';
+                      homeController.homeState.imageFile.value = null;
+                      authController.showCustomDialog(Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Obx(() {
+                            return homeController.homeState.imageFile.value !=
+                                    null
+                                ? Image.file(
+                                    homeController.homeState.imageFile.value!,
+                                    width: context.wp(30),
+                                    height: context.wp(30),
+                                    fit: BoxFit.cover,
+                                  ).paddingOnly(left: context.wp(4))
+                                // : Image.asset(
+                                //     Assets.png.package1x,
+                                //     width: context.wp(30),
+                                //     height: context.wp(30),
+                                //     fit: BoxFit.cover,
+                                //   ).paddingOnly(
+                                //     left: context.wp(4));
+                                : Icon(
+                                    Icons.image_outlined,
+                                    size: context.wp(38),
+                                    color: Colors.grey,
+                                  );
+                          }),
+                          CustomButtonWidget(
+                            title: 'Chọn hình',
+                            width: context.wp(30),
+                            height: context.wp(10),
+                            radius: context.rp(8),
+                            onPressed: () {
+                              homeController.pickImage();
+                            },
+                          ).paddingOnly(left: context.wp(4)),
+                          context.wp(3.7).sbh,
+                          CustomTextFieldWidget(
+                            labelText: 'Bệnh án',
+                            controller: homeController.patientController,
+                          ).paddingSymmetric(horizontal: context.wp(4)),
+                          context.wp(0.6).sbh,
+                          CustomTextFieldWidget(
+                            labelText: 'Mô tả',
+                            controller: homeController.descriptionController,
+                          ).paddingSymmetric(horizontal: context.wp(4)),
+                          context.wp(0.6).sbh,
+                          CustomButtonWidget(
+                            height: context.hp(6),
+                            width: context.wp(100),
+                            title: "Tải lên",
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              homeController.uploadPatient(context);
+                              // authController.lo
+                            },
+                            color: const Color(0xffCF4375),
+                            titleSize: context.sp(14),
+                            radius: context.rp(10),
+                            fontWeight: FontWeight.w600,
+                          ).paddingSymmetric(
+                            horizontal: context.wp(4),
+                          ),
+                          context.wp(2).sbh,
+                        ],
+                      ));
                     },
                     child: Container(
                       height: context.hp(7),
@@ -157,7 +227,7 @@ class HealthRecordPage extends BaseStatelessWidget {
                                             imageUrl: item.filePath!,
                                             placeholder: (context, url) =>
                                                 CircularProgressIndicator(
-                                              color: Colors.grey,
+                                              color: Colors.grey[200],
                                               strokeWidth: 2,
                                             ),
                                             errorWidget:

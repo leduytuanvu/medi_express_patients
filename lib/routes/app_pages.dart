@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/blood_sugar_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/change_password_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/health_index_measurement_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/health_index_page.dart';
@@ -8,6 +9,8 @@ import 'package:medi_express_patients/features/account/presentation/page/heartbe
 import 'package:medi_express_patients/features/account/presentation/page/measurement_results_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/measuring_device_link_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/personal_information_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/update_height_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/update_weight_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
@@ -23,6 +26,7 @@ import 'package:medi_express_patients/features/chat/presentation/binding/chat_bi
 import 'package:medi_express_patients/features/chat/presentation/page/chat_detail_page.dart';
 import 'package:medi_express_patients/features/chat/presentation/page/chat_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/binding/doctor_binding.dart';
+import 'package:medi_express_patients/features/doctor/presentation/page/book_schedule_id_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_detail_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
@@ -87,6 +91,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.doctor,
       page: () => DoctorPage(),
+      binding: DoctorBinding(),
+      // middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.bookScheduleId,
+      page: () => BookScheduleIdPage(),
       binding: DoctorBinding(),
       // middlewares: [RouteGuard()],
     ),
@@ -218,8 +228,26 @@ class AppPages {
       middlewares: [RouteGuard()],
     ),
     GetPage(
+      name: AppRoutes.updateHeightPage,
+      page: () => UpdateHeightPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.updateWeightPage,
+      page: () => UpdateWeightPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
       name: AppRoutes.changePassword,
       page: () => ChangePasswordPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.bloodSugar,
+      page: () => BloodSugarPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),
