@@ -1,16 +1,25 @@
 import 'package:get/get.dart';
 import 'package:medi_express_patients/features/account/presentation/binding/account_binding.dart';
 import 'package:medi_express_patients/features/account/presentation/page/account_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/blood_pressure_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/blood_sugar_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/change_password_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/health_index_measurement_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/health_index_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/heartbeat_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/height_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/helper_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/language_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/measurement_results_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/measuring_device_link_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/personal_information_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/settings_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/spo2_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/temp_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/ua_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/update_height_page.dart';
 import 'package:medi_express_patients/features/account/presentation/page/update_weight_page.dart';
+import 'package:medi_express_patients/features/account/presentation/page/weight_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/binding/auth_binding.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_password_forgot_password_page.dart';
 import 'package:medi_express_patients/features/auth/presentation/pages/forgot_password/enter_phone_number_forgot_password_page.dart';
@@ -30,10 +39,19 @@ import 'package:medi_express_patients/features/doctor/presentation/page/book_sch
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_detail_page.dart';
 import 'package:medi_express_patients/features/doctor/presentation/page/doctor_page.dart';
 import 'package:medi_express_patients/features/home/presentation/binding/home_binding.dart';
+import 'package:medi_express_patients/features/home/presentation/page/diagnostic_imaging_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/health_record_detail_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/health_record_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/home_health_package_detail_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/home_health_package_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/home_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/medical_services_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/news_detail_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/news_page.dart';
 import 'package:medi_express_patients/features/home/presentation/page/notification_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/prescription_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/testing_page.dart';
+import 'package:medi_express_patients/features/home/presentation/page/vaccination_page.dart';
 import 'package:medi_express_patients/features/main/presentation/binding/main_binding.dart';
 import 'package:medi_express_patients/features/main/presentation/page/main_page.dart';
 import 'package:medi_express_patients/features/schedule/presentation/binding/schedule_binding.dart';
@@ -79,6 +97,60 @@ class AppPages {
     GetPage(
       name: AppRoutes.healthRecordDetail,
       page: () => HealthRecordDetailPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.diagnosticImaging,
+      page: () => DiagnosticImagingPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.homeHealthPackageDetail,
+      page: () => HomeHealthPackageDetailPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.homeHealthPackage,
+      page: () => HomeHealthPackagePage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.medicalServices,
+      page: () => MedicalServicesPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.newsDetail,
+      page: () => NewsDetailPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.news,
+      page: () => NewsPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.prescription,
+      page: () => PrescriptionPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.testing,
+      page: () => TestingPage(),
+      binding: HomeBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.vaccination,
+      page: () => VaccinationPage(),
       binding: HomeBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -139,6 +211,60 @@ class AppPages {
     GetPage(
       name: AppRoutes.account,
       page: () => AccountPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.height,
+      page: () => HeightPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.language,
+      page: () => LanguagePage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.helper,
+      page: () => HelperPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.settings,
+      page: () => SettingsPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.spo2,
+      page: () => Spo2Page(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.ua,
+      page: () => UaPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.weight,
+      page: () => WeightPage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.bloodPressure,
+      page: () => BloodPressurePage(),
+      binding: AccountBinding(),
+      middlewares: [RouteGuard()],
+    ),
+    GetPage(
+      name: AppRoutes.temp,
+      page: () => TempPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),
@@ -228,13 +354,13 @@ class AppPages {
       middlewares: [RouteGuard()],
     ),
     GetPage(
-      name: AppRoutes.updateHeightPage,
+      name: AppRoutes.updateHeight,
       page: () => UpdateHeightPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],
     ),
     GetPage(
-      name: AppRoutes.updateWeightPage,
+      name: AppRoutes.updateWeight,
       page: () => UpdateWeightPage(),
       binding: AccountBinding(),
       middlewares: [RouteGuard()],

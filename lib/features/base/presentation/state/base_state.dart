@@ -22,4 +22,14 @@ class BaseState {
 
   var auth = AuthEntity().obs;
   var user = UserEntity().obs;
+
+  var listLocale = [
+    Locale('vi', 'VN'),
+    Locale('en', 'US'),
+  ];
+  var listLanguage = [
+    "Tiếng Việt",
+    "Tiếng Anh",
+  ].obs;
+  var locale = Locale('vi', 'VN').obs;
 }

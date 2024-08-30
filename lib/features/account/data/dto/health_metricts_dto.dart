@@ -390,8 +390,9 @@ class HeightDto {
 
   HeightEntity toEntity() {
     return HeightEntity(
-      value: height ?? '',
-      createdAt: createdAt ?? '',
+      value: height ??
+          '', // height is a String here, but we convert it to Rx<String> in the constructor
+      createdAt: createdAt ?? '', // Same for createdAt
     );
   }
 

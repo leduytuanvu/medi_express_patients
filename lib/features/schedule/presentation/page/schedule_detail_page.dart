@@ -113,7 +113,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           ),
                           context.hp(0.3).sbh,
                           Text(
-                            '${schedule.startTime!.toHourMinute()} - ${schedule.appointmentDate!.toFormattedDate()}',
+                            '${schedule.startTime!.toShortTime()} - ${schedule.appointmentDate!.toFormattedDate()}',
                             style: AppTextStyle.bigHint(context).copyWith(
                               color: Color(0xFF777F89),
                             ),

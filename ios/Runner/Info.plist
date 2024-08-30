@@ -43,6 +43,24 @@
 		</array>
 		<key>NSUserNotificationUsageDescription</key>
         <string>$(PRODUCT_NAME) would like to send you notifications.</string>
+
+        <dict>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>When in use permissions</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>always permissions</string>
+        <key>NSLocationAlwaysAndWhenInUsageDescription</key>
+        <string>Always and in usage permissions</string>
+        <key>NSBluetoothAlwaysUsageDescription</key>
+        <string>Our app does not request this permission or utilize
+        this functional.</string>
+        <key>NSBluetoothPeripheralUsageDescription</key>
+        <string>This application needs access to Bluetooth to connect
+        to external devices.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>This app needs to access your location to provide
+        location services.</string>
+
         <key>UIBackgroundModes</key>
         <array>
           <string>fetch</string>

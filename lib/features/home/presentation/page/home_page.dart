@@ -127,29 +127,19 @@ class HomePage extends StatelessWidget {
                       case "Chỉ số sức khỏe":
                         context.toNamedScreen(AppRoutes.healthIndex);
                       case "Đơn thuốc":
-                        () {
-                          Log.info("đơn thuốc");
-                        };
+                        context.toNamedScreen(AppRoutes.prescription);
                       case "Tiêm chủng":
-                        () {
-                          Log.info("tiêm chủng");
-                        };
+                        context.toNamedScreen(AppRoutes.vaccination);
                       case "Lịch khám":
                         final MainController mainController =
                             Get.find<MainController>();
                         mainController.changePage(2);
                       case "Xét nghiệm":
-                        () {
-                          Log.info("xét nghiệm");
-                        };
+                        context.toNamedScreen(AppRoutes.testing);
                       case "Chuẩn đoán hình ảnh":
-                        () {
-                          Log.info("chuẩn đoán hình ảnh");
-                        };
+                        context.toNamedScreen(AppRoutes.diagnosticImaging);
                       case "Dịch vụ y tế":
-                        () {
-                          Log.info("dịch vụ y tế");
-                        };
+                        context.toNamedScreen(AppRoutes.medicalServices);
                       case "Bệnh án":
                         homeController.searchController.text = '';
                         context.toNamedScreen(AppRoutes.healthRecord);
@@ -192,8 +182,13 @@ class HomePage extends StatelessWidget {
                 style: AppTextStyle.mediumItemTitle(context),
               ),
               const Spacer(),
-              SvgPicture.asset(
-                Assets.svg.arrorRight,
+              GestureDetector(
+                onTap: () {
+                  context.toNamedScreen(AppRoutes.homeHealthPackage);
+                },
+                child: SvgPicture.asset(
+                  Assets.svg.arrorRight,
+                ),
               ),
             ],
           ).paddingOnly(
@@ -270,56 +265,62 @@ class HomePage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = homeController
                             .homeState.listAllHomeExaminationPackage[index];
-                        return Container(
-                          // color: Colors.amber,
-                          width: context.wp(40),
-                          margin: EdgeInsets.only(
-                            right: homeController
-                                            .homeState
-                                            .listAllHomeExaminationPackage
-                                            .length -
-                                        1 ==
-                                    index
-                                ? context.wp(4)
-                                : context.wp(2),
-                            left: index == 0 ? context.wp(4) : context.wp(0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              (item.filePath == null || item.filePath.isEmpty)
-                                  ? Image.network(
-                                      item.filePath,
-                                      width: context.wp(40),
-                                    )
-                                  : SizedBox(
-                                      width: context.hp(40),
-                                      child: Center(
-                                        child: CachedNetworkImage(
-                                          imageUrl: item.filePath,
-                                          placeholder: (context, url) =>
-                                              CircularProgressIndicator(
-                                            color: Colors.grey[200],
-                                            strokeWidth: 2,
+                        return GestureDetector(
+                          onTap: () {
+                            context.toNamedScreen(AppRoutes.homeHealthPackage);
+                          },
+                          child: Container(
+                            // color: Colors.amber,
+                            width: context.wp(40),
+                            margin: EdgeInsets.only(
+                              right: homeController
+                                              .homeState
+                                              .listAllHomeExaminationPackage
+                                              .length -
+                                          1 ==
+                                      index
+                                  ? context.wp(4)
+                                  : context.wp(2),
+                              left: index == 0 ? context.wp(4) : context.wp(0),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                (item.filePath == null || item.filePath.isEmpty)
+                                    ? Image.network(
+                                        item.filePath,
+                                        width: context.wp(40),
+                                      )
+                                    : SizedBox(
+                                        width: context.hp(40),
+                                        child: Center(
+                                          child: CachedNetworkImage(
+                                            imageUrl: item.filePath,
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(
+                                              color: Colors.grey[200],
+                                              strokeWidth: 2,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
                                         ),
                                       ),
-                                    ),
-                              SizedBox(height: context.hp(1)),
-                              Text(
-                                item.serviceName,
-                                style: AppTextStyle.bigItemBody(context),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: context.hp(0.3)),
-                              Text(
-                                item.priceTag.toVnd(),
-                                style: AppTextStyle.mediumItemPrice(context),
-                              ),
-                            ],
+                                SizedBox(height: context.hp(1)),
+                                Text(
+                                  item.serviceName,
+                                  style: AppTextStyle.bigItemBody(context),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: context.hp(0.3)),
+                                Text(
+                                  item.priceTag.toVnd(),
+                                  style: AppTextStyle.mediumItemPrice(context),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -342,8 +343,13 @@ class HomePage extends StatelessWidget {
                 style: AppTextStyle.mediumItemTitle(context),
               ),
               const Spacer(),
-              SvgPicture.asset(
-                Assets.svg.arrorRight,
+              GestureDetector(
+                onTap: () {
+                  context.toNamedScreen(AppRoutes.news);
+                },
+                child: SvgPicture.asset(
+                  Assets.svg.arrorRight,
+                ),
               ),
             ],
           ).paddingOnly(
@@ -362,29 +368,35 @@ class HomePage extends StatelessWidget {
                     itemCount: ItemNewsModel.list(context).length,
                     itemBuilder: (context, index) {
                       final item = ItemNewsModel.list(context)[index];
-                      return Container(
-                        width: context.wp(40),
-                        margin: EdgeInsets.only(
-                          right: ItemNewsModel.list(context).length - 1 == index
-                              ? context.wp(4)
-                              : context.wp(2),
-                          left: index == 0 ? context.wp(4) : context.wp(0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              item.iconPath,
-                              width: context.wp(40),
-                            ),
-                            context.hp(1).sbh,
-                            Text(
-                              item.title,
-                              style: AppTextStyle.bigItemBody(context),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                      return GestureDetector(
+                        onTap: () {
+                          context.toNamedScreen(AppRoutes.newsDetail);
+                        },
+                        child: Container(
+                          width: context.wp(40),
+                          margin: EdgeInsets.only(
+                            right:
+                                ItemNewsModel.list(context).length - 1 == index
+                                    ? context.wp(4)
+                                    : context.wp(2),
+                            left: index == 0 ? context.wp(4) : context.wp(0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                item.iconPath,
+                                width: context.wp(40),
+                              ),
+                              context.hp(1).sbh,
+                              Text(
+                                item.title,
+                                style: AppTextStyle.bigItemBody(context),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

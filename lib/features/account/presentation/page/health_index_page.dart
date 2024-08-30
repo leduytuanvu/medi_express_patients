@@ -12,10 +12,12 @@ import 'package:medi_express_patients/routes/app_routes.dart';
 
 class HealthIndexPage extends BaseStatelessWidget {
   final AccountController accountController = Get.find<AccountController>();
+
   HealthIndexPage({super.key});
 
   @override
   Widget buildContent(BuildContext context) {
+    accountController.getHealthMetricts();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -85,13 +87,14 @@ class HealthIndexPage extends BaseStatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        accountController.accountState.errorDateInput.value =
-                            '';
-                        accountController.accountState.errorValueInput.value =
-                            '';
-                        accountController.dateTextFieldController.text = '';
-                        accountController.valueTextFieldController.text = '';
-                        context.toNamedScreen(AppRoutes.updateHeightPage);
+                        // accountController.accountState.errorDateInput.value =
+                        //     '';
+                        // accountController.accountState.errorValueInput.value =
+                        //     '';
+                        // accountController.dateTextFieldController.text = '';
+                        // accountController.valueTextFieldController.text = '';
+                        // context.toNamedScreen(AppRoutes.updateHeight);
+                        context.toNamedScreen(AppRoutes.height);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -120,23 +123,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .height !=
-                                              null
-                                          ? accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .height!
-                                                  .value +
-                                              ' cm'
-                                          : '0 cm',
-                                      style: AppTextStyle.mediumBody(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .height !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .height!
+                                                    .value
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .height!
+                                                    .value +
+                                                ' cm'
+                                            : '0 cm',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
                                     Text(
                                       '   |   ',
                                       style: AppTextStyle.mediumHint(context)
@@ -149,23 +161,34 @@ class HealthIndexPage extends BaseStatelessWidget {
                                     ).paddingOnly(
                                         bottom: context.hp(0.3),
                                         right: context.wp(1.4)),
-                                    Text(
-                                      accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .height !=
-                                              null
-                                          ? accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .height!
-                                                  .value +
-                                              ' cm'
-                                          : '0 cm',
-                                      style: AppTextStyle.bigHint(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .height !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .height!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .height!
+                                                    .createdAt
+                                                    .value
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -185,13 +208,14 @@ class HealthIndexPage extends BaseStatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        accountController.accountState.errorDateInput.value =
-                            '';
-                        accountController.accountState.errorValueInput.value =
-                            '';
-                        accountController.dateTextFieldController.text = '';
-                        accountController.valueTextFieldController.text = '';
-                        context.toNamedScreen(AppRoutes.updateWeightPage);
+                        // accountController.accountState.errorDateInput.value =
+                        //     '';
+                        // accountController.accountState.errorValueInput.value =
+                        //     '';
+                        // accountController.dateTextFieldController.text = '';
+                        // accountController.valueTextFieldController.text = '';
+                        // context.toNamedScreen(AppRoutes.updateWeight);
+                        context.toNamedScreen(AppRoutes.weight);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -220,23 +244,32 @@ class HealthIndexPage extends BaseStatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .weight !=
-                                              null
-                                          ? accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .weight!
-                                                  .value +
-                                              ' kg'
-                                          : '0 kg',
-                                      style: AppTextStyle.mediumBody(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .weight !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .weight!
+                                                    .value
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .weight!
+                                                    .value +
+                                                ' kg'
+                                            : '0 kg',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
                                     Text(
                                       '   |   ',
                                       style: AppTextStyle.mediumHint(context)
@@ -249,10 +282,34 @@ class HealthIndexPage extends BaseStatelessWidget {
                                     ).paddingOnly(
                                         bottom: context.hp(0.3),
                                         right: context.wp(1.4)),
-                                    Text(
-                                      '08:30 23/09/2021',
-                                      style: AppTextStyle.bigHint(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .weight !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .weight!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .weight!
+                                                    .createdAt
+                                                    .value
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -273,7 +330,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Log.info('click');
-                        // context.toNamedScreen(AppRoutes.personalInformation);
+                        context.toNamedScreen(AppRoutes.temp);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -303,23 +360,25 @@ class HealthIndexPage extends BaseStatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .temperature!
-                                              .value
-                                              .isNotEmpty
-                                          ? accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .temperature!
-                                              .value
-                                          : '0',
-                                      style: AppTextStyle.mediumBody(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .temperature!
+                                                .value
+                                                .isNotEmpty
+                                            ? accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .temperature!
+                                                .value
+                                            : '0',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
                                     Text(
                                       '   |   ',
                                       style: AppTextStyle.mediumHint(context)
@@ -332,10 +391,33 @@ class HealthIndexPage extends BaseStatelessWidget {
                                     ).paddingOnly(
                                         bottom: context.hp(0.3),
                                         right: context.wp(1.4)),
-                                    Text(
-                                      '08:30 23/09/2021',
-                                      style: AppTextStyle.bigHint(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .temperature!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .temperature!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -388,24 +470,26 @@ class HealthIndexPage extends BaseStatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .heartRate!
-                                              .value
-                                              .isNotEmpty
-                                          ? accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .heartRate!
-                                                  .value +
-                                              ' BPM'
-                                          : '0 BPM',
-                                      style: AppTextStyle.mediumBody(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .heartRate!
+                                                .value
+                                                .isNotEmpty
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .heartRate!
+                                                    .value +
+                                                ' BPM'
+                                            : '0 BPM',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
                                     Text(
                                       '   |   ',
                                       style: AppTextStyle.mediumHint(context)
@@ -418,10 +502,33 @@ class HealthIndexPage extends BaseStatelessWidget {
                                     ).paddingOnly(
                                         bottom: context.hp(0.3),
                                         right: context.wp(1.4)),
-                                    Text(
-                                      '08:30 23/09/2021',
-                                      style: AppTextStyle.bigHint(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .heartRate!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .heartRate!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -442,150 +549,223 @@ class HealthIndexPage extends BaseStatelessWidget {
                       thickness: context.hp(0.1),
                       color: Color(0xFFF4F5F7),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: context.wp(14),
-                          width: context.wp(14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF5F6F9),
-                            borderRadius: BorderRadius.circular(context.rp(20)),
-                          ),
-                          child: SvgPicture.asset(
-                            Assets.svg.bloodPressure,
-                          ).paddingAll(
-                            context.wp(3.4),
-                          ),
-                        ),
-                        context.wp(4).sbw,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    GestureDetector(
+                      onTap: () {
+                        context.toNamedScreen(AppRoutes.bloodPressure);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
                           children: [
-                            Text(
-                              'Huyết áp',
-                              style: AppTextStyle.smallItemTitle(context),
+                            Container(
+                              height: context.wp(14),
+                              width: context.wp(14),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F6F9),
+                                borderRadius:
+                                    BorderRadius.circular(context.rp(20)),
+                              ),
+                              child: SvgPicture.asset(
+                                Assets.svg.bloodPressure,
+                              ).paddingAll(
+                                context.wp(3.4),
+                              ),
                             ),
-                            Row(
+                            context.wp(4).sbw,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  accountController
-                                          .accountState
-                                          .healthMetricts
-                                          .value
-                                          .bloodPressure!
-                                          .dystolicBloodPressure
-                                          .isNotEmpty
-                                      ? accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .bloodPressure!
-                                              .dystolicBloodPressure +
-                                          ' mmHg'
-                                      : '0 mmHg',
-                                  style: AppTextStyle.mediumBody(context),
+                                  'Huyết áp',
+                                  style: AppTextStyle.smallItemTitle(context),
                                 ),
-                                Text(
-                                  '   |   ',
-                                  style: AppTextStyle.mediumHint(context)
-                                      .copyWith(color: Color(0xFFE3E8EF)),
-                                ),
-                                SvgPicture.asset(
-                                  Assets.svg.alarm,
-                                  height: context.wp(5),
-                                  width: context.wp(5),
-                                ).paddingOnly(
-                                    bottom: context.hp(0.3),
-                                    right: context.wp(1.4)),
-                                Text(
-                                  '08:30 23/09/2021',
-                                  style: AppTextStyle.bigHint(context),
+                                Row(
+                                  children: [
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .bloodPressure!
+                                                .dystolicBloodPressure
+                                                .isNotEmpty
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodPressure!
+                                                    .dystolicBloodPressure +
+                                                ' mmHg'
+                                            : '0 mmHg',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
+                                    Text(
+                                      '   |   ',
+                                      style: AppTextStyle.mediumHint(context)
+                                          .copyWith(color: Color(0xFFE3E8EF)),
+                                    ),
+                                    SvgPicture.asset(
+                                      Assets.svg.alarm,
+                                      height: context.wp(5),
+                                      width: context.wp(5),
+                                    ).paddingOnly(
+                                        bottom: context.hp(0.3),
+                                        right: context.wp(1.4)),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodPressure!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodPressure!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
+                                  ],
                                 ),
                               ],
                             ),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: context.wp(5),
+                            ),
                           ],
+                        ).paddingOnly(
+                          top: context.hp(1.7),
+                          bottom: context.hp(1.7),
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: context.wp(5),
-                        ),
-                      ],
-                    ).paddingOnly(
-                      top: context.hp(1.7),
-                      bottom: context.hp(1.7),
+                      ),
                     ),
                     Divider(
                       thickness: context.hp(0.1),
                       color: Color(0xFFF4F5F7),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: context.wp(14),
-                          width: context.wp(14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF5F6F9),
-                            borderRadius: BorderRadius.circular(context.rp(20)),
-                          ),
-                          child: SvgPicture.asset(
-                            Assets.svg.spo2,
-                          ).paddingAll(
-                            context.wp(3.4),
-                          ),
-                        ),
-                        context.wp(4).sbw,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    GestureDetector(
+                      onTap: () {
+                        context.toNamedScreen(AppRoutes.spo2);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
                           children: [
-                            Text(
-                              'SpO2',
-                              style: AppTextStyle.smallItemTitle(context),
+                            Container(
+                              height: context.wp(14),
+                              width: context.wp(14),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F6F9),
+                                borderRadius:
+                                    BorderRadius.circular(context.rp(20)),
+                              ),
+                              child: SvgPicture.asset(
+                                Assets.svg.spo2,
+                              ).paddingAll(
+                                context.wp(3.4),
+                              ),
                             ),
-                            Row(
+                            context.wp(4).sbw,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  accountController.accountState.healthMetricts
-                                          .value.spO2!.value.isNotEmpty
-                                      ? accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .spO2!
-                                              .value +
-                                          ' %'
-                                      : '0 %',
-                                  style: AppTextStyle.mediumBody(context),
+                                  'SpO2',
+                                  style: AppTextStyle.smallItemTitle(context),
                                 ),
-                                Text(
-                                  '   |   ',
-                                  style: AppTextStyle.mediumHint(context)
-                                      .copyWith(color: Color(0xFFE3E8EF)),
-                                ),
-                                SvgPicture.asset(
-                                  Assets.svg.alarm,
-                                  height: context.wp(5),
-                                  width: context.wp(5),
-                                ).paddingOnly(
-                                    bottom: context.hp(0.3),
-                                    right: context.wp(1.4)),
-                                Text(
-                                  '08:30 23/09/2021',
-                                  style: AppTextStyle.bigHint(context),
+                                Row(
+                                  children: [
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .spO2!
+                                                .value
+                                                .isNotEmpty
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .spO2!
+                                                    .value +
+                                                ' %'
+                                            : '0 %',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
+                                    Text(
+                                      '   |   ',
+                                      style: AppTextStyle.mediumHint(context)
+                                          .copyWith(color: Color(0xFFE3E8EF)),
+                                    ),
+                                    SvgPicture.asset(
+                                      Assets.svg.alarm,
+                                      height: context.wp(5),
+                                      width: context.wp(5),
+                                    ).paddingOnly(
+                                        bottom: context.hp(0.3),
+                                        right: context.wp(1.4)),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .spO2!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .spO2!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
+                                  ],
                                 ),
                               ],
                             ),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: context.wp(5),
+                            ),
                           ],
+                        ).paddingOnly(
+                          bottom: context.hp(1.7),
+                          top: context.hp(1.7),
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: context.wp(5),
-                        ),
-                      ],
-                    ).paddingOnly(
-                      bottom: context.hp(1.7),
-                      top: context.hp(1.7),
+                      ),
                     ),
                     Divider(
                       thickness: context.hp(0.1),
@@ -623,24 +803,26 @@ class HealthIndexPage extends BaseStatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
-                                      accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .bloodSugar!
-                                              .bloodSugarAfterMeal
-                                              .isNotEmpty
-                                          ? accountController
-                                                  .accountState
-                                                  .healthMetricts
-                                                  .value
-                                                  .bloodSugar!
-                                                  .bloodSugarAfterMeal +
-                                              ' mmol/l'
-                                          : '0 mmol/l',
-                                      style: AppTextStyle.mediumBody(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .bloodSugar!
+                                                .bloodSugarAfterMeal
+                                                .isNotEmpty
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodSugar!
+                                                    .bloodSugarAfterMeal +
+                                                ' mmol/l'
+                                            : '0 mmol/l',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
                                     Text(
                                       '   |   ',
                                       style: AppTextStyle.mediumHint(context)
@@ -653,10 +835,33 @@ class HealthIndexPage extends BaseStatelessWidget {
                                     ).paddingOnly(
                                         bottom: context.hp(0.3),
                                         right: context.wp(1.4)),
-                                    Text(
-                                      '08:30 23/09/2021',
-                                      style: AppTextStyle.bigHint(context),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodSugar!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .bloodSugar!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ],
@@ -677,73 +882,112 @@ class HealthIndexPage extends BaseStatelessWidget {
                       thickness: context.hp(0.1),
                       color: Color(0xFFF4F5F7),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: context.wp(14),
-                          width: context.wp(14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF5F6F9),
-                            borderRadius: BorderRadius.circular(context.rp(20)),
-                          ),
-                          child: SvgPicture.asset(
-                            Assets.svg.ua,
-                          ).paddingAll(
-                            context.wp(3.4),
-                          ),
-                        ),
-                        context.wp(4).sbw,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    GestureDetector(
+                      onTap: () {
+                        context.toNamedScreen(AppRoutes.ua);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
                           children: [
-                            Text(
-                              'Chỉ số UA',
-                              style: AppTextStyle.smallItemTitle(context),
+                            Container(
+                              height: context.wp(14),
+                              width: context.wp(14),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F6F9),
+                                borderRadius:
+                                    BorderRadius.circular(context.rp(20)),
+                              ),
+                              child: SvgPicture.asset(
+                                Assets.svg.ua,
+                              ).paddingAll(
+                                context.wp(3.4),
+                              ),
                             ),
-                            Row(
+                            context.wp(4).sbw,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  accountController.accountState.healthMetricts
-                                          .value.acidUric!.acidUric.isNotEmpty
-                                      ? accountController
-                                              .accountState
-                                              .healthMetricts
-                                              .value
-                                              .acidUric!
-                                              .acidUric +
-                                          ' umol/l'
-                                      : '0 umol/l',
-                                  style: AppTextStyle.mediumBody(context),
+                                  'Chỉ số UA',
+                                  style: AppTextStyle.smallItemTitle(context),
                                 ),
-                                Text(
-                                  '   |   ',
-                                  style: AppTextStyle.mediumHint(context)
-                                      .copyWith(color: Color(0xFFE3E8EF)),
-                                ),
-                                SvgPicture.asset(
-                                  Assets.svg.alarm,
-                                  height: context.wp(5),
-                                  width: context.wp(5),
-                                ).paddingOnly(
-                                    bottom: context.hp(0.3),
-                                    right: context.wp(1.4)),
-                                Text(
-                                  '08:30 23/09/2021',
-                                  style: AppTextStyle.bigHint(context),
+                                Row(
+                                  children: [
+                                    Obx(() {
+                                      return Text(
+                                        accountController
+                                                .accountState
+                                                .healthMetricts
+                                                .value
+                                                .acidUric!
+                                                .acidUric
+                                                .isNotEmpty
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .acidUric!
+                                                    .acidUric +
+                                                ' umol/l'
+                                            : '0 umol/l',
+                                        style: AppTextStyle.mediumBody(context),
+                                      );
+                                    }),
+                                    Text(
+                                      '   |   ',
+                                      style: AppTextStyle.mediumHint(context)
+                                          .copyWith(color: Color(0xFFE3E8EF)),
+                                    ),
+                                    SvgPicture.asset(
+                                      Assets.svg.alarm,
+                                      height: context.wp(5),
+                                      width: context.wp(5),
+                                    ).paddingOnly(
+                                        bottom: context.hp(0.3),
+                                        right: context.wp(1.4)),
+                                    Obx(() {
+                                      return Text(
+                                        (accountController
+                                                        .accountState
+                                                        .healthMetricts
+                                                        .value
+                                                        .temperature !=
+                                                    null &&
+                                                accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .acidUric!
+                                                    .createdAt
+                                                    .isNotEmpty)
+                                            ? accountController
+                                                    .accountState
+                                                    .healthMetricts
+                                                    .value
+                                                    .acidUric!
+                                                    .createdAt
+                                                    .toFormattedString() +
+                                                ''
+                                            : 'Chưa cập nhật',
+                                        style: AppTextStyle.bigHint(context),
+                                      );
+                                    }),
+                                  ],
                                 ),
                               ],
                             ),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: context.wp(5),
+                            ),
                           ],
+                        ).paddingOnly(
+                          bottom: context.hp(1.7),
+                          top: context.hp(1.7),
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: context.wp(5),
-                        ),
-                      ],
-                    ).paddingOnly(
-                      bottom: context.hp(1.7),
-                      top: context.hp(1.7),
+                      ),
                     ),
                     Divider(
                       thickness: context.hp(0.1),

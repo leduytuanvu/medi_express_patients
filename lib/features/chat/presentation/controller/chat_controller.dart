@@ -47,9 +47,17 @@ class ChatController extends BaseController {
     // connectSocket();
   }
 
-  void connectSocket() {
+  void connectSocket({String accessToken = ''}) {
+    if (accessToken.isEmpty) {
+      Log.info(
+          "access token is empty neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      accessToken = authController.baseState.auth.value.accessToken;
+    } else {
+      Log.info(
+          "access token is not empty neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    }
     socket = IO.io(
-      'http://api-stg.combros.tech:10110?token=${authController.baseState.auth.value.accessToken}',
+      'http://api-stg.combros.tech:10110?token=$accessToken',
       IO.OptionBuilder()
           .setTransports(['websocket']) // Enable WebSocket transport
           .enableReconnection() // Enable automatic reconnection
@@ -206,16 +214,93 @@ class ChatController extends BaseController {
 
   Future<void> getAllConversation(BuildContext context) async {
     authController.showLoading();
+    // connectSocket();
     final result =
         await getAllConversationUsecase(authController.baseState.user.value.id);
     result.fold(
-      (failure) {
-        Log.severe("$failure");
-        authController.showError(
-          () => authController.clearError(),
-          failure.message,
-          'Quay lại',
-        );
+      (failure) async {
+        if (failure.message.contains("No conversations found")) {
+          chatState.listConversation.value = [];
+          Log.severe("list conversation 2: ${chatState.listConversation}");
+          final MainController mainController = Get.find<MainController>();
+          if (mainController.mainState.doctorInformation.value != null) {
+            Log.info("!= nulllllllllllllll");
+            var tmpConversation = ConversationEntity(
+                conversationID: -1, idUser: -1, name: '', role: '');
+
+            final resultCreate = await createConversationUsecase(
+              CreateConversationParams(
+                participantOneID: authController.baseState.user.value.id,
+                participantTwoID:
+                    mainController.mainState.doctorInformation.value!.doctorId,
+              ),
+            );
+            resultCreate.fold(
+              (failureCreate) {
+                Log.severe("create conversion fail: $failureCreate");
+                authController.showError(
+                  () => authController.clearError(),
+                  failureCreate.message,
+                  'Quay lại',
+                );
+              },
+              (successCreate) async {
+                final resultGetAgain = await getAllConversationUsecase(
+                    authController.baseState.user.value.id);
+                resultGetAgain.fold((failureGetAgain) {
+                  Log.severe("$failureGetAgain");
+                  authController.showError(
+                    () => authController.clearError(),
+                    failureGetAgain.message,
+                    'Quay lại',
+                  );
+                }, (successAgain) async {
+                  tmpConversation = ConversationEntity(
+                      conversationID: -1, idUser: -1, name: '', role: '');
+                  for (var tmpItem in successAgain) {
+                    if (tmpItem.idUser ==
+                        mainController
+                            .mainState.doctorInformation.value!.doctorId) {
+                      tmpConversation = tmpItem;
+                    }
+                  }
+                  if (tmpConversation.conversationID != -1) {
+                    context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+                      'conversationId': tmpConversation.conversationID,
+                      'avatarDoctor': tmpConversation.avatar,
+                      'nameDoctor': tmpConversation.name,
+                    });
+                    // connectSocket();
+                    authController.clearError();
+                  } else {
+                    authController.showError(
+                      () => authController.clearError(),
+                      "Không tìm thấy tin nhắn",
+                      'Quay lại',
+                    );
+                  }
+                });
+                // Log.severe("create conversion true: $success");
+                // context.toNamedScreen(AppRoutes.chatDetail, arguments: {
+                //   'conversationId': successCreate.conversationID,
+                //   'avatarDoctor': successCreate.ava,
+                //   'nameDoctor': successCreate.conversationID,
+                // });
+                // authController.clearError();
+              },
+            );
+          } else {
+            Log.info("nulllllllllllllll");
+          }
+          authController.clearError();
+        } else {
+          Log.severe("$failure");
+          authController.showError(
+            () => authController.clearError(),
+            failure.message,
+            'Quay lại',
+          );
+        }
       },
       (success) async {
         chatState.listConversation.value = success;

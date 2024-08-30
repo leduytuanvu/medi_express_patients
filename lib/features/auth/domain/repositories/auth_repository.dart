@@ -46,8 +46,10 @@ abstract class AuthRepository {
   Future<List<WardEntity>> getWardByDistrict(int districtId);
 
   Future<AuthEntity> getAuthFromLocal();
+  Future<String> getLanguageFromLocal();
 
   Future<bool> saveAuthToLocal(AuthEntity authEntity);
+  Future<bool> saveLanguageToLocal(String language);
 
   Future<bool> checkPhoneNumberExists(String phoneNumber);
 

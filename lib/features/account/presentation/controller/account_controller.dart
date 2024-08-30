@@ -9,9 +9,18 @@ import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/usecases/no_params.dart';
 import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/validators/email_validator.dart';
+import 'package:medi_express_patients/features/account/domain/params/get_list_health_index_params.dart';
 import 'package:medi_express_patients/features/account/domain/params/update_height_params.dart';
 import 'package:medi_express_patients/features/account/domain/params/update_user_params.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_acid_uric_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_pressure_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_sugar_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_heart_rate_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_spo2_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_temperature_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
@@ -28,8 +37,24 @@ class AccountController extends BaseController {
   final UpdateUserUsecase updateUserUsecase;
   final UpdateHeightUsecase updateHeightUsecase;
   final UpdateWeightUsecase updateWeightUsecase;
+  final GetListHeightUsecase getListHeightUsecase;
+  final GetListAcidUricUsecase getListAcidUricUsecase;
+  final GetListSpo2Usecase getListSpo2Usecase;
+  final GetListBloodPressureUsecase getListBloodPressureUsecase;
+  final GetListBloodSugarUsecase getListBloodSugarUsecase;
+  final GetListHeartRateUsecase getListHeartRateUsecase;
+  final GetListTemperatureUsecase getListTemperatureUsecase;
+  final GetListWeightUsecase getListWeightUsecase;
   AccountController({
+    required this.getListHeightUsecase,
     required this.getHealthMetrictsUsecase,
+    required this.getListAcidUricUsecase,
+    required this.getListSpo2Usecase,
+    required this.getListBloodPressureUsecase,
+    required this.getListBloodSugarUsecase,
+    required this.getListHeartRateUsecase,
+    required this.getListTemperatureUsecase,
+    required this.getListWeightUsecase,
     required this.uploadAvatarUsecase,
     required this.updateUserUsecase,
     required this.updateHeightUsecase,
@@ -162,7 +187,7 @@ class AccountController extends BaseController {
         authController.baseState.user.value.bhytCode ?? '';
     Log.info("++++++ ${authController.baseState.user.value.toString()}");
     super.onInit();
-    await getHealthMetricts();
+    // await getHealthMetricts();
     Log.info("init account controller");
   }
 
@@ -264,7 +289,192 @@ class AccountController extends BaseController {
     hideLoading();
   }
 
-  Future<void> updateHeight() async {
+  Future<void> getListHeight() async {
+    authController.showLoading();
+    final result = await getListHeightUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListWeight() async {
+    authController.showLoading();
+    final result = await getListWeightUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListTemperature() async {
+    authController.showLoading();
+    final result = await getListTemperatureUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListHeartRate() async {
+    authController.showLoading();
+    final result = await getListHeartRateUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListBloodSugar() async {
+    authController.showLoading();
+    final result = await getListBloodSugarUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListBloodPressure() async {
+    authController.showLoading();
+    final result = await getListBloodPressureUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListSpo2() async {
+    authController.showLoading();
+    final result = await getListSpo2Usecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  Future<void> getListAcidUric() async {
+    authController.showLoading();
+    final result = await getListAcidUricUsecase(
+      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+    );
+    result.fold(
+      (failure) {
+        Log.severe("$failure");
+        authController.showError(
+          () => authController.clearError(),
+          failure.message,
+          'Quay lại',
+        );
+      },
+      (success) {
+        Log.severe("$success");
+        authController.clearError();
+      },
+    );
+    authController.hideLoading();
+  }
+
+  // Future<void> connectDevice6In1() async {
+  //   showLoading();
+  //   CommunicateMediExpress().bleInitListen(
+  //     nameDevice: 'bluetoothbp',
+  //     macAddressDevice: '',
+  //   );
+  //   hideLoading();
+  // }
+
+  Future<void> updateHeight(BuildContext context) async {
     var check = true;
     if (dateTextFieldController.text.trim().isEmpty) {
       check = false;
@@ -304,8 +514,16 @@ class AccountController extends BaseController {
             'Quay lại',
           );
         },
-        (success) {
+        (success) async {
+          Log.info("dateeeeee: ${dateTextFieldController.text}");
+          // var heightEntity = HeightEntity(
+          //     value: valueTextFieldController.text,
+          //     createdAt: dateTextFieldController.text);
+          accountState.healthMetricts.value.height!.value.value =
+              valueTextFieldController.text;
           Log.severe("$success");
+          await getHealthMetricts();
+          context.backScreen();
           authController.clearError();
         },
       );
@@ -313,7 +531,7 @@ class AccountController extends BaseController {
     }
   }
 
-  Future<void> updateWeight() async {
+  Future<void> updateWeight(BuildContext context) async {
     var check = true;
     if (dateTextFieldController.text.trim().isEmpty) {
       check = false;
@@ -354,7 +572,10 @@ class AccountController extends BaseController {
           );
         },
         (success) {
+          accountState.healthMetricts.value.weight!.value.value =
+              valueTextFieldController.text;
           Log.severe("$success");
+          context.backScreen();
           authController.clearError();
         },
       );
@@ -412,6 +633,7 @@ class AccountController extends BaseController {
         authController.baseState.user.value.id.toString());
     result.fold(
       (failure) {
+        Log.info("gettttttttt: $failure");
         Log.severe("-1-1-1 $failure");
         showError(
           () => clearError(),
@@ -420,6 +642,7 @@ class AccountController extends BaseController {
         );
       },
       (success) {
+        Log.info("gettttttttt: $success");
         accountState.healthMetricts.value = success;
         // accountState.listAllCity.value = success;
         // for (var element in success) {

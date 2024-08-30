@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/service/notification_service.dart';
@@ -28,10 +29,12 @@ import 'package:medi_express_patients/features/auth/domain/usecases/forgot_passw
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_language_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_user_information_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/save_language_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/state/auth_state.dart';
 import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
@@ -52,7 +55,9 @@ class AuthController extends BaseController {
   final GetWardByDistrictUsecase getWardByDistrictUsecase;
   final CreateMedicalHistoryUsecase createMedicalHistoryUsecase;
   final GetAuthFromLocalUsecase getAuthFromLocalUsecase;
+  final GetLanguageFromLocalUsecase getLanguageFromLocalUsecase;
   final SaveAuthToLocalUsecase saveAuthToLocalUsecase;
+  final SaveLanguageUsecase saveLanguageUsecase;
   final CheckPhoneNumberExistsUsecase checkPhoneNumberExistsUsecase;
   final GetUserInformationUsecase getUserInformationUsecase;
 
@@ -82,6 +87,8 @@ class AuthController extends BaseController {
 
   AuthController({
     required this.loginUsecase,
+    required this.saveLanguageUsecase,
+    required this.getLanguageFromLocalUsecase,
     required this.forgotPasswordUsecase,
     required this.registerUsecase,
     required this.changePasswordUsecase,
@@ -116,48 +123,75 @@ class AuthController extends BaseController {
   Future<void> initial() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       Log.info("Loading initial data...");
-      final result = await getAuthFromLocalUsecase(NoParams());
-      result.fold(
-        (failure) {
-          setAuth(
-            AuthEntity(
-              accessToken: '',
-              refreshToken: '',
-              expiresIn: -1,
-              firstTimeOpenApp: 'false',
-            ),
-          );
-        },
-        (success) async {
-          if (success.accessToken.isNotEmpty) {
-            final resultGetUserFromLocal =
-                await getUserInformationUsecase(NoParams());
-            resultGetUserFromLocal.fold(
-              (failureGetUserFromServer) {
-                setAuth(
-                  AuthEntity(
-                    accessToken: '',
-                    refreshToken: '',
-                    expiresIn: -1,
-                    firstTimeOpenApp: 'false',
-                  ),
-                );
-              },
-              (successGetUserFromServer) async {
-                setUser(successGetUserFromServer);
-                setAuth(success);
-                final ChatController chatController =
-                    Get.find<ChatController>();
-                chatController.connectSocket();
-              },
-            );
-          } else {
-            setAuth(success);
+      final resultGetLanguage = await getLanguageFromLocalUsecase(NoParams());
+      resultGetLanguage.fold((failureGetLanguage) {
+        Log.info("................... fail $failureGetLanguage");
+        baseState.locale.value = baseState.listLocale[0];
+        Get.updateLocale(baseState.locale.value);
+        setAuth(
+          AuthEntity(
+            accessToken: '',
+            refreshToken: '',
+            expiresIn: -1,
+            firstTimeOpenApp: 'false',
+          ),
+        );
+      }, (successGetLanguage) async {
+        Log.info("................... success $successGetLanguage");
+        if (successGetLanguage.isEmpty) {
+          baseState.locale.value = baseState.listLocale[0];
+        } else {
+          for (var item in baseState.listLocale) {
+            if (item.languageCode == successGetLanguage) {
+              baseState.locale.value = item;
+              break;
+            }
           }
-        },
-      );
-      await Future.delayed(Duration(seconds: 3));
-      FlutterNativeSplash.remove();
+        }
+        Get.updateLocale(baseState.locale.value);
+        final result = await getAuthFromLocalUsecase(NoParams());
+        result.fold(
+          (failure) {
+            setAuth(
+              AuthEntity(
+                accessToken: '',
+                refreshToken: '',
+                expiresIn: -1,
+                firstTimeOpenApp: 'false',
+              ),
+            );
+          },
+          (success) async {
+            if (success.accessToken.isNotEmpty) {
+              final resultGetUserFromLocal =
+                  await getUserInformationUsecase(NoParams());
+              resultGetUserFromLocal.fold(
+                (failureGetUserFromServer) {
+                  setAuth(
+                    AuthEntity(
+                      accessToken: '',
+                      refreshToken: '',
+                      expiresIn: -1,
+                      firstTimeOpenApp: 'false',
+                    ),
+                  );
+                },
+                (successGetUserFromServer) async {
+                  setUser(successGetUserFromServer);
+                  setAuth(success);
+                  final ChatController chatController =
+                      Get.find<ChatController>();
+                  chatController.connectSocket();
+                },
+              );
+            } else {
+              setAuth(success);
+            }
+          },
+        );
+        await Future.delayed(Duration(seconds: 3));
+        FlutterNativeSplash.remove();
+      });
     });
   }
 
@@ -393,6 +427,31 @@ class AuthController extends BaseController {
     }
   }
 
+  Future<void> saveLanguage(BuildContext context) async {
+    showLoading();
+    var check = false;
+    final result =
+        await saveLanguageUsecase(baseState.locale.value.languageCode);
+    result.fold(
+      (failure) {},
+      (success) {
+        check = success;
+      },
+    );
+    if (check == true) {
+      Get.updateLocale(baseState.locale.value);
+      await Future.delayed(Duration(seconds: 1));
+      context.backScreen();
+    } else {
+      showError(
+        () => clearError(),
+        "Cài đặt ngôn ngữ thất bại",
+        'Quay lại',
+      );
+    }
+    hideLoading();
+  }
+
   Future<void> resendOtp(BuildContext context) async {
     try {
       showLoading();
@@ -539,6 +598,8 @@ class AuthController extends BaseController {
           );
         },
         (successLogin) async {
+          final ChatController chatController = Get.find<ChatController>();
+          chatController.connectSocket(accessToken: successLogin.accessToken);
           final result = await getUserInformationUsecase(NoParams());
           result.fold(
             (failureGetUserInformation) {
@@ -553,8 +614,6 @@ class AuthController extends BaseController {
               setUser(successGetUserInformation);
               successLogin.firstTimeOpenApp = "false";
               setAuth(successLogin);
-              final ChatController chatController = Get.find<ChatController>();
-              chatController.connectSocket();
             },
           );
         },
@@ -797,6 +856,12 @@ class AuthController extends BaseController {
     showLoading();
     Log.info(authState.wardId.value.toString());
     Log.info(authState.genderId.value.toString());
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final date = inputFormat.parse(birthdateController.text);
+
+    // Create a DateFormat for the output format
+    final outputFormat = DateFormat('yyyy-MM-dd');
+    final newDateStr = outputFormat.format(date);
     final result = await registerUsecase(
       RegisterParams(
         phoneNumber: phoneController.text,
@@ -805,7 +870,7 @@ class AuthController extends BaseController {
         address: addressController.text,
         wardId: authState.wardId.value,
         gender: authState.genderId.value,
-        birthdate: birthdateController.text,
+        birthdate: newDateStr,
         bhytCode: bhytController.text,
         password: passwordRegisterController.text,
         role: 'Patient',
@@ -846,9 +911,17 @@ class AuthController extends BaseController {
             );
           },
           (success) {
+            authState.city.value = null;
+            authState.district.value = null;
+            authState.ward.value = null;
+            authState.selectedGender.value = '';
+            authState.listAllWard.value = [];
+            authState.listAllDistrict.value = [];
+            getAllCity();
             showWarning(
               () {
                 Log.info("go to login");
+
                 context.backToFirstScreen();
                 clearWarning();
               },

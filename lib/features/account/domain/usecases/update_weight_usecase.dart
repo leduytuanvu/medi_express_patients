@@ -18,7 +18,7 @@ class UpdateWeightUsecase
       UpdateHeightParams params) async {
     try {
       Log.info("UpdateWeightUsecase");
-      final result = await repository.updateHeight(
+      final result = await repository.updateWeight(
         params.patientId,
         params.height,
         params.createAt,

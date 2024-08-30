@@ -22,7 +22,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   pinput: ^5.0.0
   flutter_local_notifications: ^17.2.1+2
-  permission_handler: ^10.0.0
+  permission_handler: ^11.3.1
   dotted_border: ^2.1.0
   cached_network_image: ^3.4.0
   path: ^1.8.0
@@ -33,6 +33,8 @@ dependencies:
   fl_chart: ^0.68.0
   image_picker: ^1.1.2
   mqtt_client: ^10.3.0
+#  communicate_mediexpress:
+#    path: packages/communicate_mediexpress
 
 dev_dependencies:
   flutter_test:

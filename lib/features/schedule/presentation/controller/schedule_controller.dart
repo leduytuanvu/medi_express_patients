@@ -118,14 +118,30 @@ class ScheduleController extends BaseController {
       List<String> times = scheduleState.timeChoose.value.split(' - ');
       var dateChoose =
           '${scheduleState.yearChoose}-${scheduleState.monthChoose}-${scheduleState.dateChoose.value}';
+      // Split the string by '-'
+      final parts = dateChoose.split('-');
+
+      // Extract year, month, and day from the split parts
+      final year = parts[0];
+      final month = int.parse(parts[1]);
+      final day = int.parse(parts[2]);
+
+      // Format month and day to be two digits
+      var formattedMonth = month.toString().padLeft(2, '0');
+      var formattedDay = day.toString().padLeft(2, '0');
+
+      // Construct the final formatted date string
+      final formattedDateStr = '$year-$formattedMonth-$formattedDay';
       Log.info(
-          "============= date choose:$dateChoose, tmp service: $typeService");
+          "+++++++++++++++++++++++++++++++++++++ formattedMonth $formattedMonth, formattedDay $formattedDay");
+      Log.info(
+          "============= date choose:$formattedDateStr, tmp service: $typeService");
       final result = await createAppointmentUsecase(
         CreateAppointmentParams(
           patientID: authController.baseState.user.value.id,
           serviceID: scheduleState.typeCreateAppointmentService.value.id ?? 0,
           serviceTypeID: typeService,
-          appointmentDate: dateChoose,
+          appointmentDate: formattedDateStr,
           startTime: times[0],
           endTime: times[1],
         ),

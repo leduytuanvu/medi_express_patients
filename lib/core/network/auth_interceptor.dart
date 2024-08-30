@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:medi_express_patients/core/config/log.dart';
 import 'package:medi_express_patients/core/storage/local_storage.dart';
 import 'package:medi_express_patients/core/utils/common/constants.dart';
+import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
+import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
 
 class AuthInterceptor extends Interceptor {
   final LocalStorage localStorage;
@@ -63,6 +66,12 @@ class AuthInterceptor extends Interceptor {
         await localStorage.save(Constants.keyRefreshToken, newRefreshToken);
         await localStorage.save(
             Constants.keyExpiresIn, newExpiresIn.toString());
+
+        final AuthController authController = Get.find<AuthController>();
+        authController.baseState.auth.value.accessToken = newAccessToken;
+
+        final ChatController chatController = Get.find<ChatController>();
+        chatController.connectSocket(accessToken: newAccessToken);
 
         _refreshing = false;
         _retryQueuedRequests(newAccessToken);

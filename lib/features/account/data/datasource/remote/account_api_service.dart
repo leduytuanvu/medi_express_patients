@@ -26,11 +26,11 @@ class AccountApiService {
     double height,
     String createAt,
   ) async {
-    final response = await dio.put<Map<String, dynamic>>(
+    final response = await dio.post<Map<String, dynamic>>(
       '/mediexpress/medical/healthmetrics/height',
       data: {
         'PatientID': patientId,
-        'Height': height,
+        'Height': height.toString(),
         'createdAt': createAt,
       },
     );
@@ -42,11 +42,11 @@ class AccountApiService {
     double weight,
     String createAt,
   ) async {
-    final response = await dio.put<Map<String, dynamic>>(
+    final response = await dio.post<Map<String, dynamic>>(
       '/mediexpress/medical/healthmetrics/weight',
       data: {
         'PatientID': patientId,
-        'Weight': weight,
+        'Weight': weight.toString(),
         'createdAt': createAt,
       },
     );
@@ -98,6 +98,150 @@ class AccountApiService {
     final response = await dio.get<Map<String, dynamic>>(
       '/mediexpress/medical/healthmetrics',
       queryParameters: {'PatientID': patientId},
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListHeight(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getHeight',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListAcidUric(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getAciduric',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListSpo2(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getSpO2',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListBloodPressure(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getBloodPressure',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListBloodSugar(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getBloodSugar',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListHeartRate(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getHeartRate',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListTemperature(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getTemperature',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
+    );
+    return response;
+  }
+
+  Future<Response<Map<String, dynamic>>> getListWeight(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    final response = await dio.get<Map<String, dynamic>>(
+      '/mediexpress/medical/healthmetrics/getWeight',
+      queryParameters: {
+        'start': start,
+        'end': end,
+        'offset': offset,
+        'limit': limit,
+      },
     );
     return response;
   }

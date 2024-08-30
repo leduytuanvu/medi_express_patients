@@ -10,9 +10,16 @@ import 'package:medi_express_patients/features/account/data/datasource/remote/ac
 import 'package:medi_express_patients/features/account/data/repositories/account_repository_impl.dart';
 import 'package:medi_express_patients/features/account/domain/repositories/account_repository.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_acid_uric_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_pressure_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_sugar_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_heart_rate_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_spo2_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_temperature_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
-import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
@@ -26,11 +33,13 @@ import 'package:medi_express_patients/features/auth/domain/usecases/forgot_passw
 import 'package:medi_express_patients/features/auth/domain/usecases/get_all_city_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_auth_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_district_by_city_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/get_language_from_local_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_user_information_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/get_ward_by_district_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/login_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/register_usecase.dart';
 import 'package:medi_express_patients/features/auth/domain/usecases/save_auth_to_local_usecase.dart';
+import 'package:medi_express_patients/features/auth/domain/usecases/save_language_usecase.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/chat/data/datasource/local/chat_local_datasource.dart';
 import 'package:medi_express_patients/features/chat/data/datasource/remote/chat_api_service.dart';
@@ -107,9 +116,13 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => SaveAuthToLocalUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => CheckPhoneNumberExistsUsecase(Get.find<AuthRepository>()));
   Get.lazyPut(() => GetUserInformationUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => GetLanguageFromLocalUsecase(Get.find<AuthRepository>()));
+  Get.lazyPut(() => SaveLanguageUsecase(Get.find<AuthRepository>()));
   Get.put(
     AuthController(
       loginUsecase: Get.find<LoginUsecase>(),
+      saveLanguageUsecase: Get.find<SaveLanguageUsecase>(),
+      getLanguageFromLocalUsecase: Get.find<GetLanguageFromLocalUsecase>(),
       changePasswordUsecase: Get.find<ChangePasswordUsecase>(),
       registerUsecase: Get.find<RegisterUsecase>(),
       forgotPasswordUsecase: Get.find<ForgotPasswordUsecase>(),
@@ -149,7 +162,6 @@ Future<void> initDI(String environmentName) async {
     createMessageUsecase: Get.find<CreateMessageUsecase>(),
     createConversationUsecase: Get.find<CreateConversationUsecase>(),
     errorHandlingService: Get.find<ErrorHandlingService>(),
-    // Add other necessary dependencies here if required
   ));
 
   /// Main
@@ -248,5 +260,12 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => UploadAvatarUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => UpdateUserUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => UpdateHeightUsecase(Get.find<AccountRepository>()));
-  Get.lazyPut(() => UpdateWeightUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListHeightUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListWeightUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListAcidUricUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListSpo2Usecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListBloodPressureUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListBloodSugarUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListHeartRateUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => GetListTemperatureUsecase(Get.find<AccountRepository>()));
 }

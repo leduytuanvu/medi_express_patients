@@ -4,6 +4,14 @@ import 'package:get/get.dart';
 import 'package:medi_express_patients/core/service/error_handling_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/get_health_metricts_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_acid_uric_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_pressure_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_blood_sugar_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_heart_rate_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_height_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_spo2_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_temperature_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/get_list_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
@@ -43,7 +51,8 @@ class MainPage extends BaseStatelessWidget {
   @override
   Widget buildContent(BuildContext context) {
     final MainController mainController = Get.find<MainController>();
-
+    // final ChatController chatController = Get.find<ChatController>();
+    // chatController.connectSocket();
     return Scaffold(
       backgroundColor: Colors.white,
       body: PageView(
@@ -100,6 +109,15 @@ class MainPage extends BaseStatelessWidget {
           GetBuilder<AccountController>(
             init: AccountController(
               getHealthMetrictsUsecase: Get.find<GetHealthMetrictsUsecase>(),
+              getListHeightUsecase: Get.find<GetListHeightUsecase>(),
+              getListAcidUricUsecase: Get.find<GetListAcidUricUsecase>(),
+              getListWeightUsecase: Get.find<GetListWeightUsecase>(),
+              getListTemperatureUsecase: Get.find<GetListTemperatureUsecase>(),
+              getListHeartRateUsecase: Get.find<GetListHeartRateUsecase>(),
+              getListBloodSugarUsecase: Get.find<GetListBloodSugarUsecase>(),
+              getListBloodPressureUsecase:
+                  Get.find<GetListBloodPressureUsecase>(),
+              getListSpo2Usecase: Get.find<GetListSpo2Usecase>(),
               uploadAvatarUsecase: Get.find<UploadAvatarUsecase>(),
               updateUserUsecase: Get.find<UpdateUserUsecase>(),
               updateWeightUsecase: Get.find<UpdateWeightUsecase>(),

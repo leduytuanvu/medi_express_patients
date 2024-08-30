@@ -229,6 +229,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<String> getLanguageFromLocal() async {
+    Log.info("getLanguageFromLocal in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      final accessToken = await localDatasource.get(Constants.keyLanguage);
+      return accessToken ?? "";
+    }, 'AuthRepositoryImpl/getLanguageFromLocal');
+  }
+
+  @override
   Future<bool> saveAuthToLocal(AuthEntity authEntity) {
     Log.info("saveAuthToLocal in AuthRepositoryImpl");
     return executeWithHandling(() async {
@@ -242,6 +251,15 @@ class AuthRepositoryImpl implements AuthRepository {
           Constants.keyFirstTimeOpenApp, authEntity.firstTimeOpenApp);
       return true;
     }, 'AuthRepositoryImpl/saveAuthToLocal');
+  }
+
+  @override
+  Future<bool> saveLanguageToLocal(String language) {
+    Log.info("saveLanguageToLocal in AuthRepositoryImpl");
+    return executeWithHandling(() async {
+      await localDatasource.save(Constants.keyLanguage, language);
+      return true;
+    }, 'AuthRepositoryImpl/saveLanguageToLocal');
   }
 
   @override

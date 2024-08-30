@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class HealthMetricsEntity {
   final int patientId;
   final AcidUricEntity? acidUric;
@@ -7,8 +9,8 @@ class HealthMetricsEntity {
   final Spo2Entity? spO2;
   final TemperatureEntity? temperature;
   final BloodEntity? blood;
-  final HeightEntity? height;
-  final WeightEntity? weight;
+  HeightEntity? height;
+  WeightEntity? weight;
 
   HealthMetricsEntity({
     required this.patientId,
@@ -145,13 +147,14 @@ class TemperatureEntity {
 }
 
 class HeightEntity {
-  final String value;
-  final String createdAt;
+  Rx<String> value;
+  Rx<String> createdAt;
 
   HeightEntity({
-    required this.value,
-    required this.createdAt,
-  });
+    required String value,
+    required String createdAt,
+  })  : value = value.obs, // Convert String to Rx<String>
+        createdAt = createdAt.obs; // Convert String to Rx<String>
 
   @override
   String toString() {
@@ -160,13 +163,14 @@ class HeightEntity {
 }
 
 class WeightEntity {
-  final String value;
-  final String createdAt;
+  Rx<String> value;
+  Rx<String> createdAt;
 
   WeightEntity({
-    required this.value,
-    required this.createdAt,
-  });
+    required String value,
+    required String createdAt,
+  })  : value = value.obs, // Convert String to Rx<String>
+        createdAt = createdAt.obs; // Convert String to Rx<String>
 
   @override
   String toString() {

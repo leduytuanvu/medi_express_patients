@@ -103,7 +103,7 @@ class UpdateWeightPage extends BaseStatelessWidget {
                       onPressed: () async {
                         // Handle button press
                         FocusScope.of(context).unfocus();
-                        accountController.updateHeight();
+                        accountController.updateWeight(context);
                       },
                       color: const Color(0xffCF4375),
                       titleSize: context.sp(14),

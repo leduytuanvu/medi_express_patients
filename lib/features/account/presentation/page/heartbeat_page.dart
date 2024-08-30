@@ -87,13 +87,13 @@ class HeartbeatPage extends BaseStatelessWidget {
                       style: AppTextStyle.mediumItemTitle(context),
                     ),
                     Spacer(),
-                    Text(
-                      'Thêm chỉ số',
-                      style: AppTextStyle.link(context),
-                    ),
-                    context.wp(2).sbw,
-                    Text(' | '),
-                    context.wp(1).sbw,
+                    // Text(
+                    //   'Thêm chỉ số',
+                    //   style: AppTextStyle.link(context),
+                    // ),
+                    // context.wp(2).sbw,
+                    // Text(' | '),
+                    // context.wp(1).sbw,
                     Icon(
                       Icons.share_outlined,
                       color: Color(0xFF005495),

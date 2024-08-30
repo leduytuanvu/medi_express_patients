@@ -6,9 +6,17 @@ import 'package:medi_express_patients/core/network/api_response.dart';
 import 'package:medi_express_patients/core/utils/common/execute_with_handling.dart';
 import 'package:medi_express_patients/features/account/data/datasource/local/account_local_datasource.dart';
 import 'package:medi_express_patients/features/account/data/datasource/remote/account_remote_datasource.dart';
+import 'package:medi_express_patients/features/account/domain/entities/acid_uric_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/blood_pressure_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/blood_sugar_detail_entity.dart';
 import 'package:medi_express_patients/features/account/domain/entities/health_metricts_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/heart_rate_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/height_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/spo2_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/temperature_detail_entity.dart';
 import 'package:medi_express_patients/features/account/domain/entities/update_user_entity.dart';
 import 'package:medi_express_patients/features/account/domain/entities/upload_avatar_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/weight_detail_entity.dart';
 import 'package:medi_express_patients/features/account/domain/repositories/account_repository.dart';
 
 class AccountRepositoryImpl implements AccountRepository {
@@ -35,6 +43,214 @@ class AccountRepositoryImpl implements AccountRepository {
         );
       }
     }, 'AccountRepositoryImpl/getHealthMetrics');
+  }
+
+  @override
+  Future<List<HeightDetailEntity>> getListHeight(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListHeight(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<AcidUricDetailEntity>> getListAcidUric(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListAcidUric(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<Spo2DetailEntity>> getListSpo2(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListSpo2(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<BloodPressureDetailEntity>> getListBloodPressure(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListBloodPressure(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<BloodSugarDetailEntity>> getListBloodSugar(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListBloodSugar(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<HeartRateDetailEntity>> getListHeartRate(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListHeartRate(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<TemperatureDetailEntity>> getListTemperature(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListTemperature(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
+  }
+
+  @override
+  Future<List<WeightDetailEntity>> getListWeight(
+    String start,
+    String end,
+    String offset,
+    String limit,
+  ) async {
+    Log.info("getListHeight in AccountRepositoryImpl");
+    return executeWithHandling(() async {
+      final apiResponse = await remoteDatasource.getListWeight(
+        start,
+        end,
+        offset,
+        limit,
+      );
+      if (apiResponse.code == 1) {
+        return apiResponse.data!.map((dto) => dto.toEntity()).toList();
+      } else {
+        throw ApiErrorException(
+          apiResponse.message,
+          '${apiResponse.message} in AccountRepositoryImpl/getListHeight',
+        );
+      }
+    }, 'AccountRepositoryImpl/getListHeight');
   }
 
   @override

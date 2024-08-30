@@ -4,4 +4,5 @@ class Constants {
   static const String keyRefreshToken = 'refresh_token';
   static const String keyExpiresIn = 'expires_in';
   static const String keyUser = 'user';
+  static const String keyLanguage = 'language';
 }

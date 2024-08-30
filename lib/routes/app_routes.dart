@@ -32,7 +32,25 @@ class AppRoutes {
   static const healthRecordDetail = '/health_record_detail';
   static const healthIndexMeasurement = '/health_index_measurement';
   static const measurementResults = '/measurement_results';
-  static const updateHeightPage = '/update_height';
-  static const updateWeightPage = '/update_weight';
+  static const updateHeight = '/update_height';
+  static const height = '/height';
+  static const weight = '/weight';
+  static const temp = '/temp';
+  static const spo2 = '/spo2';
+  static const ua = '/ua';
+  static const bloodPressure = '/blood_pressure';
+  static const updateWeight = '/update_weight';
   static const bloodSugar = '/blood_sugar';
+  static const diagnosticImaging = '/diagnostic_imaging';
+  static const homeHealthPackageDetail = '/home_health_package_detail';
+  static const homeHealthPackage = '/home_health_package';
+  static const medicalServices = '/medical_services';
+  static const newsDetail = '/news_detail';
+  static const news = '/news';
+  static const prescription = '/prescription';
+  static const testing = '/testing';
+  static const vaccination = '/vaccination';
+  static const language = '/language';
+  static const helper = '/helper';
+  static const settings = '/settings';
 }

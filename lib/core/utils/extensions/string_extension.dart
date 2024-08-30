@@ -43,6 +43,19 @@ extension StringExtension on String {
     return substring(11, 16);
   }
 
+  String toShortTime() {
+    // Split the string by colon
+    final parts = split(':');
+
+    // Check if the input string is in the correct format
+    if (parts.length >= 2) {
+      return '${parts[0]}:${parts[1]}';
+    } else {
+      // Return the original string if it doesn't match the expected format
+      return this;
+    }
+  }
+
   // Extract and return the day part from the string
   String toDate() {
     return substring(8, 10);
@@ -122,5 +135,45 @@ extension StringExtension on String {
 
     // Return the new format
     return '$year-$month-$day';
+  }
+
+  // 2024-08-29T06:47:24.000Z -> 13:47 29/08/2024
+  String toFormattedString() {
+    // Parse the ISO 8601 string
+    DateTime dateTime = DateTime.parse(this).toUtc();
+
+    // Add 7 hours to the date-time
+    DateTime adjustedDateTime = dateTime.add(Duration(hours: 7));
+
+    // Define the desired date format
+    final DateFormat timeFormat = DateFormat("HH:mm");
+    final DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+
+    // Format the adjusted date-time
+    String time = timeFormat.format(adjustedDateTime);
+    String date = dateFormat.format(adjustedDateTime);
+
+    // Return the formatted string
+    return "$time $date";
+  }
+
+  // '' -> 13:47 29/08/2024 (current datetime)
+  String toFormattedStringCurrentDatetime() {
+    // Parse the ISO 8601 string
+    DateTime dateTime = DateTime.parse(this).toUtc();
+
+    // Add 7 hours to the date-time
+    DateTime adjustedDateTime = dateTime.add(Duration(hours: 7));
+
+    // Define the desired date format
+    final DateFormat timeFormat = DateFormat("HH:mm");
+    final DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+
+    // Format the adjusted date-time
+    String time = timeFormat.format(adjustedDateTime);
+    String date = dateFormat.format(adjustedDateTime);
+
+    // Return the formatted string
+    return "$time $date";
   }
 }

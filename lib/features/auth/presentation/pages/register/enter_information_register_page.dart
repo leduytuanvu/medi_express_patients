@@ -19,7 +19,6 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
   @override
   Widget buildContent(BuildContext context) {
     final AuthController authController = Get.find<AuthController>();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: _content(context, authController),

@@ -318,67 +318,42 @@ class AccountPage extends StatelessWidget {
                   thickness: context.hp(0.9),
                   color: Color(0xFFF4F5F7),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      height: context.wp(14),
-                      width: context.wp(14),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F6F9),
-                        borderRadius: BorderRadius.circular(context.rp(20)),
-                      ),
-                      child: SvgPicture.asset(
-                        Assets.svg.setting,
-                      ).paddingAll(
-                        context.wp(3.4),
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    context.toNamedScreen(AppRoutes.settings);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
+                          ),
+                          child: SvgPicture.asset(
+                            Assets.svg.setting,
+                          ).paddingAll(
+                            context.wp(3.4),
+                          ),
+                        ),
+                        context.wp(4).sbw,
+                        Text('Cài đặt'),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingOnly(
+                      top: context.hp(1.7),
+                      bottom: context.hp(0.4),
+                      left: context.wp(4),
+                      right: context.wp(4),
                     ),
-                    context.wp(4).sbw,
-                    Text('Cài đặt'),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: context.wp(5),
-                    ),
-                  ],
-                ).paddingOnly(
-                  top: context.hp(1.7),
-                  bottom: context.hp(0.4),
-                  left: context.wp(4),
-                  right: context.wp(4),
-                ),
-                Divider(
-                  thickness: context.hp(0.1),
-                  color: Color(0xFFF4F5F7),
-                ).paddingSymmetric(horizontal: context.wp(4)),
-                Row(
-                  children: [
-                    Container(
-                      height: context.wp(14),
-                      width: context.wp(14),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F6F9),
-                        borderRadius: BorderRadius.circular(context.rp(20)),
-                      ),
-                      child: SvgPicture.asset(
-                        Assets.svg.helper,
-                      ).paddingAll(
-                        context.wp(3.4),
-                      ),
-                    ),
-                    context.wp(4).sbw,
-                    Text('Hỗ trợ'),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: context.wp(5),
-                    ),
-                  ],
-                ).paddingOnly(
-                  bottom: context.hp(0.4),
-                  top: context.hp(0.4),
-                  left: context.wp(4),
-                  right: context.wp(4),
+                  ),
                 ),
                 Divider(
                   thickness: context.hp(0.1),
@@ -386,110 +361,152 @@ class AccountPage extends StatelessWidget {
                 ).paddingSymmetric(horizontal: context.wp(4)),
                 GestureDetector(
                   onTap: () {
-                    String selectedLanguage = "Tiếng Việt"; // Default value
-                    List<String> languages = [
-                      "Tiếng Việt",
-                      "English",
-                    ];
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            "Chọn ngôn ngữ",
-                            style: AppTextStyle.mediumBody(context),
-                            textAlign: TextAlign.center,
-                          ).paddingOnly(bottom: context.wp(2)),
-                          content: DropdownButtonFormField<String>(
-                            value: selectedLanguage,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: context.wp(4),
-                                vertical: context.hp(2),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(context.rp(4)),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.black, // Set the border color
-                                  width: 1.0, // Set the border thickness
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(context.rp(4)),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.black, // Set the border color
-                                  width: 1.0, // Set the border thickness
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(context.rp(4)),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors
-                                      .black, // Set the border color when focused
-                                  width:
-                                      1.0, // Set the border thickness when focused
-                                ),
-                              ),
-                            ),
-                            icon: Padding(
-                              padding: EdgeInsets.only(
-                                  left: context.wp(
-                                      2)), // Add space between text and icon
-                              child: Icon(Icons.arrow_drop_down,
-                                  size: context.wp(5)),
-                            ),
-                            items: languages.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.zero, // Set custom padding
-                                  child: Text(
-                                    value,
-                                    style: AppTextStyle.mediumBody(context),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              switch (newValue) {
-                                case 'Tiếng Việt':
-                                  var locale = Locale('vi', 'VN');
-                                  Get.updateLocale(locale);
-                                  break;
-                                case 'English':
-                                  var locale = Locale('en', 'US');
-                                  Get.updateLocale(locale);
-                                  break;
-                                case 'French':
-                                  var locale = Locale('fr', 'FR');
-                                  Get.updateLocale(locale);
-                                  break;
-                              }
-                              // Update the selected language
-                              selectedLanguage = newValue!;
-
-                              // Close the dialog
-                              Navigator.of(context).pop();
-
-                              // Optionally, do something with the selected language
-                              print('Selected Language: $selectedLanguage');
-                            },
+                    context.toNamedScreen(AppRoutes.helper);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: context.wp(14),
+                          width: context.wp(14),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F6F9),
+                            borderRadius: BorderRadius.circular(context.rp(20)),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.rp(4)),
-                            ),
+                          child: SvgPicture.asset(
+                            Assets.svg.helper,
+                          ).paddingAll(
+                            context.wp(3.4),
                           ),
-                        );
-                      },
-                    );
+                        ),
+                        context.wp(4).sbw,
+                        Text('Hỗ trợ'),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: context.wp(5),
+                        ),
+                      ],
+                    ).paddingOnly(
+                      bottom: context.hp(0.4),
+                      top: context.hp(0.4),
+                      left: context.wp(4),
+                      right: context.wp(4),
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: context.hp(0.1),
+                  color: Color(0xFFF4F5F7),
+                ).paddingSymmetric(horizontal: context.wp(4)),
+                GestureDetector(
+                  onTap: () {
+                    context.toNamedScreen(AppRoutes.language);
+                    // String selectedLanguage = "Tiếng Việt"; // Default value
+                    // List<String> languages = [
+                    //   "Tiếng Việt",
+                    //   "English",
+                    // ];
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (BuildContext context) {
+                    //     return AlertDialog(
+                    //       title: Text(
+                    //         "Chọn ngôn ngữ",
+                    //         style: AppTextStyle.mediumBody(context),
+                    //         textAlign: TextAlign.center,
+                    //       ).paddingOnly(bottom: context.wp(2)),
+                    //       content: DropdownButtonFormField<String>(
+                    //         value: selectedLanguage,
+                    //         decoration: InputDecoration(
+                    //           contentPadding: EdgeInsets.symmetric(
+                    //             horizontal: context.wp(4),
+                    //             vertical: context.hp(2),
+                    //           ),
+                    //           border: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.all(
+                    //               Radius.circular(context.rp(4)),
+                    //             ),
+                    //             borderSide: BorderSide(
+                    //               color: Colors.black, // Set the border color
+                    //               width: 1.0, // Set the border thickness
+                    //             ),
+                    //           ),
+                    //           enabledBorder: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.all(
+                    //               Radius.circular(context.rp(4)),
+                    //             ),
+                    //             borderSide: BorderSide(
+                    //               color: Colors.black, // Set the border color
+                    //               width: 1.0, // Set the border thickness
+                    //             ),
+                    //           ),
+                    //           focusedBorder: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.all(
+                    //               Radius.circular(context.rp(4)),
+                    //             ),
+                    //             borderSide: BorderSide(
+                    //               color: Colors
+                    //                   .black, // Set the border color when focused
+                    //               width:
+                    //                   1.0, // Set the border thickness when focused
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         icon: Padding(
+                    //           padding: EdgeInsets.only(
+                    //               left: context.wp(
+                    //                   2)), // Add space between text and icon
+                    //           child: Icon(Icons.arrow_drop_down,
+                    //               size: context.wp(5)),
+                    //         ),
+                    //         items: languages.map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Padding(
+                    //               padding:
+                    //                   EdgeInsets.zero, // Set custom padding
+                    //               child: Text(
+                    //                 value,
+                    //                 style: AppTextStyle.mediumBody(context),
+                    //               ),
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //         onChanged: (String? newValue) {
+                    //           switch (newValue) {
+                    //             case 'Tiếng Việt':
+                    //               var locale = Locale('vi', 'VN');
+                    //               Get.updateLocale(locale);
+                    //               break;
+                    //             case 'English':
+                    //               var locale = Locale('en', 'US');
+                    //               Get.updateLocale(locale);
+                    //               break;
+                    //             case 'French':
+                    //               var locale = Locale('fr', 'FR');
+                    //               Get.updateLocale(locale);
+                    //               break;
+                    //           }
+                    //           // Update the selected language
+                    //           selectedLanguage = newValue!;
+                    //
+                    //           // Close the dialog
+                    //           Navigator.of(context).pop();
+                    //
+                    //           // Optionally, do something with the selected language
+                    //           print('Selected Language: $selectedLanguage');
+                    //         },
+                    //       ),
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.all(
+                    //           Radius.circular(context.rp(4)),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   },
                   child: Container(
                     color: Colors.transparent,

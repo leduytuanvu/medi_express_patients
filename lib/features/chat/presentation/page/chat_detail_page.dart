@@ -7,6 +7,7 @@ import 'package:medi_express_patients/core/utils/extensions/extensions.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
 import 'package:medi_express_patients/features/chat/presentation/controller/chat_controller.dart';
+import 'package:medi_express_patients/features/main/presentation/controller/main_controller.dart';
 
 class ChatDetailPage extends BaseStatelessWidget {
   final ChatController chatController = Get.find<ChatController>();
@@ -42,6 +43,9 @@ class ChatDetailPage extends BaseStatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      final MainController mainController =
+                          Get.find<MainController>();
+                      mainController.mainState.doctorInformation.value = null;
                       context.backScreen();
                     },
                     child: Container(
