@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          Text('Tiện ích', style: AppTextStyle.mediumItemTitle(context))
+          Text('utilities'.tr, style: AppTextStyle.mediumItemTitle(context))
               .paddingOnly(
             left: context.wp(4),
             right: context.wp(4),
@@ -124,23 +124,23 @@ class HomePage extends StatelessWidget {
                     Log.info("on tap: ${item.title}");
                     // context.toNamedScreen(AppRoutes.patientPage);
                     switch (item.title) {
-                      case "Chỉ số sức khỏe":
+                      case "health_index":
                         context.toNamedScreen(AppRoutes.healthIndex);
-                      case "Đơn thuốc":
+                      case "prescription":
                         context.toNamedScreen(AppRoutes.prescription);
-                      case "Tiêm chủng":
+                      case "vaccination":
                         context.toNamedScreen(AppRoutes.vaccination);
-                      case "Lịch khám":
+                      case "examination_schedule":
                         final MainController mainController =
                             Get.find<MainController>();
                         mainController.changePage(2);
-                      case "Xét nghiệm":
+                      case "testing":
                         context.toNamedScreen(AppRoutes.testing);
-                      case "Chuẩn đoán hình ảnh":
+                      case "diagnosis_of_images":
                         context.toNamedScreen(AppRoutes.diagnosticImaging);
-                      case "Dịch vụ y tế":
+                      case "medical_services":
                         context.toNamedScreen(AppRoutes.medicalServices);
-                      case "Bệnh án":
+                      case "medical_record":
                         homeController.searchController.text = '';
                         context.toNamedScreen(AppRoutes.healthRecord);
                     }
@@ -157,7 +157,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             item.icon,
                             context.hp(1.36).sbh,
-                            _buildTwoLineText(context, item.title),
+                            _buildTwoLineText(context, item.title.tr),
                           ],
                         ),
                       ),
@@ -178,7 +178,7 @@ class HomePage extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Gói khám tại nhà',
+                'home_health_check_up_package'.tr,
                 style: AppTextStyle.mediumItemTitle(context),
               ),
               const Spacer(),
@@ -339,7 +339,7 @@ class HomePage extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Tin tức',
+                'news'.tr,
                 style: AppTextStyle.mediumItemTitle(context),
               ),
               const Spacer(),

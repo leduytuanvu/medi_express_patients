@@ -174,7 +174,7 @@ class ChatController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -199,7 +199,7 @@ class ChatController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -241,7 +241,7 @@ class ChatController extends BaseController {
                 authController.showError(
                   () => authController.clearError(),
                   failureCreate.message,
-                  'Quay lại',
+                  'come_back'.tr,
                 );
               },
               (successCreate) async {
@@ -252,7 +252,7 @@ class ChatController extends BaseController {
                   authController.showError(
                     () => authController.clearError(),
                     failureGetAgain.message,
-                    'Quay lại',
+                    'come_back'.tr,
                   );
                 }, (successAgain) async {
                   tmpConversation = ConversationEntity(
@@ -276,7 +276,7 @@ class ChatController extends BaseController {
                     authController.showError(
                       () => authController.clearError(),
                       "Không tìm thấy tin nhắn",
-                      'Quay lại',
+                      'come_back'.tr,
                     );
                   }
                 });
@@ -298,7 +298,7 @@ class ChatController extends BaseController {
           authController.showError(
             () => authController.clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         }
       },
@@ -338,7 +338,7 @@ class ChatController extends BaseController {
                 authController.showError(
                   () => authController.clearError(),
                   failureCreate.message,
-                  'Quay lại',
+                  'come_back'.tr,
                 );
               },
               (successCreate) async {
@@ -349,7 +349,7 @@ class ChatController extends BaseController {
                   authController.showError(
                     () => authController.clearError(),
                     failureGetAgain.message,
-                    'Quay lại',
+                    'come_back'.tr,
                   );
                 }, (successAgain) async {
                   tmpConversation = ConversationEntity(
@@ -372,7 +372,7 @@ class ChatController extends BaseController {
                     authController.showError(
                       () => authController.clearError(),
                       "Không tìm thấy tin nhắn",
-                      'Quay lại',
+                      'come_back'.tr,
                     );
                   }
                 });
@@ -404,7 +404,7 @@ class ChatController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {

@@ -57,7 +57,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Thông tin lịch khám',
+                      'appointment_information'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),
@@ -130,7 +130,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Bác sĩ',
+                        'doctor'.tr,
                         style: AppTextStyle.bigHint(context).copyWith(
                           color: Color(0xFF777F89),
                         ),
@@ -148,7 +148,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Số điện thoại',
+                        'phone_number'.tr,
                         style: AppTextStyle.bigHint(context).copyWith(
                           color: Color(0xFF777F89),
                         ),
@@ -166,7 +166,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Dịch vụ',
+                        'service'.tr,
                         style: AppTextStyle.bigHint(context).copyWith(
                           color: Color(0xFF777F89),
                         ),
@@ -186,7 +186,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Phòng khám',
+                        'clinic'.tr,
                         style: AppTextStyle.bigHint(context).copyWith(
                           color: Color(0xFF777F89),
                         ),
@@ -210,7 +210,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'STT',
+                        'no'.tr,
                         style: AppTextStyle.bigHint(context).copyWith(
                           color: Color(0xFF777F89),
                         ),
@@ -236,7 +236,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 context.hp(2).sbh,
-                Text('Kết luận', style: AppTextStyle.smallTitle(context)),
+                Text('conclude'.tr, style: AppTextStyle.smallTitle(context)),
                 context.hp(0.8).sbh,
                 Obx(() {
                   if (scheduleController.scheduleState.scheduleResult.value
@@ -264,7 +264,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           width: context.wp(1),
                         ),
                         context.wp(2).sbw,
-                        Text('Chưa có kết luận',
+                        Text('no_conclusion_yet'.tr,
                             style: AppTextStyle.smallBody(context)),
                       ],
                     );
@@ -292,7 +292,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Chỉ định',
+                      Text('assign'.tr,
                           style: AppTextStyle.smallBodyW600(context)),
                       context.hp(1).sbh,
                       if (scheduleController.scheduleState.scheduleResult.value
@@ -327,7 +327,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           ],
                         ),
                       } else ...{
-                        Text('Chưa có chỉ định',
+                        Text('no_indication_yet'.tr,
                             style: AppTextStyle.smallBodyW500(context)),
                       }
                     ],
@@ -365,10 +365,10 @@ class ScheduleDetailPage extends BaseStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Đơn thuốc', style: AppTextStyle.smallTitle(context)),
+        Text('prescription'.tr, style: AppTextStyle.smallTitle(context)),
         context.hp(0.8).sbh,
         Text(
-          'Chưa có thông tin đơn thuốc',
+          'no_prescription_information_available'.tr,
           style: AppTextStyle.bigHint(context).copyWith(
             color: Color(0xFF777F89),
           ),
@@ -386,7 +386,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Đơn thuốc', style: AppTextStyle.smallTitle(context)),
+            Text('prescription'.tr, style: AppTextStyle.smallTitle(context)),
             SizedBox(height: context.hp(1.4)), // Adjusted for spacing
 
             // TabBar
@@ -400,9 +400,9 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                     Colors.grey, // Color for the unselected tabs
                 indicatorColor: Color(0xFF005495),
                 tabs: [
-                  Tab(text: 'Thuốc'),
-                  Tab(text: 'Lời nhắc'),
-                  Tab(text: 'Lịch sử sử dụng'),
+                  Tab(text: 'medicine'.tr),
+                  Tab(text: 'reminder'.tr),
+                  Tab(text: 'usage_history'.tr),
                 ],
               ),
             ),
@@ -461,7 +461,7 @@ class ScheduleDetailPage extends BaseStatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              'Lưu ý: lorem ipsum dolo sit amet',
+                              'note'.tr + ': lorem ipsum dolo sit amet',
                               style: AppTextStyle.linkW400(context),
                             ),
                           ).paddingSymmetric(

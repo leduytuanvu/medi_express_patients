@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
@@ -53,18 +52,18 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Tạo mật khẩu đăng nhập',
+                'create_login_password'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(3)),
               CustomTextFieldWidget(
-                labelText: 'Mật khẩu mới',
+                labelText: 'new_password'.tr,
                 controller: authController.passwordRegisterController,
                 type: TextFieldType.password,
                 errorText: authController.authState.errorPasswordRegister,
               ),
               CustomTextFieldWidget(
-                labelText: 'Xác nhận mật khẩu mới',
+                labelText: 'confirm_new_password'.tr,
                 controller: authController.rePasswordRegisterController,
                 type: TextFieldType.password,
                 errorText: authController.authState.errorRePasswordRegister,
@@ -72,7 +71,7 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Xác nhận",
+                title: "confirm".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.fullNameController.text = '';
@@ -100,7 +99,8 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                       authController.passwordRegisterController.text.trim())) {
                     validateSuccess = false;
                     authController.authState.errorPasswordRegister.value =
-                        'Mật khẩu phải có it nhất 1 chữ cái viết hoa, phải có ít nhất 1 chữ cái viết thường, phải có ít nhất một kí tự đặc biệt, phải có ít nhất 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
+                        'password_must_contain_at_least_1_uppercase_letter_at_least_1_lowercase_letter_at_least_1_special_character_at_least_1_number_and_must_be_8_characters_or_longer'
+                            .tr;
                   } else {
                     authController.authState.errorPasswordRegister.value = '';
                   }
@@ -112,9 +112,10 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                         authController.passwordRegisterController.text.trim()) {
                       validateSuccess = false;
                       authController.authState.errorRePasswordRegister.value =
-                          'Mật khẩu không trùng khớp';
+                          'passwords_do_not_match'.tr;
                     } else {
-                      authController.authState.errorRePasswordRegister.value = '';
+                      authController.authState.errorRePasswordRegister.value =
+                          '';
                     }
                   }
 
@@ -184,7 +185,7 @@ class EnterPasswordRegisterPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đăng kí tài khoản',
+                    'sign_up_for_an_account'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

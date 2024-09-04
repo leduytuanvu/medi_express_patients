@@ -41,7 +41,7 @@ class ChatPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Chat',
+                    'chat'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -82,7 +82,7 @@ class ChatPage extends StatelessWidget {
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Tìm bác sĩ',
+                      hintText: 'find_a_doctor'.tr,
                       hintStyle: AppTextStyle.searchHint(context),
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 16),

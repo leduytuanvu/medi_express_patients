@@ -57,7 +57,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Thông tin cá nhân',
+                      'personal_information'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),
@@ -76,7 +76,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                   children: [
                     SizedBox(height: context.hp(3)),
                     CustomTextFieldWidget(
-                      labelText: 'Họ tên',
+                      labelText: 'full_name'.tr,
                       controller: authController.fullNameController,
                       showClearText: false,
                       errorText: authController.authState.errorFullName,
@@ -88,14 +88,14 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       errorText: authController.authState.errorEmail,
                     ),
                     CustomTextFieldWidget(
-                      labelText: 'Ngày sinh',
+                      labelText: 'date_of_birth'.tr,
                       controller: authController.birthdateController,
                       type: TextFieldType.dateTime,
                       errorText: authController.authState.errorBirthdate,
                     ),
                     Obx(() {
                       return CustomDropDownBoxWidget<String>(
-                        labelText: 'Giới tính',
+                        labelText: 'gender'.tr,
                         borderRadius: 8.0,
                         items: authController.authState.listGender,
                         displayItem: (gender) => gender,
@@ -137,7 +137,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     }),
                     Obx(() {
                       return CustomDropDownBoxWidget<DistrictEntity>(
-                        labelText: 'Quận/huyện',
+                        labelText: 'district'.tr,
                         borderRadius: 8.0,
                         items: accountController.accountState.listAllDistrict,
                         displayItem: (district) => district.districtName,
@@ -158,7 +158,7 @@ class PersonalInformationPage extends BaseStatelessWidget {
                     }),
                     Obx(() {
                       return CustomDropDownBoxWidget<WardEntity>(
-                        labelText: 'Phường/xã',
+                        labelText: 'ward_commune'.tr,
                         borderRadius: 8.0,
                         items: accountController.accountState.listAllWard,
                         displayItem: (ward) => ward.wardName,
@@ -173,19 +173,19 @@ class PersonalInformationPage extends BaseStatelessWidget {
                       );
                     }),
                     CustomTextFieldWidget(
-                      labelText: 'Địa chỉ cụ thể',
+                      labelText: 'specific_address'.tr,
                       controller: authController.addressController,
                       errorText: authController.authState.errorAddress,
                     ),
                     CustomTextFieldWidget(
-                      labelText: 'Sổ BHYT',
+                      labelText: 'health_insurance_book'.tr,
                       controller: authController.bhytController,
                       errorText: authController.authState.errorBhyt,
                     ),
                     CustomButtonWidget(
                       height: context.hp(6),
                       width: context.wp(100),
-                      title: "Cập nhật",
+                      title: "update".tr,
                       onPressed: () async {
                         // Handle button press
                         FocusScope.of(context).unfocus();

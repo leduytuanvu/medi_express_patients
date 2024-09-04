@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/exception/failure.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
-import 'package:medi_express_patients/features/base/presentation/controller/base_controller.dart';
 
 class ErrorHandlingService {
   void handleException(Failure failure) {
@@ -14,7 +13,7 @@ class ErrorHandlingService {
         authController.clearError();
       },
       failure.message,
-      'Quay lại',
+      'come_back'.tr,
     );
   }
 }

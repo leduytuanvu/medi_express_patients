@@ -10,10 +10,16 @@ class DoctorState extends BaseState {
   var listAllInformationDoctor = <InformationDoctorEntity>[].obs;
   var listAllInformationDoctorSearch = <InformationDoctorEntity>[].obs;
   var listSearchDoctor = <DoctorByNameEntity>[].obs;
+  // var doctorInformationDetail = DoctorInformationDetailEntity(
+  //   information: InformationEntity(),
+  //   workingProcess: <WorkingProcessEntity>[],
+  // ).obs;
+
   var doctorInformationDetail = DoctorInformationDetailEntity(
-    information: InformationEntity(),
-    workingProcess: <WorkingProcessEntity>[],
-  ).obs;
+          // information: InformationEntity(),
+          // workingProcess: <WorkingProcessEntity>[],
+          )
+      .obs;
 
   var typeCreateAppointmentService = TypeCreateAppointmentServiceEntity().obs;
   var typeExamAtHome = true.obs;

@@ -52,7 +52,7 @@ class HealthRecordPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Bệnh án',
+                    'medical_record'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -89,7 +89,7 @@ class HealthRecordPage extends BaseStatelessWidget {
                                   );
                           }),
                           CustomButtonWidget(
-                            title: 'Chọn hình',
+                            title: 'select_image'.tr,
                             width: context.wp(30),
                             height: context.wp(10),
                             radius: context.rp(8),
@@ -99,19 +99,19 @@ class HealthRecordPage extends BaseStatelessWidget {
                           ).paddingOnly(left: context.wp(4)),
                           context.wp(3.7).sbh,
                           CustomTextFieldWidget(
-                            labelText: 'Bệnh án',
+                            labelText: 'medical_record'.tr,
                             controller: homeController.patientController,
                           ).paddingSymmetric(horizontal: context.wp(4)),
                           context.wp(0.6).sbh,
                           CustomTextFieldWidget(
-                            labelText: 'Mô tả',
+                            labelText: 'describe'.tr,
                             controller: homeController.descriptionController,
                           ).paddingSymmetric(horizontal: context.wp(4)),
                           context.wp(0.6).sbh,
                           CustomButtonWidget(
                             height: context.hp(6),
                             width: context.wp(100),
-                            title: "Tải lên",
+                            title: "upload".tr,
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               homeController.uploadPatient(context);
@@ -162,7 +162,7 @@ class HealthRecordPage extends BaseStatelessWidget {
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Tìm bệnh án',
+                      hintText: 'find_medical_records'.tr,
                       hintStyle: AppTextStyle.searchHint(context),
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 16),

@@ -52,7 +52,7 @@ class ChangePasswordPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đổi mật khẩu',
+                    'change_password'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -66,19 +66,19 @@ class ChangePasswordPage extends BaseStatelessWidget {
           ),
           SizedBox(height: context.hp(3)),
           CustomTextFieldWidget(
-            labelText: 'Mật khẩu cũ',
+            labelText: 'old_password'.tr,
             controller: authController.oldChangePasswordController,
             type: TextFieldType.password,
             errorText: authController.authState.errorOldPasswordChangePassword,
           ).paddingSymmetric(horizontal: context.wp(4)),
           CustomTextFieldWidget(
-            labelText: 'Mật khẩu mới',
+            labelText: 'new_password'.tr,
             controller: authController.newChangePasswordController,
             type: TextFieldType.password,
             errorText: authController.authState.errorNewPasswordChangePassword,
           ).paddingSymmetric(horizontal: context.wp(4)),
           CustomTextFieldWidget(
-            labelText: 'Xác nhận mật khẩu mới',
+            labelText: 'confirm_new_password'.tr,
             controller: authController.reNewChangePasswordController,
             type: TextFieldType.password,
             errorText:
@@ -88,7 +88,7 @@ class ChangePasswordPage extends BaseStatelessWidget {
           CustomButtonWidget(
             height: context.hp(6),
             width: context.wp(100),
-            title: "Cập nhật",
+            title: "update".tr,
             onPressed: () async {
               FocusScope.of(context).unfocus();
               authController.changePassword(context);

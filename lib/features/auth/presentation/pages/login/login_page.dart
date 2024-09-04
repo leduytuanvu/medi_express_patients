@@ -43,7 +43,7 @@ class LoginPage extends BaseStatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(
-            'Chưa có tài khoản?',
+            'no_account_yet_?'.tr,
             style: AppTextStyle.smallTitle(context),
           ),
           GestureDetector(
@@ -53,7 +53,7 @@ class LoginPage extends BaseStatelessWidget {
               color: Colors.transparent,
               child: Center(
                 child: Text(
-                  'Đăng kí ngay',
+                  'sign_up_now'.tr,
                   style: AppTextStyle.link(context),
                 ),
               ),
@@ -95,13 +95,13 @@ class LoginPage extends BaseStatelessWidget {
               _titleBody(context),
               context.hp(3).sbh,
               CustomTextFieldWidget(
-                labelText: 'Số điện thoại',
+                labelText: 'phone_number'.tr,
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
                 errorText: authController.authState.errorPhoneLogin,
               ),
               CustomTextFieldWidget(
-                labelText: 'Mật khẩu',
+                labelText: 'password'.tr,
                 controller: authController.passwordLoginController,
                 type: TextFieldType.password,
                 errorText: authController.authState.errorPasswordLogin,
@@ -110,7 +110,7 @@ class LoginPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Đăng nhập",
+                title: "log_in".tr,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   authController.login(context);
@@ -138,7 +138,7 @@ class LoginPage extends BaseStatelessWidget {
                   color: Colors.transparent,
                   child: Center(
                     child: Text(
-                      'Quên mật khẩu?',
+                      'forgot_password'.tr + '?',
                       style: AppTextStyle.link(context),
                     ),
                   ),
@@ -155,7 +155,7 @@ class LoginPage extends BaseStatelessWidget {
 
   Text _titleBody(BuildContext context) {
     return Text(
-      'Đăng nhập',
+      'log_in'.tr,
       style: AppTextStyle.mediumTitle(context),
     );
   }

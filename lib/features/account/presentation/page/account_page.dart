@@ -171,7 +171,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Chỉ số sức khỏe'),
+                        Text('health_index'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -248,7 +248,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Thông tin cá nhân'),
+                        Text('personal_information'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -299,7 +299,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Đổi mật khẩu'),
+                        Text('change_password'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -340,7 +340,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Cài đặt'),
+                        Text('setting'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -381,7 +381,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Hỗ trợ'),
+                        Text('support'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -526,7 +526,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Ngôn ngữ'),
+                        Text('language'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -569,7 +569,7 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                         context.wp(4).sbw,
-                        Text('Đăng xuất'),
+                        Text('log_out'.tr),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_rounded,

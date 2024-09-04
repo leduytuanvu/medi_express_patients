@@ -52,7 +52,7 @@ class HelperPage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Hỗ trợ',
+                      'support'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),

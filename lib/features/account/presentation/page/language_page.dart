@@ -54,7 +54,7 @@ class LanguagePage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Ngôn ngữ',
+                    'language'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -97,7 +97,7 @@ class LanguagePage extends BaseStatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          authController.baseState.listLanguage[index],
+                          authController.baseState.listLanguage[index].tr,
                           style: AppTextStyle.mediumBody(context),
                         ).paddingOnly(left: context.wp(4)),
                       ),
@@ -115,7 +115,7 @@ class LanguagePage extends BaseStatelessWidget {
           CustomButtonWidget(
             height: context.hp(6),
             width: double.infinity,
-            title: 'Lưu',
+            title: 'save'.tr,
             onPressed: () async {
               authController.saveLanguage(context);
             },

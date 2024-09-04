@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
@@ -8,7 +7,6 @@ import 'package:medi_express_patients/core/utils/extensions/context_extension.da
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
 import 'package:medi_express_patients/features/auth/presentation/controller/auth_controller.dart';
 import 'package:medi_express_patients/features/base/presentation/widgets/base_stateless_widget.dart';
-import 'package:pinput/pinput.dart';
 
 class EnterPhoneNumberRegisterPage extends BaseStatelessWidget {
   EnterPhoneNumberRegisterPage({super.key});
@@ -52,12 +50,12 @@ class EnterPhoneNumberRegisterPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Nhập số điện thoại',
+                'enter_phone_number'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(3)),
               CustomTextFieldWidget(
-                labelText: 'Số điện thoại',
+                labelText: 'phone_number'.tr,
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
                 errorText: authController.authState.errorPhoneRegister,
@@ -65,7 +63,7 @@ class EnterPhoneNumberRegisterPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Gửi mã OTP",
+                title: "send_otp_code".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.sendOtpRegister(context);
@@ -130,7 +128,7 @@ class EnterPhoneNumberRegisterPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đăng kí tài khoản',
+                    'sign_up_for_an_account'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

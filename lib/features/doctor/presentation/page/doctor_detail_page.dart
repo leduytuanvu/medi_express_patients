@@ -169,12 +169,28 @@ class DoctorDetailPage extends BaseStatelessWidget {
                             width: context.wp(4.6),
                           ),
                           context.wp(2).sbw,
-                          Text(
-                            'Tư vấn từ xa',
-                            style: AppTextStyle.link(context),
-                          )
+                          if (authController
+                                  .baseState.locale.value.languageCode ==
+                              "vi") ...{
+                            Text(
+                              'remote_consulting'.tr,
+                              style: AppTextStyle.link(context),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          } else ...{
+                            Expanded(
+                              child: Text(
+                                'remote_consulting'.tr,
+                                style: AppTextStyle.link(context),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          }
                         ],
-                      ).paddingSymmetric(vertical: context.hp(1.2)),
+                      ).paddingSymmetric(
+                          vertical: context.hp(1.2), horizontal: context.wp(2)),
                     ),
                   ),
                 ),
@@ -211,12 +227,28 @@ class DoctorDetailPage extends BaseStatelessWidget {
                             width: context.wp(4.6),
                           ),
                           context.wp(2).sbw,
-                          Text(
-                            'Đặt khám',
-                            style: AppTextStyle.link(context),
-                          )
+                          if (authController
+                                  .baseState.locale.value.languageCode ==
+                              "vi") ...{
+                            Text(
+                              'make_an_appointment'.tr,
+                              style: AppTextStyle.link(context),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          } else ...{
+                            Expanded(
+                              child: Text(
+                                'make_an_appointment'.tr,
+                                style: AppTextStyle.link(context),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          }
                         ],
-                      ).paddingSymmetric(vertical: context.hp(1.2)),
+                      ).paddingSymmetric(
+                          vertical: context.hp(1.2), horizontal: context.wp(2)),
                     ),
                   ),
                 ),
@@ -236,20 +268,21 @@ class DoctorDetailPage extends BaseStatelessWidget {
                     children: [
                       context.hp(1.6).sbh,
                       Text(
-                        'Giới thiệu về bác sĩ ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
+                        'about_the_doctor'.tr +
+                            ' ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
                         style: AppTextStyle.bigItemPatientTitle(
                           context,
                         ),
                       ),
                       context.hp(1.8).sbh,
                       Text(
-                        '${doctorController.doctorState.doctorInformationDetail.value.information.degree} ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
+                        '${doctorController.doctorState.doctorInformationDetail.value.degree} ${doctorController.doctorState.doctorInformationDetail.value.doctorName}',
                         style: AppTextStyle.bigItemPatientTitle(context)
                             .copyWith(fontSize: context.sp(14)),
                       ),
                       context.hp(0.6).sbh,
                       Text(
-                        '${doctorController.doctorState.doctorInformationDetail.value.information.specialistDoctor} - ${doctorController.doctorState.doctorInformationDetail.value.information.currentWork}',
+                        '${doctorController.doctorState.doctorInformationDetail.value.specialistDoctor} - ${doctorController.doctorState.doctorInformationDetail.value.workingPlace}',
                         style: AppTextStyle.bigItemPatientTitle(context)
                             .copyWith(
                                 fontWeight: FontWeight.w400,
@@ -280,52 +313,52 @@ class DoctorDetailPage extends BaseStatelessWidget {
                       ),
                       context.hp(2).sbh,
                       Text(
-                        'Quá trình công tác',
+                        'work_process'.tr,
                         style: AppTextStyle.bigItemPatientTitle(
                           context,
                         ),
                       ),
                       context.hp(1.8).sbh,
-                      for (int i = 0;
-                          i <
-                              doctorController
-                                  .doctorState
-                                  .doctorInformationDetail
-                                  .value
-                                  .workingProcess
-                                  .length;
-                          i++) ...{
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: context.hp(1)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 2, // Adjust flex as needed
-                                child: Text(
-                                  '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].year}:' ??
-                                      '',
-                                  style: AppTextStyle.mediumDateTime(context),
-                                ),
-                              ),
-                              SizedBox(
-                                  width: context
-                                      .wp(2)), // Add spacing between texts
-                              Expanded(
-                                flex: 5, // Adjust flex as needed
-                                child: Text(
-                                  '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].info}',
-                                  style: AppTextStyle.mediumDateTime(context),
-                                  softWrap: true,
-                                  overflow:
-                                      TextOverflow.visible, // Allows wrapping
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      },
+                      // for (int i = 0;
+                      //     i <
+                      //         doctorController
+                      //             .doctorState
+                      //             .doctorInformationDetail
+                      //             .value
+                      //             .workingProcess
+                      //             .length;
+                      //     i++) ...{
+                      //   Padding(
+                      //     padding:
+                      //         EdgeInsets.symmetric(vertical: context.hp(1)),
+                      //     child: Row(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Expanded(
+                      //           flex: 2, // Adjust flex as needed
+                      //           child: Text(
+                      //             '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].year}:' ??
+                      //                 '',
+                      //             style: AppTextStyle.mediumDateTime(context),
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //             width: context
+                      //                 .wp(2)), // Add spacing between texts
+                      //         Expanded(
+                      //           flex: 5, // Adjust flex as needed
+                      //           child: Text(
+                      //             '${doctorController.doctorState.doctorInformationDetail.value.workingProcess[i].info}',
+                      //             style: AppTextStyle.mediumDateTime(context),
+                      //             softWrap: true,
+                      //             overflow:
+                      //                 TextOverflow.visible, // Allows wrapping
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   )
+                      // },
                       // if (doctorController
                       //     .doctorState
                       //     .doctorInformationDetail
@@ -411,7 +444,7 @@ class DoctorDetailPage extends BaseStatelessWidget {
               ),
               const Spacer(),
               Text(
-                'Thông tin bác sĩ',
+                'doctor_information'.tr,
                 style: AppTextStyle.appBar(context),
               ),
               const Spacer(),

@@ -230,10 +230,10 @@ class AuthController extends BaseController {
       showLoading();
       if (phoneController.text.trim().isEmpty) {
         authState.errorPhoneForgotPassword.value =
-            'Số điện thoại không được để trống';
+            'phone_number_cannot_be_blank'.tr;
       } else if (!PhoneValidator.validate(phoneController.text.trim())) {
         authState.errorPhoneForgotPassword.value =
-            'Định dạng số điện thoại không hợp lệ';
+            'invalid_phone_number_format'.tr;
       } else {
         final result = await checkPhoneNumberExistsUsecase(
           phoneController.text,
@@ -244,7 +244,7 @@ class AuthController extends BaseController {
             showError(
               () => clearError(),
               failure.message,
-              'Quay lại',
+              'come_back'.tr,
             );
           },
           (success) async {
@@ -269,8 +269,8 @@ class AuthController extends BaseController {
             } else {
               showError(
                 () => clearError(),
-                'Số điện thoại chưa được đăng kí',
-                'Quay lại',
+                'phone_number_not_registered'.tr,
+                'come_back'.tr,
               );
             }
           },
@@ -280,7 +280,7 @@ class AuthController extends BaseController {
       showError(
         () => clearError(),
         e.toString(),
-        'Quay lại',
+        'come_back'.tr,
       );
     } finally {
       hideLoading();
@@ -291,11 +291,9 @@ class AuthController extends BaseController {
     try {
       showLoading();
       if (phoneController.text.trim().isEmpty) {
-        authState.errorPhoneRegister.value =
-            'Số điện thoại không được để trống';
+        authState.errorPhoneRegister.value = 'phone_number_cannot_be_blank'.tr;
       } else if (!PhoneValidator.validate(phoneController.text.trim())) {
-        authState.errorPhoneRegister.value =
-            'Định dạng số điện thoại không hợp lệ';
+        authState.errorPhoneRegister.value = 'invalid_phone_number_format'.tr;
       } else {
         final result = await checkPhoneNumberExistsUsecase(
           phoneController.text,
@@ -306,15 +304,15 @@ class AuthController extends BaseController {
             showError(
               () => clearError(),
               failure.message,
-              'Quay lại',
+              'come_back'.tr,
             );
           },
           (success) {
             if (success) {
               showError(
                 () => clearError(),
-                'Số điện thoại đã được đăng kí',
-                'Quay lại',
+                'phone_number_has_been_registered'.tr,
+                'come_back'.tr,
               );
             } else {
               authState.errorPhoneRegister.value = '';
@@ -340,7 +338,7 @@ class AuthController extends BaseController {
       showError(
         () => clearError(),
         e.toString(),
-        'Quay lại',
+        'come_back'.tr,
       );
     } finally {
       hideLoading();
@@ -352,10 +350,10 @@ class AuthController extends BaseController {
       showLoading();
       if (verifyCodeController.text.trim().isEmpty) {
         authState.errorVerifyCodeForgotPassword.value =
-            'Vui lòng nhập mã xác thực';
+            'please_enter_verification_code'.tr;
       } else if (verifyCodeController.text.trim().length != 6) {
         authState.errorVerifyCodeForgotPassword.value =
-            'Mã xác thực không hợp lệ';
+            'invalid_verification_code'.tr;
       } else {
         authState.errorVerifyCodeForgotPassword.value = '';
         authState.errorPasswordForgotPassword.value = '';
@@ -370,18 +368,18 @@ class AuthController extends BaseController {
             );
           } else {
             authState.errorVerifyCodeForgotPassword.value =
-                'Mã xác thực không chính xác';
+                'incorrect_verification_code'.tr;
           }
         } else {
           authState.errorVerifyCodeForgotPassword.value =
-              'Hết thời gian xác thực vui lòng gửi lại mã';
+              'authentication_time_out_please_resend_code'.tr;
         }
       }
     } catch (e) {
       showError(
         () => clearError(),
         e.toString(),
-        'Quay lại',
+        'come_back'.tr,
       );
     } finally {
       hideLoading();
@@ -392,9 +390,11 @@ class AuthController extends BaseController {
     try {
       showLoading();
       if (verifyCodeController.text.trim().isEmpty) {
-        authState.errorVerifyCodeRegister.value = 'Vui lòng nhập mã xác thực';
+        authState.errorVerifyCodeRegister.value =
+            'please_enter_verification_code'.tr;
       } else if (verifyCodeController.text.trim().length != 6) {
-        authState.errorVerifyCodeRegister.value = 'Mã xác thực không hợp lệ';
+        authState.errorVerifyCodeRegister.value =
+            'invalid_verification_code'.tr;
       } else {
         authState.errorVerifyCodeRegister.value = '';
         authState.errorPasswordRegister.value = '';
@@ -409,18 +409,18 @@ class AuthController extends BaseController {
             );
           } else {
             authState.errorVerifyCodeRegister.value =
-                'Mã xác thực không chính xác';
+                'incorrect_verification_code'.tr;
           }
         } else {
           authState.errorVerifyCodeRegister.value =
-              'Hết thời gian xác thực vui lòng gửi lại mã';
+              'authentication_time_out_please_resend_code'.tr;
         }
       }
     } catch (e) {
       showError(
         () => clearError(),
         e.toString(),
-        'Quay lại',
+        'come_back'.tr,
       );
     } finally {
       hideLoading();
@@ -440,13 +440,13 @@ class AuthController extends BaseController {
     );
     if (check == true) {
       Get.updateLocale(baseState.locale.value);
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 300));
       context.backScreen();
     } else {
       showError(
         () => clearError(),
-        "Cài đặt ngôn ngữ thất bại",
-        'Quay lại',
+        "language_installation_failed".tr,
+        'come_back'.tr,
       );
     }
     hideLoading();
@@ -471,7 +471,7 @@ class AuthController extends BaseController {
       showError(
         () => clearError(),
         e.toString(),
-        'Quay lại',
+        'come_back'.tr,
       );
     } finally {
       hideLoading();
@@ -487,7 +487,7 @@ class AuthController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -509,7 +509,7 @@ class AuthController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -531,7 +531,7 @@ class AuthController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -562,20 +562,20 @@ class AuthController extends BaseController {
     bool isError = false;
     if (phoneController.text.trim().isEmpty) {
       isError = true;
-      authState.errorPhoneLogin.value = 'Số điện thoại không được để trống';
+      authState.errorPhoneLogin.value = 'phone_number_cannot_be_blank'.tr;
     } else if (!PhoneValidator.validate(phoneController.text.trim())) {
       isError = true;
-      authState.errorPhoneLogin.value = 'Định dạng số điện thoại không hợp lệ';
+      authState.errorPhoneLogin.value = 'invalid_phone_number_format'.tr;
     } else {
       authState.errorPhoneLogin.value = '';
     }
     if (passwordLoginController.text.trim().isEmpty) {
       isError = true;
-      authState.errorPasswordLogin.value = 'Mật khẩu không được để trống';
+      authState.errorPasswordLogin.value = 'password_cannot_be_blank'.tr;
     } else if (passwordLoginController.text.trim().length < 8) {
       isError = true;
       authState.errorPasswordLogin.value =
-          'Mật khẩu phải có độ dài lớn hơn 8 kí tự';
+          'password_must_be_longer_than_8_characters'.tr;
     } else {
       authState.errorPasswordLogin.value = '';
     }
@@ -594,7 +594,7 @@ class AuthController extends BaseController {
           showError(
             () => clearError(),
             failureLogin.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (successLogin) async {
@@ -607,7 +607,7 @@ class AuthController extends BaseController {
               showError(
                 () => clearError(),
                 failureGetUserInformation.message,
-                'Quay lại',
+                'come_back'.tr,
               );
             },
             (successGetUserInformation) {
@@ -642,7 +642,7 @@ class AuthController extends BaseController {
           showError(
             () => clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) {
@@ -654,70 +654,71 @@ class AuthController extends BaseController {
 
       setAuth(auth);
       hideLoading();
-    }, 'Đăng xuất tài khoản', 'Đồng ý');
+    }, 'log_out_of_account'.tr, 'agree'.tr);
   }
 
   Future<void> enterInformation(BuildContext context) async {
     bool isError = false;
     if (fullNameController.text.trim().isEmpty) {
       isError = true;
-      authState.errorFullName.value = 'Họ tên không được để trống';
+      authState.errorFullName.value = 'full_name_cannot_be_left_blank'.tr;
     } else {
       authState.errorFullName.value = '';
     }
 
     if (!EmailValidator.validate(emailController.text.trim())) {
       isError = true;
-      authState.errorEmail.value = 'Định dạng email không hợp lệ';
+      authState.errorEmail.value = 'invalid_email_format'.tr;
     } else {
       authState.errorEmail.value = '';
     }
 
     if (birthdateController.text.trim().isEmpty) {
       isError = true;
-      authState.errorBirthdate.value = 'Ngày sinh không được để trống';
+      authState.errorBirthdate.value = 'date_of_birth_cannot_be_left_blank'.tr;
     } else {
       authState.errorBirthdate.value = '';
     }
 
     if (genderController.text.trim().isEmpty) {
       isError = true;
-      authState.errorGender.value = 'Giới tính không được để trống';
+      authState.errorGender.value = 'gender_cannot_be_left_blank'.tr;
     } else {
       authState.errorGender.value = '';
     }
 
     if (cityController.text.trim().isEmpty) {
       isError = true;
-      authState.errorCity.value = 'Tỉnh/Thành phố không được để trống';
+      authState.errorCity.value = 'province_city_cannot_be_left_blank'.tr;
     } else {
       authState.errorCity.value = '';
     }
 
     if (districtController.text.trim().isEmpty) {
       isError = true;
-      authState.errorDistrict.value = 'Quận/Huyện không được để trống';
+      authState.errorDistrict.value = 'district_cannot_be_left_blank'.tr;
     } else {
       authState.errorDistrict.value = '';
     }
 
     if (wardController.text.trim().isEmpty) {
       isError = true;
-      authState.errorWard.value = 'Phường/Xã không được để trống';
+      authState.errorWard.value = 'ward_commune_cannot_be_left_blank'.tr;
     } else {
       authState.errorWard.value = '';
     }
 
     if (addressController.text.trim().isEmpty) {
       isError = true;
-      authState.errorAddress.value = 'Đại chỉ cụ thể không được để trống';
+      authState.errorAddress.value = 'specific_address_cannot_be_left_blank'.tr;
     } else {
       authState.errorAddress.value = '';
     }
 
     if (bhytController.text.trim().isEmpty) {
       isError = true;
-      authState.errorBhyt.value = 'Sổ bảo hiểm y tế không được để trống';
+      authState.errorBhyt.value =
+          'health_insurance_book_cannot_be_left_blank'.tr;
     } else {
       authState.errorBhyt.value = '';
     }
@@ -741,18 +742,21 @@ class AuthController extends BaseController {
     if (verifyCodeController.text.trim().isEmpty) {
       isError = true;
       authState.errorVerifyCodeForgotPassword.value =
-          'Vui lòng điền mã xác thực';
-      authState.errorVerifyCodeRegister.value = 'Vui lòng điền mã xác thực';
+          'please_enter_verification_code'.tr;
+      authState.errorVerifyCodeRegister.value =
+          'please_enter_verification_code'.tr;
     } else if (verifyCodeController.text.trim().length < 6) {
       isError = true;
       authState.errorVerifyCodeForgotPassword.value =
-          'Mã xác thực phải có 6 chữ số';
-      authState.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
+          'the_verification_code_must_be_6_digits_long'.tr;
+      authState.errorVerifyCodeRegister.value =
+          'the_verification_code_must_be_6_digits_long'.tr;
     } else if (verifyCodeController.text.trim() != "123456") {
       isError = true;
       authState.errorVerifyCodeForgotPassword.value =
-          'Mã xác thực không chính xác';
-      authState.errorVerifyCodeRegister.value = 'Mã xác thực phải có 6 chữ số';
+          'incorrect_verification_code'.tr;
+      authState.errorVerifyCodeRegister.value =
+          'the_verification_code_must_be_6_digits_long'.tr;
     } else {
       authState.errorVerifyCodeForgotPassword.value = '';
       authState.errorVerifyCodeRegister.value = '';
@@ -798,7 +802,8 @@ class AuthController extends BaseController {
         passwordForgotPasswordController.text.trim())) {
       check = false;
       authState.errorPasswordForgotPassword.value =
-          'Mật khẩu phải có it nhất 1 chữ cái viết hoa, phải có ít nhất 1 chữ cái viết thường, phải có ít nhất một kí tự đặc biệt, phải có ít nhất 1 chữ số, phải có độ dài từ 8 kí tự trở lên';
+          'password_must_contain_at_least_1_uppercase_letter_at_least_1_lowercase_letter_at_least_1_special_character_at_least_1_number_and_must_be_8_characters_or_longer'
+              .tr;
     } else {
       authState.errorPasswordForgotPassword.value = '';
     }
@@ -809,7 +814,7 @@ class AuthController extends BaseController {
           passwordForgotPasswordController.text.trim()) {
         check = false;
         authState.errorRePasswordForgotPassword.value =
-            'Mật khẩu không trùng khớp';
+            'passwords_do_not_match'.tr;
       } else {
         authState.errorRePasswordForgotPassword.value = '';
       }
@@ -829,7 +834,7 @@ class AuthController extends BaseController {
           showError(
             () => clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) {
@@ -841,8 +846,8 @@ class AuthController extends BaseController {
               clearWarning();
               context.backToFirstScreen();
             },
-            'Thay đổi mật khẩu thành công',
-            'Đăng nhập ngay',
+            'password_changed_successfully'.tr,
+            'sign_in_now'.tr,
           );
           Log.severe("$success");
           // clearError();
@@ -882,7 +887,7 @@ class AuthController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) async {
@@ -907,7 +912,7 @@ class AuthController extends BaseController {
             showError(
               () => clearError(),
               failure.message,
-              'Quay lại',
+              'come_back'.tr,
             );
           },
           (success) {
@@ -925,8 +930,8 @@ class AuthController extends BaseController {
                 context.backToFirstScreen();
                 clearWarning();
               },
-              'Tạo tài khoản thành công',
-              'Đăng nhập ngay',
+              'account_created_successfully'.tr,
+              'sign_in_now'.tr,
             );
           },
         );
@@ -958,7 +963,7 @@ class AuthController extends BaseController {
           newChangePasswordController.text.trim()) {
         check = false;
         authState.errorReNewPasswordChangePassword.value =
-            'Mật khẩu không trùng khớp';
+            'passwords_do_not_match'.tr;
       } else {
         authState.errorReNewPasswordChangePassword.value = '';
       }
@@ -977,7 +982,7 @@ class AuthController extends BaseController {
           showError(
             () => clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) {
@@ -1001,7 +1006,7 @@ class AuthController extends BaseController {
                     showError(
                       () => clearError(),
                       failure2.message,
-                      'Quay lại',
+                      'come_back'.tr,
                     );
                   },
                   (success2) {
@@ -1013,8 +1018,8 @@ class AuthController extends BaseController {
                   },
                 );
               },
-              'Thay đổi mật khẩu thành công',
-              'Đăng nhập ngay',
+              'password_changed_successfully'.tr,
+              'sign_in_now'.tr,
             );
           } else {
             showWarning(
@@ -1024,7 +1029,7 @@ class AuthController extends BaseController {
                 clearWarning();
               },
               success.message,
-              'Đóng',
+              'close'.tr,
             );
           }
         },

@@ -47,7 +47,7 @@ class NewsPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Tin tức',
+                    'news'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

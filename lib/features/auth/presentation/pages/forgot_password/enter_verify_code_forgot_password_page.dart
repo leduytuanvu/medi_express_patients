@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
-import 'package:medi_express_patients/core/service/notification_service.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
 import 'package:medi_express_patients/core/utils/extensions/context_extension.dart';
 import 'package:medi_express_patients/core/utils/theme/app_text_style.dart';
@@ -52,12 +50,12 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Nhập mã xác thực',
+                'enter_verification_code'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(1)),
               Text(
-                'Mã xác thực OTP đã được gửi về số điện thoại của bạn',
+                'otp_verification_code_has_been_sent_to_your_phone_number'.tr,
                 style: AppTextStyle.bigHint(context),
                 textAlign: TextAlign.center,
               ),
@@ -134,7 +132,8 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                       return const SizedBox.shrink();
                     } else {
                       return Text(
-                        'Gửi lại mã (0:${authController.authState.timeoutConfirmVerifyCode}s)',
+                        'resend_code'.tr +
+                            ' (0:${authController.authState.timeoutConfirmVerifyCode}s)',
                         style: AppTextStyle.mediumBody(context),
                       );
                     }
@@ -149,7 +148,7 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                           authController.resendOtp(context);
                         },
                         child: Text(
-                          'Gửi lại mã',
+                          'resend_code'.tr,
                           style: AppTextStyle.link(context),
                         ),
                       );
@@ -163,7 +162,7 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Xác nhận",
+                title: "confirm".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.verifyOtpForgotPassword(context);
@@ -246,7 +245,7 @@ class EnterVerifyCodeForgotPasswordPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Quên mật khẩu',
+                    'forgot_password'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

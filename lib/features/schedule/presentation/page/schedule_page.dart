@@ -45,7 +45,7 @@ class SchedulePage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'Lịch khám',
+                  'schedule'.tr,
                   style: AppTextStyle.appBar(context),
                 ),
                 const Spacer(),
@@ -109,7 +109,7 @@ class SchedulePage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        'Lịch sắp tới',
+                        'upcoming_calendar'.tr,
                         style: AppTextStyle.titleButtonPatient(context),
                       ),
                     ),
@@ -152,7 +152,7 @@ class SchedulePage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        'Đã khám',
+                        'examined'.tr,
                         style: AppTextStyle.titleButtonPatient(context),
                       ),
                     ),
@@ -285,7 +285,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Bác sĩ',
+                              'doctor'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -303,7 +303,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Số điện thoại',
+                              'phone_number'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -321,7 +321,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Dịch vụ',
+                              'service'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -449,7 +449,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Bác sĩ',
+                              'doctor'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -467,7 +467,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Số điện thoại',
+                              'phone_number'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -485,7 +485,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Dịch vụ',
+                              'service'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
@@ -503,16 +503,22 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Phòng khám',
+                              'clinic'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),
                             ),
                             Spacer(),
-                            Text(
-                              item.address!,
-                              style: AppTextStyle.mediumBody(context).copyWith(
-                                fontSize: context.sp(13),
+                            Expanded(
+                              flex: 6,
+                              child: Text(
+                                item.address!,
+                                style:
+                                    AppTextStyle.mediumBody(context).copyWith(
+                                  fontSize: context.sp(13),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -521,7 +527,7 @@ class SchedulePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'STT',
+                              'no'.tr,
                               style: AppTextStyle.bigHint(context).copyWith(
                                 color: Color(0xFF777F89),
                               ),

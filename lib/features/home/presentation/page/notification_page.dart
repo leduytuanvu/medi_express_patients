@@ -47,7 +47,7 @@ class NotificationPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Thông báo',
+                    'notification'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

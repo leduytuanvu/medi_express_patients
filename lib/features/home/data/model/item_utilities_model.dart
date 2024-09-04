@@ -15,56 +15,56 @@ class ItemUtilitiesModel {
   static List<ItemUtilitiesModel> list(BuildContext context) {
     return [
       ItemUtilitiesModel(
-          title: 'Chỉ số sức khỏe',
+          title: 'health_index',
           icon: SvgPicture.asset(
             Assets.svg.healthIndex,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Đơn thuốc',
+          title: 'prescription',
           icon: SvgPicture.asset(
             Assets.svg.prescription,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Tiêm chủng',
+          title: 'vaccination',
           icon: SvgPicture.asset(
             Assets.svg.vacine,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Lịch khám',
+          title: 'examination_schedule',
           icon: SvgPicture.asset(
             Assets.svg.examSchedule,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Xét nghiệm',
+          title: 'testing',
           icon: SvgPicture.asset(
             Assets.svg.test,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Chuẩn đoán hình ảnh',
+          title: 'diagnosis_of_images',
           icon: SvgPicture.asset(
             Assets.svg.diagnostic,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Dịch vụ y tế',
+          title: 'medical_services',
           icon: SvgPicture.asset(
             Assets.svg.serviceHealth,
             height: context.wp(7.8),
             width: context.wp(7.8),
           )),
       ItemUtilitiesModel(
-          title: 'Bệnh án',
+          title: 'medical_record',
           icon: SvgPicture.asset(
             Assets.svg.patient,
             height: context.wp(7.8),

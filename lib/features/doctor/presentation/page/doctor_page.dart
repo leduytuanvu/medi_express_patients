@@ -43,7 +43,7 @@ class DoctorPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'Bác sĩ',
+                  'doctor'.tr,
                   style: AppTextStyle.appBar(context),
                 ),
                 const Spacer(),
@@ -75,7 +75,7 @@ class DoctorPage extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Tìm bác sĩ',
+                    hintText: 'find_a_doctor'.tr,
                     hintStyle: AppTextStyle.searchHint(context),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                   ),
@@ -179,14 +179,16 @@ class DoctorPage extends StatelessWidget {
                     // context.hp(2).sbh,
                     Row(
                       children: [
-                        Text(
-                          "${item.degree} ${item.name}",
-                          style: AppTextStyle.bigItemPatientTitle(
-                            context,
+                        Expanded(
+                          child: Text(
+                            "${item.degree} ${item.name}",
+                            style: AppTextStyle.bigItemPatientTitle(
+                              context,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        const Spacer(),
                         Icon(
                           Icons.star,
                           color: const Color(0xFFFE9E0D),
@@ -216,7 +218,7 @@ class DoctorPage extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '11 lượt đặt khám',
+                          '11 ' + 'number_of_appointments'.tr,
                           style: AppTextStyle.smallItem(context),
                         ),
                         SvgPicture.asset(
@@ -225,7 +227,7 @@ class DoctorPage extends StatelessWidget {
                           width: context.wp(0.8),
                         ).paddingSymmetric(horizontal: context.wp(1.2)),
                         Text(
-                          '56 lượt tư vấn',
+                          '56 ' + 'number_of_consultations'.tr,
                           style: AppTextStyle.smallItem(context),
                         )
                       ],
@@ -262,12 +264,30 @@ class DoctorPage extends StatelessWidget {
                           width: context.wp(4.6),
                         ),
                         context.wp(2).sbw,
-                        Text(
-                          'Tư vấn từ xa',
-                          style: AppTextStyle.link(context),
-                        )
+                        if (authController
+                                .baseState.locale.value.languageCode ==
+                            "vi") ...{
+                          Text(
+                            'remote_consulting'.tr,
+                            style: AppTextStyle.link(context),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        } else ...{
+                          Expanded(
+                            child: Text(
+                              'remote_consulting'.tr,
+                              style: AppTextStyle.link(context),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        }
                       ],
-                    ).paddingSymmetric(vertical: context.hp(1.2)),
+                    ).paddingSymmetric(
+                      vertical: context.hp(1.2),
+                      horizontal: context.wp(2),
+                    ),
                   ),
                 ),
               ),
@@ -305,12 +325,30 @@ class DoctorPage extends StatelessWidget {
                           width: context.wp(4.6),
                         ),
                         context.wp(2).sbw,
-                        Text(
-                          'Đặt khám',
-                          style: AppTextStyle.link(context),
-                        )
+                        if (authController
+                                .baseState.locale.value.languageCode ==
+                            "vi") ...{
+                          Text(
+                            'make_an_appointment'.tr,
+                            style: AppTextStyle.link(context),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        } else ...{
+                          Expanded(
+                            child: Text(
+                              'make_an_appointment'.tr,
+                              style: AppTextStyle.link(context),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        }
                       ],
-                    ).paddingSymmetric(vertical: context.hp(1.2)),
+                    ).paddingSymmetric(
+                      vertical: context.hp(1.2),
+                      horizontal: context.wp(2),
+                    ),
                   ),
                 ),
               ),

@@ -50,12 +50,12 @@ class EnterPhoneNumberForgotPasswordPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Nhập số điện thoại',
+                'enter_phone_number'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(3)),
               CustomTextFieldWidget(
-                labelText: 'Số điện thoại',
+                labelText: 'phone_number'.tr,
                 controller: authController.phoneController,
                 type: TextFieldType.phone,
                 errorText: authController.authState.errorPhoneForgotPassword,
@@ -63,7 +63,7 @@ class EnterPhoneNumberForgotPasswordPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Gửi mã OTP",
+                title: "send_otp_code".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.sendOtpForgotPassword(context);
@@ -128,7 +128,7 @@ class EnterPhoneNumberForgotPasswordPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Quên mật khẩu',
+                    'forgot_password'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

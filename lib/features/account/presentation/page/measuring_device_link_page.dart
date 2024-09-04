@@ -53,7 +53,7 @@ class MeasuringDeviceLinkPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Liên kết thiết bị đo',
+                    'measuring_device_link'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -242,7 +242,7 @@ class MeasuringDeviceLinkPage extends BaseStatelessWidget {
               child: CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(92),
-                title: "Liên kết thiết bị đo",
+                title: "measuring_device_link".tr,
                 onPressed: () async {
                   context.toNamedScreen(AppRoutes.healthIndexMeasurement);
                 },

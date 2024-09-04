@@ -248,7 +248,7 @@ abstract class BaseStatelessWidget extends StatelessWidget {
                     Expanded(
                       child: CustomButtonWidget(
                         height: context.hp(5),
-                        title: 'Hủy',
+                        title: 'cancel'.tr,
                         onPressed: () async {
                           Log.info("click");
                           authController.clearConfirm();

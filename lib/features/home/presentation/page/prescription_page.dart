@@ -47,7 +47,7 @@ class PrescriptionPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đơn thuốc',
+                    'prescription'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

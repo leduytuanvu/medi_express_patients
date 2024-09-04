@@ -59,7 +59,7 @@ class HomeController extends BaseController {
         //     authController.showError(
         //           () => authController.clearError(),
         //       failure.message,
-        //       'Quay lại',
+        //       'come_back'.tr,
         //     );
         //   },
         //       (success) async {
@@ -71,7 +71,7 @@ class HomeController extends BaseController {
         //         authController.showError(
         //               () => authController.clearError(),
         //           failureGetUserFromServer.message,
-        //           'Quay lại',
+        //           'come_back'.tr,
         //         );
         //       },
         //           (successGetUserFromServer) async {

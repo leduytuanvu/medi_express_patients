@@ -47,8 +47,10 @@ class HomeHealthPackagePage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Gói khám sức khỏe tại nhà',
+                    'home_health_check_up_package'.tr,
                     style: AppTextStyle.appBar(context),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const Spacer(),
                   GestureDetector(
@@ -57,7 +59,7 @@ class HomeHealthPackagePage extends BaseStatelessWidget {
                     },
                     child: SizedBox(
                       height: context.hp(7),
-                      width: context.wp(16),
+                      width: context.wp(14),
                     ),
                   ),
                 ],

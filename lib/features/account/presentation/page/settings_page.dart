@@ -52,7 +52,7 @@ class SettingsPage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Cài đặt',
+                      'setting'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),

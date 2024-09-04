@@ -58,7 +58,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          'Chỉ số sức khỏe',
+                          'health_index'.tr,
                           style: AppTextStyle.appBar(context),
                         ),
                         const Spacer(),
@@ -118,7 +118,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Chiều cao',
+                                  'height'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -239,7 +239,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Cân nặng',
+                                  'weight'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -355,7 +355,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Nhiệt độ',
+                                  'temperature'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -465,7 +465,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Nhịp tim',
+                                  'heart_rate'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -576,7 +576,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Huyết áp',
+                                  'blood_pressure'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -798,7 +798,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Đường huyết',
+                                  'blood_sugar'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -909,7 +909,7 @@ class HealthIndexPage extends BaseStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Chỉ số UA',
+                                  'ua_index'.tr,
                                   style: AppTextStyle.smallItemTitle(context),
                                 ),
                                 Row(
@@ -1009,7 +1009,7 @@ class HealthIndexPage extends BaseStatelessWidget {
               child: CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(44),
-                title: "Liên kết thiết bị đo",
+                title: "measuring_device_link".tr,
                 onPressed: () async {
                   context.toNamedScreen(AppRoutes.measuringDeviceLink);
                 },

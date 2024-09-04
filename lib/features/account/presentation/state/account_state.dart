@@ -1,7 +1,15 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:medi_express_patients/features/account/domain/entities/acid_uric_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/blood_pressure_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/blood_sugar_detail_entity.dart';
 import 'package:medi_express_patients/features/account/domain/entities/health_metricts_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/heart_rate_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/height_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/spo2_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/temperature_detail_entity.dart';
+import 'package:medi_express_patients/features/account/domain/entities/weight_detail_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/city_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/district_entity.dart';
 import 'package:medi_express_patients/features/auth/domain/entities/ward_entity.dart';
@@ -62,4 +70,13 @@ class AccountState extends BaseState {
       value: '',
     ),
   ).obs;
+
+  var listHeightDetail = <HeightDetailEntity>[].obs;
+  var listWeightDetail = <WeightDetailEntity>[].obs;
+  var listTemptDetail = <TemperatureDetailEntity>[].obs;
+  var listHeartbeatDetail = <HeartRateDetailEntity>[].obs;
+  var listBloodPressureDetail = <BloodPressureDetailEntity>[].obs;
+  var listBloodSugarDetail = <BloodSugarDetailEntity>[].obs;
+  var listSpo2Detail = <Spo2DetailEntity>[].obs;
+  var listAcidUricDetail = <AcidUricDetailEntity>[].obs;
 }

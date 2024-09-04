@@ -261,7 +261,7 @@ class ChatDetailPage extends BaseStatelessWidget {
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Nhập tin nhắn',
+                      hintText: 'enter_message'.tr,
                       hintStyle: AppTextStyle.searchHint(context),
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 16),

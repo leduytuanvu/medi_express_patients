@@ -125,7 +125,7 @@ class DoctorController extends BaseController {
           authController.showError(
             () => authController.clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
           Log.info(failure.toString());
           Log.info(failure.description.toString());
@@ -136,7 +136,7 @@ class DoctorController extends BaseController {
             authController.showError(
               () => authController.clearError(),
               'Lịch hẹn trùng thời gian',
-              'Quay lại',
+              'come_back'.tr,
             );
           } else {
             authController.showWarning(
@@ -146,7 +146,7 @@ class DoctorController extends BaseController {
                 context.backScreen();
               },
               'Đặt lịch khám thành công',
-              'Xác nhận',
+              'confirm'.tr,
             );
           }
         },
@@ -167,7 +167,7 @@ class DoctorController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) async {
@@ -258,7 +258,7 @@ class DoctorController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
         Log.info(failure.toString());
         Log.info(failure.description.toString());

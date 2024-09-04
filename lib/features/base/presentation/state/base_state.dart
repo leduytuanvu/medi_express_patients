@@ -28,8 +28,8 @@ class BaseState {
     Locale('en', 'US'),
   ];
   var listLanguage = [
-    "Tiếng Việt",
-    "Tiếng Anh",
+    "vietnamese",
+    "english",
   ].obs;
   var locale = Locale('vi', 'VN').obs;
 }

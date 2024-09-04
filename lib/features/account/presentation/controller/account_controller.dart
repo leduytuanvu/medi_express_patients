@@ -100,7 +100,7 @@ class AccountController extends BaseController {
             authController.showError(
               () => authController.clearError(),
               failure.message,
-              'Quay lại',
+              'come_back'.tr,
             );
           },
           (success) async {
@@ -112,7 +112,7 @@ class AccountController extends BaseController {
                 authController.showError(
                   () => authController.clearError(),
                   failureGetUserFromServer.message,
-                  'Quay lại',
+                  'come_back'.tr,
                 );
               },
               (successGetUserFromServer) async {
@@ -200,7 +200,7 @@ class AccountController extends BaseController {
         showError(
           () => clearError(),
           failureCity.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (successCity) async {
@@ -219,7 +219,7 @@ class AccountController extends BaseController {
             showError(
               () => clearError(),
               failureDistrict.message,
-              'Quay lại',
+              'come_back'.tr,
             );
           },
           (successDistrict) async {
@@ -241,7 +241,7 @@ class AccountController extends BaseController {
                 showError(
                   () => clearError(),
                   failureWard.message,
-                  'Quay lại',
+                  'come_back'.tr,
                 );
               },
               (successWard) async {
@@ -271,7 +271,7 @@ class AccountController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -291,8 +291,16 @@ class AccountController extends BaseController {
 
   Future<void> getListHeight() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListHeightUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -300,11 +308,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listHeightDetail.value = success;
         authController.clearError();
       },
     );
@@ -313,8 +322,16 @@ class AccountController extends BaseController {
 
   Future<void> getListWeight() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListWeightUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -322,11 +339,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listWeightDetail.value = success;
         authController.clearError();
       },
     );
@@ -335,8 +353,16 @@ class AccountController extends BaseController {
 
   Future<void> getListTemperature() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListTemperatureUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -344,11 +370,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listTemptDetail.value = success;
         authController.clearError();
       },
     );
@@ -357,8 +384,16 @@ class AccountController extends BaseController {
 
   Future<void> getListHeartRate() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListHeartRateUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -366,11 +401,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listHeartbeatDetail.value = success;
         authController.clearError();
       },
     );
@@ -379,8 +415,16 @@ class AccountController extends BaseController {
 
   Future<void> getListBloodSugar() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListBloodSugarUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -388,11 +432,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listBloodSugarDetail.value = success;
         authController.clearError();
       },
     );
@@ -401,8 +446,16 @@ class AccountController extends BaseController {
 
   Future<void> getListBloodPressure() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListBloodPressureUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -410,11 +463,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listBloodPressureDetail.value = success;
         authController.clearError();
       },
     );
@@ -423,8 +477,16 @@ class AccountController extends BaseController {
 
   Future<void> getListSpo2() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListSpo2Usecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -432,11 +494,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listSpo2Detail.value = success;
         authController.clearError();
       },
     );
@@ -445,8 +508,16 @@ class AccountController extends BaseController {
 
   Future<void> getListAcidUric() async {
     authController.showLoading();
+    final DateTime now = DateTime.now().toUtc(); // Get current time in UTC
+    final String formattedDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
     final result = await getListAcidUricUsecase(
-      GetListHealthIndexParams(start: "", end: "", offset: "", limit: ""),
+      GetListHealthIndexParams(
+        start: "2024-07-28T10:14:53.000Z",
+        end: formattedDate,
+        offset: "0",
+        limit: "10000",
+      ),
     );
     result.fold(
       (failure) {
@@ -454,11 +525,12 @@ class AccountController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
         Log.severe("$success");
+        accountState.listAcidUricDetail.value = success;
         authController.clearError();
       },
     );
@@ -478,13 +550,14 @@ class AccountController extends BaseController {
     var check = true;
     if (dateTextFieldController.text.trim().isEmpty) {
       check = false;
-      accountState.errorDateInput.value = 'Ngày đo không được để trống';
+      accountState.errorDateInput.value =
+          'measurement_date_cannot_be_left_blank'.tr;
     } else {
       accountState.errorDateInput.value = '';
     }
     if (valueTextFieldController.text.trim().isEmpty) {
       check = false;
-      accountState.errorValueInput.value = 'Chiều cao không được để trống';
+      accountState.errorValueInput.value = 'height_cannot_be_left_blank'.tr;
     } else {
       accountState.errorValueInput.value = '';
     }
@@ -511,10 +584,11 @@ class AccountController extends BaseController {
           authController.showError(
             () => authController.clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) async {
+          getListHeight();
           Log.info("dateeeeee: ${dateTextFieldController.text}");
           // var heightEntity = HeightEntity(
           //     value: valueTextFieldController.text,
@@ -535,13 +609,14 @@ class AccountController extends BaseController {
     var check = true;
     if (dateTextFieldController.text.trim().isEmpty) {
       check = false;
-      accountState.errorDateInput.value = 'Ngày đo không được để trống';
+      accountState.errorDateInput.value =
+          'measurement_date_cannot_be_left_blank'.tr;
     } else {
       accountState.errorDateInput.value = '';
     }
     if (valueTextFieldController.text.trim().isEmpty) {
       check = false;
-      accountState.errorValueInput.value = 'Cân nặng không được để trống';
+      accountState.errorValueInput.value = 'weight_cannot_be_left_blank'.tr;
     } else {
       accountState.errorValueInput.value = '';
     }
@@ -568,10 +643,11 @@ class AccountController extends BaseController {
           authController.showError(
             () => authController.clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) {
+          getListWeight();
           accountState.healthMetricts.value.weight!.value.value =
               valueTextFieldController.text;
           Log.severe("$success");
@@ -593,7 +669,7 @@ class AccountController extends BaseController {
   //       authController.showError(
   //         () => authController.clearError(),
   //         failure.message,
-  //         'Quay lại',
+  //         'come_back'.tr,
   //       );
   //     },
   //     (success) {
@@ -615,7 +691,7 @@ class AccountController extends BaseController {
   //       authController.showError(
   //         () => authController.clearError(),
   //         failure.message,
-  //         'Quay lại',
+  //         'come_back'.tr,
   //       );
   //     },
   //     (success) {
@@ -638,7 +714,7 @@ class AccountController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -667,7 +743,7 @@ class AccountController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {
@@ -685,74 +761,74 @@ class AccountController extends BaseController {
     if (authController.fullNameController.value.text.trim().isEmpty) {
       check = false;
       authController.authState.errorFullName.value =
-          "Họ tên không được để trống";
+          "full_name_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorFullName.value = "";
     }
     if (authController.emailController.text.trim().isEmpty) {
       check = false;
-      authController.authState.errorEmail.value = "Email không đươc để trống";
+      authController.authState.errorEmail.value = "email_cannot_be_blank".tr;
     } else if (!EmailValidator.validate(
         authController.emailController.text.trim())) {
       check = false;
-      authController.authState.errorEmail.value =
-          "Định dạng email không hợp lệ";
+      authController.authState.errorEmail.value = "invalid_email_format".tr;
     } else {
       authController.authState.errorEmail.value = "";
     }
     if (authController.birthdateController.text.trim().isEmpty) {
       check = false;
       authController.authState.errorBirthdate.value =
-          "Ngày sinh không đươc để trống";
+          "date_of_birth_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorBirthdate.value = "";
     }
-    if (authController.birthdateController.text.trim().isEmpty) {
-      check = false;
-      authController.authState.errorBirthdate.value =
-          "Ngày sinh không đươc để trống";
-    } else {
-      authController.authState.errorBirthdate.value = "";
-    }
+    // if (authController.birthdateController.text.trim().isEmpty) {
+    //   check = false;
+    //   authController.authState.errorBirthdate.value =
+    //       "Ngày sinh không đươc để trống";
+    // } else {
+    //   authController.authState.errorBirthdate.value = "";
+    // }
     if (accountState.city.value!.name.isEmpty) {
       check = false;
       authController.authState.errorCity.value =
-          "Tỉnh/thành phố không được để trống";
+          "province_city_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorCity.value = "";
     }
     if (accountState.district.value == null) {
       check = false;
       authController.authState.errorDistrict.value =
-          "Quận/huyện không được để trống";
+          "district_cannot_be_left_blank".tr;
     } else if (accountState.district.value!.districtName.isEmpty) {
       check = false;
       authController.authState.errorDistrict.value =
-          "Quận/huyện không được để trống";
+          "district_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorDistrict.value = "";
     }
     if (accountState.ward.value == null) {
       check = false;
       authController.authState.errorWard.value =
-          "Phường/xã không được để trống";
+          "ward_commune_cannot_be_left_blank".tr;
     } else if (accountState.ward.value!.wardName.isEmpty) {
       check = false;
       authController.authState.errorWard.value =
-          "Phường/xã không được để trống";
+          "ward_commune_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorWard.value = "";
     }
     if (authController.addressController.text.isEmpty) {
       check = false;
       authController.authState.errorAddress.value =
-          "Địa chỉ cụ thể không được để trống";
+          "specific_address_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorAddress.value = "";
     }
     if (authController.bhytController.text.isEmpty) {
       check = false;
-      authController.authState.errorBhyt.value = "Sổ BHYT không được để trống";
+      authController.authState.errorBhyt.value =
+          "health_insurance_book_cannot_be_left_blank".tr;
     } else {
       authController.authState.errorBhyt.value = "";
     }
@@ -777,7 +853,7 @@ class AccountController extends BaseController {
           showError(
             () => clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
         },
         (success) async {
@@ -788,7 +864,7 @@ class AccountController extends BaseController {
               showError(
                 () => clearError(),
                 failureCity.message,
-                'Quay lại',
+                'come_back'.tr,
               );
             },
             (successCity) async {
@@ -809,7 +885,7 @@ class AccountController extends BaseController {
                   showError(
                     () => clearError(),
                     failureDistrict.message,
-                    'Quay lại',
+                    'come_back'.tr,
                   );
                 },
                 (successDistrict) async {
@@ -832,7 +908,7 @@ class AccountController extends BaseController {
                       showError(
                         () => clearError(),
                         failureWard.message,
-                        'Quay lại',
+                        'come_back'.tr,
                       );
                     },
                     (successWard) async {
@@ -899,7 +975,7 @@ class AccountController extends BaseController {
         showError(
           () => clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) {

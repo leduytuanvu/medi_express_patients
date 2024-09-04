@@ -82,7 +82,7 @@ class BookSchedulePage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Đặt lịch khám',
+                      'make_an_appointment'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),
@@ -96,7 +96,7 @@ class BookSchedulePage extends BaseStatelessWidget {
             ),
             context.hp(2.2).sbh,
             Text(
-              'Loại hình khám',
+              'type_of_examination'.tr,
               style: AppTextStyle.mediumItemTitle(context),
             ).paddingSymmetric(
               horizontal: context.wp(4),
@@ -164,7 +164,7 @@ class BookSchedulePage extends BaseStatelessWidget {
             ),
             context.hp(2.2).sbh,
             Text(
-              'Chọn dịch vụ',
+              'select_service'.tr,
               style: AppTextStyle.mediumItemTitle(context),
             ).paddingSymmetric(
               horizontal: context.wp(4),
@@ -178,7 +178,7 @@ class BookSchedulePage extends BaseStatelessWidget {
                     ? scheduleController
                         .scheduleState.listTypeCreateAppointmentService.first
                     : null,
-                hint: Text('Chọn dịch vụ'),
+                hint: Text('select_service'.tr),
                 items: scheduleController
                     .scheduleState.listTypeCreateAppointmentService
                     .map((service) {
@@ -232,7 +232,7 @@ class BookSchedulePage extends BaseStatelessWidget {
             ),
             context.hp(2.2).sbh,
             Text(
-              'Chọn ngày giờ',
+              'select_date_and_time'.tr,
               style: AppTextStyle.mediumItemTitle(context),
             ).paddingSymmetric(
               horizontal: context.wp(4),
@@ -243,7 +243,7 @@ class BookSchedulePage extends BaseStatelessWidget {
                 _selectMonthYear(context);
               },
               child: Row(children: [
-                Text('Chọn ngày', style: AppTextStyle.mediumBody(context)),
+                Text('select_date'.tr, style: AppTextStyle.mediumBody(context)),
                 Spacer(),
                 SvgPicture.asset(
                   Assets.svg.calender,
@@ -289,7 +289,7 @@ class BookSchedulePage extends BaseStatelessWidget {
               }
             }),
             context.hp(1.8).sbh,
-            Text('Chọn giờ', style: AppTextStyle.mediumBody(context))
+            Text('select_time'.tr, style: AppTextStyle.mediumBody(context))
                 .paddingOnly(left: context.wp(4)),
             context.hp(1.6).sbh,
             Obx(() {
@@ -317,7 +317,7 @@ class BookSchedulePage extends BaseStatelessWidget {
             CustomButtonWidget(
               height: context.hp(6),
               width: context.wp(100),
-              title: "Hoàn tất",
+              title: "complete".tr,
               onPressed: () async {
                 // Handle button press
                 FocusScope.of(context).unfocus();
@@ -1004,7 +1004,7 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
             Navigator.pop(context);
           },
           child: Text(
-            'Hủy',
+            'cancel'.tr,
             style: AppTextStyle.linkH5(context),
           ),
         ),
@@ -1027,7 +1027,7 @@ class _MonthYearPickerState extends State<MonthYearPicker> {
             Navigator.pop(context);
           },
           child: Text(
-            'Đồng ý',
+            'agree'.tr,
             style: AppTextStyle.linkH5(context),
           ),
         ),

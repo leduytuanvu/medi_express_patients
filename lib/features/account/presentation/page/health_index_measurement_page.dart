@@ -50,7 +50,7 @@ class HealthIndexMeasurementPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đo chỉ số sức khỏe',
+                    'measure_health_index'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),
@@ -82,7 +82,7 @@ class HealthIndexMeasurementPage extends BaseStatelessWidget {
           ),
           SizedBox(height: context.hp(2)),
           Text(
-            'Thiết bị đang đo, xin vui lòng đợi',
+            'device_is_measuring_please_wait'.tr,
             style: AppTextStyle.mediumBody(context),
           ),
           Spacer(),
@@ -104,7 +104,7 @@ class HealthIndexMeasurementPage extends BaseStatelessWidget {
                 ),
               ),
               child: Text(
-                'Hủy',
+                'cancel'.tr,
                 style:
                     AppTextStyle.button(context).copyWith(color: Colors.black),
               ),

@@ -55,12 +55,12 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
               children: [
                 SizedBox(height: context.hp(4)),
                 Text(
-                  'Thông tin cá nhân',
+                  'personal_information'.tr,
                   style: AppTextStyle.mediumTitle(context),
                 ),
                 SizedBox(height: context.hp(3)),
                 CustomTextFieldWidget(
-                  labelText: 'Họ tên',
+                  labelText: 'full_name'.tr,
                   controller: authController.fullNameController,
                   showClearText: false,
                   errorText: authController.authState.errorFullName,
@@ -72,14 +72,14 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                   errorText: authController.authState.errorEmail,
                 ),
                 CustomTextFieldWidget(
-                  labelText: 'Ngày sinh',
+                  labelText: 'date_of_birth'.tr,
                   controller: authController.birthdateController,
                   type: TextFieldType.dateTime,
                   errorText: authController.authState.errorBirthdate,
                 ),
                 Obx(() {
                   return CustomDropDownBoxWidget<String>(
-                    labelText: 'Giới tính',
+                    labelText: 'gender'.tr,
                     borderRadius: 8.0,
                     items: authController.authState.listGender,
                     displayItem: (gender) => gender,
@@ -101,7 +101,7 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                 }),
                 Obx(() {
                   return CustomDropDownBoxWidget<CityEntity>(
-                    labelText: 'Tỉnh/thành phố',
+                    labelText: 'province_city'.tr,
                     borderRadius: 8.0,
                     items: authController.authState.listAllCity,
                     displayItem: (city) => city.name,
@@ -121,7 +121,7 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                 }),
                 Obx(() {
                   return CustomDropDownBoxWidget<DistrictEntity>(
-                    labelText: 'Quận/huyện',
+                    labelText: 'district'.tr,
                     borderRadius: 8.0,
                     items: authController.authState.listAllDistrict,
                     displayItem: (district) => district.districtName,
@@ -141,7 +141,7 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                 }),
                 Obx(() {
                   return CustomDropDownBoxWidget<WardEntity>(
-                    labelText: 'Phường/xã',
+                    labelText: 'ward_commune'.tr,
                     borderRadius: 8.0,
                     items: authController.authState.listAllWard,
                     displayItem: (ward) => ward.wardName,
@@ -156,19 +156,19 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                   );
                 }),
                 CustomTextFieldWidget(
-                  labelText: 'Địa chỉ cụ thể',
+                  labelText: 'specific_address'.tr,
                   controller: authController.addressController,
                   errorText: authController.authState.errorAddress,
                 ),
                 CustomTextFieldWidget(
-                  labelText: 'Sổ BHYT',
+                  labelText: 'health_insurance_book'.tr,
                   controller: authController.bhytController,
                   errorText: authController.authState.errorBhyt,
                 ),
                 CustomButtonWidget(
                   height: context.hp(6),
                   width: context.wp(100),
-                  title: "Xác nhận",
+                  title: "confirm".tr,
                   onPressed: () async {
                     // Handle button press
                     FocusScope.of(context).unfocus();
@@ -236,7 +236,7 @@ class EnterInformationRegisterPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đăng kí tài khoản',
+                    'sign_up_for_an_account'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

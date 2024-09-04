@@ -82,7 +82,7 @@ class MainController extends BaseController {
   //         authController.showError(
   //           () => authController.clearError(),
   //           failure.message,
-  //           'Quay lại',
+  //           'come_back'.tr,
   //         );
   //         Log.info(failure.toString());
   //         Log.info(failure.description.toString());
@@ -115,7 +115,7 @@ class MainController extends BaseController {
   //       authController.showError(
   //         () => authController.clearError(),
   //         failure.message,
-  //         'Quay lại',
+  //         'come_back'.tr,
   //       );
   //     },
   //     (success) async {

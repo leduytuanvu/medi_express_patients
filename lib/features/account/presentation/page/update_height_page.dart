@@ -51,25 +51,25 @@ class UpdateHeightPage extends BaseStatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Chỉ số chiều cao',
+                    'height_index'.tr,
                     style: AppTextStyle.mediumTitle(context).copyWith(
                       fontSize: context.sp(17),
                     ),
                   ),
                   context.wp(2).sbh,
                   Text(
-                    'Nhập chỉ số hiện tại của bạn',
+                    'enter_your_current_index'.tr,
                     style: AppTextStyle.mediumBody(context),
                   ),
                   context.wp(5).sbh,
                   CustomTextFieldWidget(
-                    labelText: 'Ngày đo',
+                    labelText: 'date_of_measurement'.tr,
                     controller: accountController.dateTextFieldController,
                     type: TextFieldType.dateTime,
                     errorText: accountController.accountState.errorDateInput,
                   ),
                   CustomTextFieldWidget(
-                    labelText: 'Chiều cao',
+                    labelText: 'height'.tr,
                     controller: accountController.valueTextFieldController,
                     type: TextFieldType.phone,
                     errorText: accountController.accountState.errorValueInput,
@@ -84,7 +84,7 @@ class UpdateHeightPage extends BaseStatelessWidget {
                     CustomButtonWidget(
                       height: context.hp(6),
                       width: context.wp(45),
-                      title: "Hủy",
+                      title: "cancel".tr,
                       onPressed: () async {
                         // Handle button press
                         FocusScope.of(context).unfocus();
@@ -99,7 +99,7 @@ class UpdateHeightPage extends BaseStatelessWidget {
                     CustomButtonWidget(
                       height: context.hp(6),
                       width: context.wp(45),
-                      title: "Lưu",
+                      title: "save".tr,
                       onPressed: () async {
                         // Handle button press
                         FocusScope.of(context).unfocus();

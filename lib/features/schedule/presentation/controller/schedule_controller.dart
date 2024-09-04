@@ -69,7 +69,7 @@ class ScheduleController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
         Log.info(failure.toString());
         Log.info(failure.description.toString());
@@ -152,7 +152,7 @@ class ScheduleController extends BaseController {
           authController.showError(
             () => authController.clearError(),
             failure.message,
-            'Quay lại',
+            'come_back'.tr,
           );
           Log.info(failure.toString());
           Log.info(failure.description.toString());
@@ -162,7 +162,7 @@ class ScheduleController extends BaseController {
             authController.showError(
               () => authController.clearError(),
               'Lịch hẹn trùng thời gian',
-              'Quay lại',
+              'come_back'.tr,
             );
           } else {
             authController.showWarning(
@@ -172,7 +172,7 @@ class ScheduleController extends BaseController {
                 context.backScreen();
               },
               'Đặt lịch khám thành công',
-              'Xác nhận',
+              'confirm'.tr,
             );
           }
         },
@@ -193,7 +193,7 @@ class ScheduleController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
       },
       (success) async {
@@ -216,7 +216,7 @@ class ScheduleController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
         Log.info(failure.toString());
         Log.info(failure.description.toString());
@@ -244,7 +244,7 @@ class ScheduleController extends BaseController {
         authController.showError(
           () => authController.clearError(),
           failure.message,
-          'Quay lại',
+          'come_back'.tr,
         );
         Log.info(failure.toString());
         Log.info(failure.description.toString());

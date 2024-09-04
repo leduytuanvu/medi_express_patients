@@ -48,7 +48,7 @@ class HealthRecordDetailPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Chi tiết bệnh án',
+                    'medical_record_details'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

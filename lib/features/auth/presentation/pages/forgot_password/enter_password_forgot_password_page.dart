@@ -50,18 +50,18 @@ class EnterPasswordForgotPasswordPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Tạo mật khẩu mới',
+                'create_new_password'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(3)),
               CustomTextFieldWidget(
-                labelText: 'Mật khẩu mới',
+                labelText: 'new_password'.tr,
                 controller: authController.passwordForgotPasswordController,
                 type: TextFieldType.password,
                 errorText: authController.authState.errorPasswordForgotPassword,
               ),
               CustomTextFieldWidget(
-                labelText: 'Xác nhận mật khẩu mới',
+                labelText: 'confirm_new_password'.tr,
                 controller: authController.rePasswordForgotPasswordController,
                 type: TextFieldType.password,
                 errorText:
@@ -70,7 +70,7 @@ class EnterPasswordForgotPasswordPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Xác nhận",
+                title: "confirm".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.forgotPassword(context);
@@ -134,7 +134,7 @@ class EnterPasswordForgotPasswordPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Quên mật khẩu',
+                    'forgot_password'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_text_field_widget.dart';
@@ -51,7 +50,7 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Tiền sử bệnh',
+                'medical_history'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(3)),
@@ -67,7 +66,8 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.authState.hypertension.value =
+                                    authController
+                                            .authState.hypertension.value =
                                         !authController
                                             .authState.hypertension.value;
                                   },
@@ -90,7 +90,8 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                             Obx(() => GestureDetector(
                                   onTap: () {
                                     authController.authState.diabetes.value =
-                                        !authController.authState.diabetes.value;
+                                        !authController
+                                            .authState.diabetes.value;
                                   },
                                   child: Icon(
                                       authController.authState.diabetes.value
@@ -109,14 +110,15 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.authState.heartDisease.value =
+                                    authController
+                                            .authState.heartDisease.value =
                                         !authController
                                             .authState.heartDisease.value;
                                   },
-                                  child: Icon(
-                                      authController.authState.heartDisease.value
-                                          ? Icons.check_box_outlined
-                                          : Icons.check_box_outline_blank),
+                                  child: Icon(authController
+                                          .authState.heartDisease.value
+                                      ? Icons.check_box_outlined
+                                      : Icons.check_box_outline_blank),
                                 )),
                             SizedBox(width: context.wp(3)),
                             Text(
@@ -133,9 +135,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                                     authController.authState.stroke.value =
                                         !authController.authState.stroke.value;
                                   },
-                                  child: Icon(authController.authState.stroke.value
-                                      ? Icons.check_box_outlined
-                                      : Icons.check_box_outline_blank),
+                                  child: Icon(
+                                      authController.authState.stroke.value
+                                          ? Icons.check_box_outlined
+                                          : Icons.check_box_outline_blank),
                                 )),
                             SizedBox(width: context.wp(3)),
                             Text(
@@ -160,9 +163,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                                     authController.authState.asthma.value =
                                         !authController.authState.asthma.value;
                                   },
-                                  child: Icon(authController.authState.asthma.value
-                                      ? Icons.check_box_outlined
-                                      : Icons.check_box_outline_blank),
+                                  child: Icon(
+                                      authController.authState.asthma.value
+                                          ? Icons.check_box_outlined
+                                          : Icons.check_box_outline_blank),
                                 )),
                             SizedBox(width: context.wp(3)),
                             Text(
@@ -177,7 +181,8 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                             Obx(() => GestureDetector(
                                   onTap: () {
                                     authController.authState.epilepsy.value =
-                                        !authController.authState.epilepsy.value;
+                                        !authController
+                                            .authState.epilepsy.value;
                                   },
                                   child: Icon(
                                       authController.authState.epilepsy.value
@@ -199,9 +204,10 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                                     authController.authState.copd.value =
                                         !authController.authState.copd.value;
                                   },
-                                  child: Icon(authController.authState.copd.value
-                                      ? Icons.check_box_outlined
-                                      : Icons.check_box_outline_blank),
+                                  child: Icon(
+                                      authController.authState.copd.value
+                                          ? Icons.check_box_outlined
+                                          : Icons.check_box_outline_blank),
                                 )),
                             SizedBox(width: context.wp(3)),
                             Column(
@@ -224,14 +230,15 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                           children: [
                             Obx(() => GestureDetector(
                                   onTap: () {
-                                    authController.authState.palpitations.value =
+                                    authController
+                                            .authState.palpitations.value =
                                         !authController
                                             .authState.palpitations.value;
                                   },
-                                  child: Icon(
-                                      authController.authState.palpitations.value
-                                          ? Icons.check_box_outlined
-                                          : Icons.check_box_outline_blank),
+                                  child: Icon(authController
+                                          .authState.palpitations.value
+                                      ? Icons.check_box_outlined
+                                      : Icons.check_box_outline_blank),
                                 )),
                             SizedBox(width: context.wp(3)),
                             Column(
@@ -258,7 +265,7 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
               ),
               SizedBox(height: context.hp(2)),
               CustomTextFieldWidget(
-                labelText: 'Khác (nêu rõ)',
+                labelText: 'other_specify'.tr,
                 controller: authController.anotherController,
               ),
               SizedBox(height: context.hp(2)),
@@ -266,7 +273,7 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Hoàn tất",
+                title: "complete".tr,
                 onPressed: () async {
                   authController.register(context);
                 },
@@ -331,7 +338,7 @@ class EnterAnamnesisRegisterPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Đăng kí tài khoản',
+                    'sign_up_for_an_account'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

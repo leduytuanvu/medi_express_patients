@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medi_express_patients/core/presentation/widgets/custom_button_widget.dart';
 import 'package:medi_express_patients/core/utils/common/assets.dart';
@@ -51,12 +50,12 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
             children: [
               SizedBox(height: context.hp(4)),
               Text(
-                'Nhập mã xác thực',
+                'enter_verification_code'.tr,
                 style: AppTextStyle.mediumTitle(context),
               ),
               SizedBox(height: context.hp(1)),
               Text(
-                'Mã xác thực OTP đã được gửi về số điện thoại của bạn',
+                'otp_verification_code_has_been_sent_to_your_phone_number'.tr,
                 style: AppTextStyle.bigHint(context),
                 textAlign: TextAlign.center,
               ),
@@ -125,26 +124,29 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
               Row(
                 children: [
                   Obx(() {
-                    if (authController.authState.timeoutConfirmVerifyCode.value ==
+                    if (authController
+                            .authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return const SizedBox.shrink();
                     } else {
                       return Text(
-                        'Gửi lại mã (0:${authController.authState.timeoutConfirmVerifyCode}s)',
+                        'resend_code'.tr +
+                            ' (0:${authController.authState.timeoutConfirmVerifyCode}s)',
                         style: AppTextStyle.mediumBody(context),
                       );
                     }
                   }),
                   const Spacer(),
                   Obx(() {
-                    if (authController.authState.timeoutConfirmVerifyCode.value ==
+                    if (authController
+                            .authState.timeoutConfirmVerifyCode.value ==
                         0) {
                       return GestureDetector(
                         onTap: () {
                           authController.resendOtp(context);
                         },
                         child: Text(
-                          'Gửi lại mã',
+                          'resend_code'.tr,
                           style: AppTextStyle.link(context),
                         ),
                       );
@@ -158,7 +160,7 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
               CustomButtonWidget(
                 height: context.hp(6),
                 width: context.wp(100),
-                title: "Xác nhận",
+                title: "confirm".tr,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   authController.verifyOtpRegister(context);
@@ -235,7 +237,7 @@ class EnterVerifyCodeRegisterPage extends BaseStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Quên mật khẩu',
+                    'forgot_password'.tr,
                     style: AppTextStyle.appBar(context),
                   ),
                   const Spacer(),

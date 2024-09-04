@@ -20,6 +20,7 @@ import 'package:medi_express_patients/features/account/domain/usecases/get_list_
 import 'package:medi_express_patients/features/account/domain/usecases/get_list_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_height_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/update_user_usecase.dart';
+import 'package:medi_express_patients/features/account/domain/usecases/update_weight_usecase.dart';
 import 'package:medi_express_patients/features/account/domain/usecases/upload_avatar_usecase.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/local/auth_local_datasource.dart';
 import 'package:medi_express_patients/features/auth/data/datasources/remote/auth_api_service.dart';
@@ -260,6 +261,7 @@ Future<void> initDI(String environmentName) async {
   Get.lazyPut(() => UploadAvatarUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => UpdateUserUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => UpdateHeightUsecase(Get.find<AccountRepository>()));
+  Get.lazyPut(() => UpdateWeightUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => GetListHeightUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => GetListWeightUsecase(Get.find<AccountRepository>()));
   Get.lazyPut(() => GetListAcidUricUsecase(Get.find<AccountRepository>()));

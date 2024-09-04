@@ -9,10 +9,12 @@ import 'package:medi_express_patients/routes/app_routes.dart';
 
 class WeightPage extends BaseStatelessWidget {
   final AccountController accountController = Get.find<AccountController>();
+
   WeightPage({super.key});
 
   @override
   Widget buildContent(BuildContext context) {
+    accountController.getListWeight();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -51,7 +53,7 @@ class WeightPage extends BaseStatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Cân nặng',
+                      'weight'.tr,
                       style: AppTextStyle.appBar(context),
                     ),
                     const Spacer(),
@@ -82,7 +84,7 @@ class WeightPage extends BaseStatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Chỉ số gần đây',
+                      'recent_index'.tr,
                       style: AppTextStyle.mediumItemTitle(context),
                     ),
                     Spacer(),
@@ -91,7 +93,7 @@ class WeightPage extends BaseStatelessWidget {
                         context.toNamedScreen(AppRoutes.updateWeight);
                       },
                       child: Text(
-                        'Thêm chỉ số',
+                        'add_index'.tr,
                         style: AppTextStyle.link(context),
                       ),
                     ),
@@ -105,45 +107,75 @@ class WeightPage extends BaseStatelessWidget {
                   ],
                 ),
                 context.wp(4).sbh,
-                Row(
-                  children: [
-                    Text(
-                      '80 kg',
-                      style: AppTextStyle.smallItemTitle(context),
-                    ),
-                    Spacer(),
-                    Text('Bình thường'),
-                  ],
+                Container(
+                  height: context.hp(20),
+                  child: Obx(() {
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: accountController
+                          .accountState.listWeightDetail.length,
+                      itemBuilder: (context, index) {
+                        final reverseIndex = accountController
+                                .accountState.listWeightDetail.length -
+                            1 -
+                            index;
+                        final item = accountController
+                            .accountState.listWeightDetail[reverseIndex];
+                        return Column(
+                          children: [
+                            context.wp(1).sbh,
+                            Row(
+                              children: [
+                                Text(
+                                  item.weight.isEmpty
+                                      ? "0 kg"
+                                      : item.weight + " kg",
+                                  style: AppTextStyle.smallItemTitle(context),
+                                ),
+                                Spacer(),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFF6FFED),
+                                    borderRadius:
+                                        BorderRadius.circular(context.rp(2)),
+                                    border: Border.all(
+                                      color: const Color(0xFFB7EB8F),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text('normal'.tr).paddingSymmetric(
+                                      horizontal: context.wp(2),
+                                      vertical: context.wp(1),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            context.wp(1).sbh,
+                            Row(
+                              children: [
+                                Text(item.createdAt.toFormattedString()),
+                                // Spacer(),
+                                // SvgPicture.asset(Assets.svg.edit),
+                              ],
+                            ),
+                            context.wp(2).sbh,
+                            if (index !=
+                                accountController
+                                        .accountState.listWeightDetail.length -
+                                    1) ...{
+                              Divider(
+                                thickness: context.hp(0.1),
+                                color: Color(0xFFF4F5F7),
+                              ),
+                            }
+                          ],
+                        ); // Add padding between items
+                      },
+                    );
+                  }),
                 ),
                 context.wp(1).sbh,
-                Row(
-                  children: [
-                    Text('08:30 23/09/2021'),
-                    // Spacer(),
-                    // SvgPicture.asset(Assets.svg.edit),
-                  ],
-                ),
-                context.wp(2).sbh,
-                Divider(),
-                context.wp(2).sbh,
-                Row(
-                  children: [
-                    Text(
-                      '80 kg',
-                      style: AppTextStyle.smallItemTitle(context),
-                    ),
-                    Spacer(),
-                    Text('Bình thường'),
-                  ],
-                ),
-                context.wp(1).sbh,
-                Row(
-                  children: [
-                    Text('08:30 23/09/2021'),
-                    // Spacer(),
-                    // SvgPicture.asset(Assets.svg.edit),
-                  ],
-                ),
               ],
             ).paddingSymmetric(horizontal: context.wp(4)),
             context.wp(3).sbh,
@@ -155,7 +187,7 @@ class WeightPage extends BaseStatelessWidget {
             Column(
               children: [
                 Text(
-                  'Biểu đồ cân nặng',
+                  'weight_chart'.tr,
                   style: AppTextStyle.mediumItemTitle(context),
                 ).paddingSymmetric(
                   horizontal: context.wp(4),
